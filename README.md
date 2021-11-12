@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## creating a Rails app for Postgres
+- `rails new [application name] -d postgresql`
 
-Things you may want to cover:
+## Running this app locally requires some boilerplate:
+- cd into the directory.
 
-* Ruby version
+- `touch config/boot.rb`
 
-* System dependencies
+- Inside of config/boot.rb, include the following:
 
-* Configuration
+```ruby
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
-* Database creation
+require 'bundler/setup' # Set up gems listed in the Gemfile.
+require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
+```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- `rails webpacker:install`
