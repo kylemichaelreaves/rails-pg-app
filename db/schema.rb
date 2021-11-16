@@ -16,6 +16,12 @@ ActiveRecord::Schema.define(version: 2021_11_16_022651) do
   enable_extension "plpgsql"
 
   create_table "landlords", force: :cascade do |t|
+    t.string "name"
+    t.string "mailing_address"
+    t.string "city_state_zip"
+    t.string "full_mailing_address"
+    t.integer "number_properties_owned"
+    t.string "properties_owned", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
