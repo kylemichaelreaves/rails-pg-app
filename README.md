@@ -26,3 +26,15 @@ require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 ```ruby
 rails generate model ${model}
 ```
+
+## Create db
+
+```ruby
+bin/rails db:create
+```
+
+## Make migrations
+
+```ruby
+bin/rails db:migrate
+```
