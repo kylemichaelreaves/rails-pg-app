@@ -1,9 +1,11 @@
 # README
 
 ## creating a Rails app for Postgres
+
 - `rails new [application name] -d postgresql`
 
 ## Running this app locally requires some boilerplate:
+
 - cd into the directory.
 
 - `touch config/boot.rb`
@@ -18,3 +20,9 @@ require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 ```
 
 - `rails webpacker:install`
+
+## Created Models
+
+```ruby
+rails generate model ${model}
+```
