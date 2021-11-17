@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_022651) do
+ActiveRecord::Schema.define(version: 2021_11_17_013459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,37 @@ ActiveRecord::Schema.define(version: 2021_11_16_022651) do
     t.string "name"
     t.string "mailing_address"
     t.string "city_state_zip"
-    t.string "full_mailing_address"
-    t.integer "number_properties_owned"
-    t.string "properties_owned", array: true
+    t.string "owner_full_mailing_address"
+    t.integer "number_associated_properties"
+    t.text "associated_properties"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.integer "age"
+    t.date "born"
+    t.date "died"
+    t.string "birthplace"
+    t.string "diedplace"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "properties", force: :cascade do |t|
+    t.string "street_address"
+    t.string "owner_name"
+    t.string "owner_mailing_address"
+    t.string "city_state_zip"
+    t.string "owner_full_mailing_address"
+    t.integer "units"
+    t.text "associated_properties"
+    t.integer "number_associated_properties"
+    t.text "g_code"
+    t.float "latittude"
+    t.string "longitude"
+    t.string "float"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

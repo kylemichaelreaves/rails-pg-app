@@ -4,9 +4,9 @@ class CreateLandlords < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :mailing_address
       t.string :city_state_zip
-      t.string :full_mailing_address
-      t.integer :number_properties_owned
-      t.string :properties_owned, array: true
+      t.string :owner_full_mailing_address
+      t.integer :number_associated_properties
+      t.text :associated_properties
 
       t.timestamps
     end
