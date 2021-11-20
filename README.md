@@ -38,3 +38,7 @@ bin/rails db:create
 ```ruby
 bin/rails db:migrate
 ```
+
+### Settin up React
+`bundle exec rake webpacker:install`
+`bundle exec rake webpacker:install:react`
