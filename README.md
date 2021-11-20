@@ -3,7 +3,6 @@
 ## creating a Rails app for Postgres
 
 - `rails new [application name] -d postgresql`
-
 You could also set up react with a flag:
 - `rails new [application name] -d postgresql --webpack=react`
 
@@ -37,12 +36,15 @@ bin/rails db:create
 ```
 
 ## Make migrations
+```ruby
+rails generate migrations AddToProperty somethingsomething, somethingelse:integer, else_array:string, array:true
+```
 
 ```ruby
 bin/rails db:migrate
 ```
 
-### Settin up React
-- `bundle exec rake webpacker:install`
 
-- `bundle exec rake webpacker:install:react`
+### Settin up React
+`bundle exec rake webpacker:install`
+`bundle exec rake webpacker:install:react`
