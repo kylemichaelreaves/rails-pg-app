@@ -3,8 +3,9 @@
 ## creating a Rails app for Postgres
 
 - `rails new [application name] -d postgresql`
+
 You could also set up react with a flag:
-`rails new [application name] -d postgresql --webpack=react`
+- `rails new [application name] -d postgresql --webpack=react`
 
 ## Running this app locally requires some boilerplate:
 
