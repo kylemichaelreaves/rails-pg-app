@@ -27,20 +27,17 @@ ActiveRecord::Schema.define(version: 2021_11_16_022651) do
   end
 
   create_table "properties", force: :cascade do |t|
-<<<<<<< HEAD
     t.string "street_address"
     t.string "owner_name"
     t.string "owner_mailing_address"
     t.string "city_state_zip"
     t.string "owner_full_mailing_address"
     t.integer "units"
-    t.text "associated_properties"
+    t.text "associated_properties", array: true
     t.integer "number_associated_properties"
     t.text "g_code"
     t.float "latittude"
-    t.string "longitude"
-=======
->>>>>>> parent of b9fb381 (New model: People added—others modified.)
+    t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
