@@ -1,6 +1,6 @@
 # README
 
-## creating a Rails app for Postgres
+## creating a Rails app for Postgres…with React…and TypeScript
 
 - `rails new [application name] -d postgresql`
 You could also set up react with a flag:
