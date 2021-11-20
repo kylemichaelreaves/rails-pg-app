@@ -1,6 +1,6 @@
 # README
 
-## creating a Rails app for Postgres
+## creating a Rails app for Postgres…with React…and TypeScript
 
 - `rails new [application name] -d postgresql`
 You could also set up react with a flag:
@@ -44,10 +44,14 @@ rails generate migrations AddToProperty somethingsomething, somethingelse:intege
 bin/rails db:migrate
 ```
 
-### Settin up React
+### Setting up React
 `bundle exec rake webpacker:install`
 `bundle exec rake webpacker:install:react`
 
 ### Adding TypeScript/Webpack support
-`bundle exec rails webpacker:install:typescript`
-`yarn add @types/react @types/react-dom`
+```
+bundle exec rails webpacker:install:typescript
+```
+```
+yarn add @types/react @types/react-dom
+```
