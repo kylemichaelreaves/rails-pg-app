@@ -4,6 +4,9 @@
 
 - `rails new [application name] -d postgresql`
 
+You could also set up react with a flag:
+- `rails new [application name] -d postgresql --webpack=react`
+
 ## Running this app locally requires some boilerplate:
 
 - cd into the directory.
@@ -40,5 +43,6 @@ bin/rails db:migrate
 ```
 
 ### Settin up React
-`bundle exec rake webpacker:install`
-`bundle exec rake webpacker:install:react`
+- `bundle exec rake webpacker:install`
+
+- `bundle exec rake webpacker:install:react`
