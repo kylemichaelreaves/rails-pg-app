@@ -12,10 +12,6 @@ class CreateProperties < ActiveRecord::Migration[6.1]
       t.text :g_code
       t.float :latittude
       t.float :longitude
-      
-
-      t.belongs_to :landlords, null: false, foreign_key: true
-
 
       t.timestamps
     end
