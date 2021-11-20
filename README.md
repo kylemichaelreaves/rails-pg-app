@@ -44,7 +44,10 @@ rails generate migrations AddToProperty somethingsomething, somethingelse:intege
 bin/rails db:migrate
 ```
 
-
 ### Settin up React
 `bundle exec rake webpacker:install`
 `bundle exec rake webpacker:install:react`
+
+### Adding TypeScript/Webpack support
+`bundle exec rails webpacker:install:typescript`
+`yarn add @types/react @types/react-dom`
