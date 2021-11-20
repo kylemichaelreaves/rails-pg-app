@@ -5,12 +5,12 @@ class CreateProperties < ActiveRecord::Migration[6.1]
       t.string :owner_name
       t.string :owner_mailing_address
       t.string :city_state_zip
-      t.string :owner_full_mailing_address
-      t.integer :units
-      t.text :associated_properties
-      t.integer :number_associated_properties
+      t.string :property_full_address
+      t.int :number_properties_owned
+      t.int :units_at_property
+      t.text :list_properties_owned
       t.text :g_code
-      t.float :latittude
+      t.float :latitude
       t.float :longitude
 
       t.timestamps
