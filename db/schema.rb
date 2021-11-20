@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 2021_11_17_013459) do
     t.text "g_code"
     t.float "latittude"
     t.string "longitude"
-    t.string "float"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
