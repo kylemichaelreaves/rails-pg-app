@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_022651) do
+ActiveRecord::Schema.define(version: 2021_11_20_220502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(version: 2021_11_16_022651) do
     t.string "name"
     t.string "mailing_address"
     t.string "city_state_zip"
+    t.string "owner_full_mailing_address"
+    t.integer "number_associated_properties"
+    t.text "associated_properties"
     t.string "full_mailing_address"
     t.integer "number_properties_owned"
     t.string "properties_owned", array: true
@@ -31,12 +34,11 @@ ActiveRecord::Schema.define(version: 2021_11_16_022651) do
     t.string "owner_name"
     t.string "owner_mailing_address"
     t.string "city_state_zip"
-    t.string "owner_full_mailing_address"
-    t.integer "units"
-    t.text "associated_properties", array: true
-    t.integer "number_associated_properties"
+    t.string "property_full_address"
+    t.integer "number_properties_owned"
+    t.integer "units_at_property"
     t.text "g_code"
-    t.float "latittude"
+    t.float "latitude"
     t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
