@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_000307) do
     t.string "owner_mailing_address"
     t.string "city_state_zip"
     t.string "property_full_address"
+    t.integer "number_properties_owned"
     t.integer "units_at_property"
     t.text "g_code"
     t.float "latitude"
