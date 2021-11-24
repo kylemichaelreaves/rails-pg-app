@@ -31,16 +31,16 @@ ActiveRecord::Schema.define(version: 2021_11_22_222453) do
     t.string "owner_name"
     t.string "owner_mailing_address"
     t.string "city_state_zip"
-    t.string "owner_full_mailing_address"
     t.string "property_full_address"
-    t.integer "number_properties_owned"
     t.integer "units_at_property"
     t.text "g_code"
     t.float "latitude"
     t.float "longitude"
-    t.string "list_properties_owned", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "list_properties_owned", array: true
+    t.integer "number_properties_owned"
+    t.string "owner_full_mailing_address"
   end
 
 end
