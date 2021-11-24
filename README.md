@@ -53,5 +53,11 @@ bin/rails db:migrate
 bundle exec rails webpacker:install:typescript
 ```
 ```
+yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-preact @types/webpack-env eslint-plugin-react -D
+```
+```
+yarn add babel-plugin-transform-react-jsx
+```
+```
 yarn add @types/react @types/react-dom
 ```
