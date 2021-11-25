@@ -1,6 +1,7 @@
 *.rbc
 capybara-*.html
 .rspec
+/gems/
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /db/*.sqlite3-[0-9]*
@@ -75,3 +76,6 @@ yarn-debug.log*
 
 # node version
 .nodenv
+
+# rbenv
+.rbenv

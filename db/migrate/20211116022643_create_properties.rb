@@ -12,6 +12,7 @@ class CreateProperties < ActiveRecord::Migration[6.1]
       t.text :g_code
       t.float :latitude
       t.float :longitude
+      t.references :landlord
 
       t.timestamps
     end
