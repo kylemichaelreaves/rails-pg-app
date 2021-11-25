@@ -1,17 +1,15 @@
 # README
 
-## creating a Rails app for Postgres…with React…and TypeScript
+Backend: Rails, Frontend: React, TypeScript, Database: Postgres
 
-- `rails new [application name] -d postgresql`
-You could also set up react with a flag:
+## creating a Rails with Postgres, React, and TypeScript
+
 - `rails new [application name] -d postgresql --webpack=react`
 
 ## Running this app locally requires some boilerplate:
 
 - cd into the directory.
-
 - `touch config/boot.rb`
-
 - Inside of config/boot.rb, include the following:
 
 ```ruby
@@ -44,14 +42,12 @@ rails generate migrations AddToProperty somethingsomething, somethingelse:intege
 bin/rails db:migrate
 ```
 
-### Setting up React
+### Setting up React with TypeScript
 `bundle exec rake webpacker:install`
 `bundle exec rake webpacker:install:react`
+`bundle exec rake webpacker:install:typescript`
 
 ### Adding TypeScript/Webpack support
-```
-bundle exec rails webpacker:install:typescript
-```
 ```
 yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-preact @types/webpack-env eslint-plugin-react -D
 ```
@@ -61,3 +57,9 @@ yarn add babel-plugin-transform-react-jsx
 ```
 yarn add @types/react @types/react-dom
 ```
+
+### MVC / ResponseRequest Cycle
+- generate a model, or two
+- generate a controller for one or more of the models
+- update the route in `config/routes.rb`
+- update the controller with new actions
