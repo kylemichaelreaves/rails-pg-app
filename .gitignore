@@ -74,8 +74,10 @@ yarn-debug.log*
 yarn-debug.log*
 .yarn-integrity
 
-# node version
+# node-version, nodenv
 .nodenv
+.node-version
 
 # rbenv
 .rbenv
+.ruby-version
