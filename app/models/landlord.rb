@@ -1,3 +1,3 @@
 class Landlord < ApplicationRecord
-    has_many :properties, as: :properties
+    has_many :properties
 end
