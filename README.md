@@ -21,7 +21,7 @@ require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 
 - `rails webpacker:install`
 
-## Create node-versions and ruby-versions
+## Create .node-versions and .ruby-versions
 …in the project folder create two files:
     `touch .node-version` with `16.13.1`
     `touch .ruby-version` with `3.0.2`
