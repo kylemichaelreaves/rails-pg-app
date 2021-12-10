@@ -21,8 +21,13 @@ require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 
 - `rails webpacker:install`
 
-## Created Models
+## Create node-versions and ruby-versions
+…in the project folder create two files:
+    `touch .node-version` with `16.13.1`
+    `touch .ruby-version` with `3.0.2`
 
+
+## Create Models
 ```ruby
 rails generate model ${model}
 ```
