@@ -1,3 +1,3 @@
 class Property < ApplicationRecord
-    has_one :landlord, :index { unique: true }, foreign_key: true
+    has_one :landlord
 end
