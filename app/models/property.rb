@@ -1,3 +1,3 @@
 class Property < ApplicationRecord
-    has_one :landlord
+    belongs_to :landlord
 end
