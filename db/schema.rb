@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_25_185105) do
+ActiveRecord::Schema.define(version: 2021_12_11_190334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,8 +24,7 @@ ActiveRecord::Schema.define(version: 2021_11_25_185105) do
     t.string "list_properties_owned", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "properties_id", null: false
-    t.index ["properties_id"], name: "index_landlords_on_properties_id"
+    t.integer "list_property_ids_of_owned", array: true
   end
 
   create_table "properties", force: :cascade do |t|
@@ -40,13 +39,10 @@ ActiveRecord::Schema.define(version: 2021_11_25_185105) do
     t.float "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "list_properties_owned", array: true
-    t.integer "number_properties_owned"
     t.string "owner_full_mailing_address"
     t.bigint "landlord_id"
     t.index ["landlord_id"], name: "index_properties_on_landlord_id"
   end
 
-  add_foreign_key "landlords", "properties", column: "properties_id"
   add_foreign_key "properties", "landlords"
 end
