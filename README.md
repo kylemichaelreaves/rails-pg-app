@@ -65,3 +65,20 @@ yarn add @types/react @types/react-dom
 - generate a controller for one or more of the models
 - update the route in `config/routes.rb`
 - update the controller with new actions
+
+
+### Loading the Data into the Database
+Create a Rakefile task to load the .csv into a postgres table.
+CSV_PATH refers to the local path of the .csv. 
+Inside Rakefile:
+```ruby
+require 'csv'
+namespace :db do
+  task :import_csv => :environment do
+    CSV.foreach("#{CSV_PATH}/jersey_city_private_property.csv", :headers => true) do |row|
+      Property.create!(row.to_hash)
+    end
+  end
+end
+
+```
