@@ -1,16 +1,15 @@
 <h1>Properties#index</h1>
     <% @properties.each do |property| %>
-        <div>
-        Street Address: <%= property.street_address %>
-        Owner Name: <%= property.owner_name %>
-        Owner Mailing Address: <%= property.owner_mailing_address %>
-        Owner Full Mailing Address: <%= property.owner_full_mailing_address %>
-        City State Zip: <%= property.city_state_zip %>
-        Property Full Address: <%= property.property_full_address %>
-        Units at Property: <%= property.units_at_property %>
-        G Code: <%= property.g_code %>
-        Latitude: <%= property.latitude %>
-        Longitude: <%= property.longitude %>
-    </div>
-    </br>
+        <ul>
+            <li>Street Address: <%= property.street_address %></li>
+            <li>Owner Name: <%= property.owner_name %></li>
+            <li>Owner Mailing Address: <%= property.owner_mailing_address %></li>
+            <li>Owner Full Mailing Address: <%= property.owner_full_mailing_address %></li>
+            <li>City State Zip: <%= property.city_state_zip %></li>
+            <li>Property Full Address: <%= property.property_full_address %></li>
+            <li>Units at Property: <%= property.units_at_property %></li>
+            <li>G Code: <%= property.g_code %></li>
+            <li>Latitude: <%= property.latitude %></li>
+            <li>Longitude: <%= property.longitude %></li>
+        </ul>
     <% end %>
