@@ -1,2 +1,16 @@
+<%= javascript_pack_tag 'hello_react' %>
 <h1>Properties#index</h1>
-<p>Find me in app/views/properties/index.html.erb</p>
+    <% @properties.each do |property| %>
+        <ul>
+            <li>Street Address: <%= property.street_address %></li>
+            <li>Owner Name: <%= property.owner_name %></li>
+            <li>Owner Mailing Address: <%= property.owner_mailing_address %></li>
+            <li>Owner Full Mailing Address: <%= property.owner_full_mailing_address %></li>
+            <li>City State Zip: <%= property.city_state_zip %></li>
+            <li>Property Full Address: <%= property.property_full_address %></li>
+            <li>Units at Property: <%= property.units_at_property %></li>
+            <li>G Code: <%= property.g_code %></li>
+            <li>Latitude: <%= property.latitude %></li>
+            <li>Longitude: <%= property.longitude %></li>
+        </ul>
+    <% end %>
