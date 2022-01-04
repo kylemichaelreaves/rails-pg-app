@@ -6,7 +6,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-const Hello = (props) => {
+function Hello (props) {
   return <div>Hello {props.name}!</div>
 }
 
