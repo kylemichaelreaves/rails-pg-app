@@ -81,3 +81,7 @@ yarn-debug.log*
 # rbenv
 .rbenv
 .ruby-version
+
+# DSTORE
+.DS_STORE
+/.DS_STORE
