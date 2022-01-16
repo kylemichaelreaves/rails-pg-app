@@ -85,6 +85,3 @@ yarn-debug.log*
 # DSTORE
 .DS_STORE
 /.DS_STORE
-
-# solargaph.yml
-.solargraph.yml
