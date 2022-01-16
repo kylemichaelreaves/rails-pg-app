@@ -1,17 +1,23 @@
 # README
-Backend: Rails, Frontend: React, TypeScript, Database: Postgres
+Frontend: React and TypeScript,
+Backend: Rails,
+Database: Postgres
+
 This app uses data I collected and cleaned from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
+
 I am building essentially the same app, but in Python/Django, to get a sense for the strengths and limitations of both.
+
 That project can be found at [django-pg-app](https://github.com/kylemichaelreaves/django-pg-app).
 
 ### Create a Rails with Postgres, React, and TypeScript:
-
-- `rails new [application name] -d postgresql --webpack=react`
-
+```
+rails new [application name] -d postgresql --webpack=react
+```
 #### cd inside the Rails app:
-##### install Webpacker, React, TypeScript
-`bundle exec rake webpacker:install:typescript`
-
+#### adding TypeScript via webpacker
+```
+bundle exec rake webpacker:install:typescript
+```
 ### Running this app locally requires some boilerplate:
 - cd into the directory.
 - `touch config/boot.rb`
@@ -27,7 +33,7 @@ require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 ### Create .node-versions and .ruby-versions:
 In the project folder create two files:
     `touch .node-version` with `16.13.1`
-    `touch .ruby-version` with `3.0.2`
+    `touch .ruby-version` with `3.1.0`
 This is necessary in order to get the app to run locally.
 
 ### Create Models
@@ -66,10 +72,9 @@ yarn add @types/react @types/react-dom
 - update the route in `config/routes.rb`
 - update the controller with new actions
 
-
 ### Loading the Data into the Database
 Create a Rakefile task to load the .csv into a postgres table.
-CSV_PATH refers to the local path of the .csv. 
+CSV_PATH refers to the local path of the .csv.
 Inside Rakefile:
 ```ruby
 require 'csv'
@@ -81,4 +86,8 @@ namespace :db do
   end
 end
 
+```
+### Updating to the latest Rails version
+```
+bundle update
 ```
