@@ -2,6 +2,7 @@
 <h1>Properties#index</h1>
     <% @properties.each do |property| %>
         <ul>
+            <li>id: <%= property.id%></li>
             <li>Street Address: <%= property.street_address %></li>
             <li>Owner Name: <%= property.owner_name %></li>
             <li>Owner Mailing Address: <%= property.owner_mailing_address %></li>
