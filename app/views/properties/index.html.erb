@@ -1,37 +1,36 @@
 <%= javascript_pack_tag 'Index' %>
 <h1>Properties#index</h1>
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Street Address</th>
+      <th>Owner Name</th>
+      <th>Owner Mailing Address</th>
+      <th>Owner Full Mailing Address</th>
+      <th>City State Zip</th>
+      <th>Property Full Address</th>
+      <th>Units at Property</th>
+      <th>G Code</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
     <% @properties.each do |property| %>
-        <table>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Street Address</th>
-                    <th>Owner Name</th>
-                    <th>Owner Mailing Address</th>
-                    <th>Owner Full Mailing Address</th>
-                    <th>City State Zip</th>
-                    <th>Property Full Address</th>
-                    <th>Units at Property</th>
-                    <th>G Code</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><%= property.id %></td>
-                    <td><%= property.street_address %></td>
-                    <td><%= property.owner_name %></td>
-                    <td><%= property.owner_mailing_address %></td>
-                    <td><%= property.owner_full_mailing_address %></td>
-                    <td><%= property.city_state_zip %></td>
-                    <td><%= property.property_full_address %></td>
-                    <td><%= property.units_at_property %></td>
-                    <td><%= property.g_code %></td>
-                    <td><%= property.latitude %></td>
-                    <td><%= property.longitude %></td>
-                </tr>
-            </tbody>
-        </table>
-
-            <% end %>
+      <tr>
+        <td><%= property.id %></td>
+        <td><%= property.street_address %></td>
+        <td><%= property.owner_name %></td>
+        <td><%= property.owner_mailing_address %></td>
+        <td><%= property.owner_full_mailing_address %></td>
+        <td><%= property.city_state_zip %></td>
+        <td><%= property.property_full_address %></td>
+        <td><%= property.units_at_property %></td>
+        <td><%= property.g_code %></td>
+        <td><%= property.latitude %></td>
+        <td><%= property.longitude %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
