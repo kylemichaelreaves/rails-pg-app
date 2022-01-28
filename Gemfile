@@ -25,6 +25,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'rails-erd', group: :development
 # Same geocoder I've used in my python landlord_data project
 gem 'geocoder'
+# react-rails allows for easy passing of Rails objects as props
+gem 'react-rails'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
