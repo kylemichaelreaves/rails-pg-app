@@ -1,10 +1,10 @@
 # README
 
-Frontend: React and TypeScript,
-Backend: Rails,
-Database: Postgres
+Frontend: React and TypeScript;
+Backend: Rails;
+Database: Postgres;
 
-This app uses data I collected and cleaned from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
+This app uses data I cleaned from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
 
 I am building essentially the same app, but in Python/Django, to get a sense for the strengths and limitations of both.
 
@@ -44,28 +44,6 @@ In the project folder create two files:
 `touch .ruby-version` with `3.1.0`
 This is necessary in order to get the app to run locally.
 
-### Create Models
-
-```ruby
-rails generate model ${model}
-```
-
-### Create db
-
-```ruby
-bin/rails db:create
-```
-
-### Make migrations
-
-```ruby
-rails generate migrations AddToProperty somethingsomething, somethingelse:integer, else_array:string, array:true
-```
-
-```ruby
-bin/rails db:migrate
-```
-
 ### Adding TypeScript/Webpack support
 
 ```
@@ -80,38 +58,29 @@ yarn add babel-plugin-transform-react-jsx
 yarn add @types/react @types/react-dom
 ```
 
-### MVC / ResponseRequest Cycle
+### Add rails-react gem, to pass Rails objects as props to React components
 
-- generate a model, or two
-- generate a controller for one or more of the models
-- update the route in `config/routes.rb`
-- update the controller with new actions
+In the gemfile, add: `gem react-rails`
 
-### Loading the Data into the Database
+Then: `bundle install`
 
-Create a Rakefile task to load the .csv into a postgres table.
-CSV_PATH refers to the local path of the .csv.
-Inside Rakefile:
+### Seeding database
+
+Use the csv module to iterate over the csv and create records:
 
 ```ruby
 require 'csv'
-namespace :db do
-  task :import_csv => :environment do
     CSV.foreach("#{CSV_PATH}/jersey_city_private_property.csv", :headers => true) do |row|
       Property.create!(row.to_hash)
     end
-  end
-end
-
 ```
 
 ### Updating to the latest Rails version
-
 ```
 bundle update
 ```
 
-## ActiveRecord
+## Querying with ActiveRecord
 
 #### Finding landlords with the most property
 
