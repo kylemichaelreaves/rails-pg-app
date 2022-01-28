@@ -37,4 +37,6 @@ end
 
 # p owners_names
 
-
+# CSV.foreach("/Users/kylereaves/src/landlord_data/JerseyCity/jersey_city_private_property.csv", :headers => true) do |row|
+#    Property.create!(row.to_hash)
+# end

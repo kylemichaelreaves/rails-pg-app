@@ -68,6 +68,10 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     bindex (0.8.1)
     bootsnap (1.10.2)
       msgpack (~> 1.2)
@@ -85,14 +89,16 @@ GEM
     childprocess (4.1.0)
     choice (0.2.0)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
     digest (3.1.0)
     erubi (1.10.0)
+    execjs (2.8.1)
     ffi (1.15.5)
     geocoder (1.7.3)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    i18n (1.9.0)
+    i18n (1.9.1)
       concurrent-ruby (~> 1.0)
     io-wait (0.2.1)
     jbuilder (2.11.5)
@@ -177,6 +183,12 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    react-rails (2.6.1)
+      babel-transpiler (>= 0.7.0)
+      connection_pool
+      execjs
+      railties (>= 3.2)
+      tilt
     regexp_parser (2.2.0)
     rexml (3.2.5)
     ruby-graphviz (1.2.5)
@@ -233,7 +245,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.3)
+    zeitwerk (2.5.4)
 
 PLATFORMS
   x86_64-darwin-20
@@ -251,6 +263,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 2.0)
   rails (~> 7.0, >= 7.0.1)
   rails-erd
+  react-rails
   sass-rails (>= 6)
   selenium-webdriver
   spring
