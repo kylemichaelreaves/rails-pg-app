@@ -28,6 +28,8 @@ gem 'geocoder'
 # react-rails allows for easy passing of Rails objects as props
 gem 'react-rails'
 
+gem 'open-uri'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

@@ -10,4 +10,8 @@ module PropertiesHelper
                 # swap the multiple spaces for a single space
             if record.owner_name
                 record.owner_name = record.owner_name.gsub(/[^a-z0-9\s]/i, '').split.join(', ')
+
+
+        def malformed?(record)
+            record.include? /\s{2,6}/
 end
