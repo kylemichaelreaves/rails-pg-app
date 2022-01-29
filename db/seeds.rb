@@ -7,8 +7,14 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 require 'csv'
+require 'open-uri'
 
-RAW_CSV_PATH = "/Users/kylereaves/Downloads/0906demo191023.csv"
+# raw_csv_path = URI.open("https://raw.githubusercontent.com/kylemichaelreaves/landlord_data/main/JerseyCity/raw_csv/0906demo191023.csv").
+raw_csv_path = URI.open("https://raw.githubusercontent.com/kylemichaelreaves/landlord_data/main/JerseyCity/raw_csv/0906demo191023.csv")
+
+# def raw_csv_path
+#    @raw_csv_path ||= File.read("https://raw.githubusercontent.com/kylemichaelreaves/landlord_data/main/JerseyCity/raw_csv/0906demo191023.csv")
+# end
 
 # File.open(RAW_CSV_PATH).each do |line|
 #    line = line.chomp
@@ -21,7 +27,7 @@ RAW_CSV_PATH = "/Users/kylereaves/Downloads/0906demo191023.csv"
 # CSV.foreach(RAW_CSV_PATH) { |row| col_data << row["Owner's Name"] }
 # puts col_data
 
-csv = CSV.read("/Users/kylereaves/Downloads/0906demo191023.csv", headers: true, liberal_parsing: true)
+csv = CSV.parse(raw_csv_path, headers: true, liberal_parsing: true)
 owners_names = csv["Owner's Name"]
 property_location = csv["Property Location"]
 city_state_zip = csv['City/State/Zip']
