@@ -115,5 +115,5 @@ In the app's rails console…(`bin/rails console`)…
 
 - Returning the id's of the properties associated with a given owner, in this case, the name which appears the most (617) in the `properties` table: `COA 99 HUDSON,LLC`
 ```ruby
-Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
+    Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
 ```
