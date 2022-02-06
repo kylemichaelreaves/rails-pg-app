@@ -1,5 +1,6 @@
 require 'csv'
 require 'open-uri'
+require 'geocoder'
 
 # raw_csv_path = URI.open("https://raw.githubusercontent.com/kylemichaelreaves/landlord_data/main/JerseyCity/raw_csv/0906demo191023.csv")
 
@@ -32,7 +33,21 @@ unique_landlord_names = Property.pluck(:owner_name).uniq
 #    Property.create!(row.to_hash)
 # end
 
+# Property.where(owner_name: name).pluck(:id)
+
 unique_landlord_names.each do |name|
-   Landlord.create!(name: name)
-   puts "#{name} added to Landlord model"
+   # Landlord.create!(name: name)
+   # puts "#{name} added to Landlord model"
+   ids_properties_owned = Property.where(owner_name: name).pluck(:id)
+   mailing_address = Property.where(owner_name: name).pluck(:owner_mailing_address)
+   city_state_zip = Property.where(owner_name: name).pluck(:city_state_zip)
+   full_mailing_address = Property.where(owner_name: name).pluck(:owner_full_mailing_address)
+   Landlord.create!(
+      name: name,
+      ids_properties_owned: ids_properties_owned,
+      mailing_address: mailing_address[0],
+      city_state_zip: city_state_zip[0],
+      full_mailing_address: full_mailing_address[0]
+                    )
+   puts "Created #{name}!"
 end
