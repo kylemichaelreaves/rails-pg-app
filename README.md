@@ -103,17 +103,11 @@ In the app's rails console…(`bin/rails console`)…
   Property.pluck(:owner_name).tally.sort_by { |k, v|v }
   ```
 - Return malformed (strings including more than two spaces) owner_name
-
-- ```ruby
-  irb(main):136:1* Property.distinct.pluck(:owner_name).each_with_index do |el, i|
-  irb(main):137:0>   puts el, i if el.match?(/\s+{2}/) end;nil
-  ```
-
-- ```ruby
-  Property.distinct.pluck(:owner_name).each_with_index { |el, i| puts el, i if el.match?(/\s+{2}/) }.to_h;nil
+  ```ruby
+  Property.distinct.pluck(:owner_name).each_with_index { |el, i| puts el, i if el.match?(/\s+{2}/) }
   ```
 
 - Returning the id's of the properties associated with a given owner, in this case, the name which appears the most (617) in the `properties` table: `COA 99 HUDSON,LLC`
-```ruby
-    Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
-```
+  ```ruby
+  Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
+  ```
