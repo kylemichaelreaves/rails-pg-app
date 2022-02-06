@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_06_000750) do
+ActiveRecord::Schema.define(version: 2022_02_06_043907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,10 @@ ActiveRecord::Schema.define(version: 2022_02_06_000750) do
 
   create_table "landlords", force: :cascade do |t|
     t.string "name"
-    t.bigint "properties_id"
-    t.index ["properties_id"], name: "index_landlords_on_properties_id"
+    t.integer "ids_properties_owned", array: true
+    t.string "mailing_address"
+    t.string "city_state_zip"
+    t.string "full_mailing_address"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -62,8 +64,6 @@ ActiveRecord::Schema.define(version: 2022_02_06_000750) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "owner_full_mailing_address"
-    t.bigint "landlords_id"
-    t.index ["landlords_id"], name: "index_properties_on_landlords_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

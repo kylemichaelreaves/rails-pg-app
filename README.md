@@ -74,20 +74,14 @@ require 'csv'
       Property.create!(row.to_hash)
     end
 ```
-
 ### Updating to the latest Rails version
 ```
 bundle update
 ```
-
 ## Querying with ActiveRecord
 
-#### Finding landlords with the most property
-
-- Start the rails console
-  ```shell
-  bin/rails console
-  ```
+#### Finding landlords with the most property\
+In the app's rails console…(`bin/rails console`)…
 - Return the number of records with `Property.count`
   ```ruby
   irb(main):017:0> Property.count
@@ -100,16 +94,15 @@ bundle update
   Property Count (592.1ms)  SELECT COUNT(DISTINCT "properties"."owner_name") FROM "properties"
   => 37494
   ```
-- Return an array of unique landlords
+- Return an array of unique names
   ```ruby
   Property.distinct(:owner_name).pluck(:owner_name)
   ```
-- Return an array of arrays representing the tally of 'owner_name` in properties
+- Return a sorted array of arrays; the second value in the nested arrays is the value count of name in the properties table
   ```ruby
   Property.pluck(:owner_name).tally.sort_by { |k, v|v }
   ```
-
-#### Return malformed (strings including more than two spaces) owner_name
+- Return malformed (strings including more than two spaces) owner_name
 
 - ```ruby
   irb(main):136:1* Property.distinct.pluck(:owner_name).each_with_index do |el, i|
@@ -119,3 +112,8 @@ bundle update
 - ```ruby
   Property.distinct.pluck(:owner_name).each_with_index { |el, i| puts el, i if el.match?(/\s+{2}/) }.to_h;nil
   ```
+
+- Returning the id's of the properties associated with a given owner, in this case, the name which appears the most (617) in the `properties` table: `COA 99 HUDSON,LLC`
+```ruby
+Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
+```
