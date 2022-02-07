@@ -1,3 +1,3 @@
 class Landlord < ApplicationRecord
-    has_many :properties, foreign_key: 'ids'
+    has_many :properties
 end
