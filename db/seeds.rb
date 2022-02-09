@@ -7,7 +7,7 @@ require 'geocoder'
 # csv = CSV.parse(raw_csv_path, headers: true, liberal_parsing: true)
 # owners_names = csv["Owner's Name"]
 
-unique_landlord_names = Property.pluck(:owner_name).uniq
+# unique_landlord_names = Property.pluck(:owner_name).uniq
 
 # property_location = csv["Property Location"]
 # city_state_zip = csv['City/State/Zip']
@@ -35,19 +35,25 @@ unique_landlord_names = Property.pluck(:owner_name).uniq
 
 # Property.where(owner_name: name).pluck(:id)
 
-unique_landlord_names.each do |name|
-   # Landlord.create!(name: name)
-   # puts "#{name} added to Landlord model"
-   ids_properties_owned = Property.where(owner_name: name).pluck(:id)
-   mailing_address = Property.where(owner_name: name).pluck(:owner_mailing_address)
-   city_state_zip = Property.where(owner_name: name).pluck(:city_state_zip)
-   full_mailing_address = Property.where(owner_name: name).pluck(:owner_full_mailing_address)
-   Landlord.create!(
-      name: name,
-      ids_properties_owned: ids_properties_owned,
-      mailing_address: mailing_address[0],
-      city_state_zip: city_state_zip[0],
-      full_mailing_address: full_mailing_address[0]
-                    )
-   puts "Created #{name}!"
+unique_landlord_names = Property.pluck(:owner_name).uniq
+
+# unique_landlord_names.each do |name|
+#    ids_properties_owned = Property.where(owner_name: name).pluck(:id)
+#    mailing_address = Property.where(owner_name: name).pluck(:owner_mailing_address)
+#    city_state_zip = Property.where(owner_name: name).pluck(:city_state_zip)
+#    full_mailing_address = Property.where(owner_name: name).pluck(:owner_full_mailing_address)
+#    Landlord.create!(
+#       name: name,
+#       ids_properties_owned: ids_properties_owned,
+#       mailing_address: mailing_address[0],
+#       city_state_zip: city_state_zip[0],
+#       full_mailing_address: full_mailing_address[0]
+#                     )
+#    puts "Created #{name}!"
+# end
+
+# Update the Property Model with the id of the Landlord
+unique_landlord_names.each do |n|
+   landlord_id = Landlord.where(name: n).pluck(:id)[0]
+   byebug
 end
