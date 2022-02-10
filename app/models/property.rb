@@ -1,3 +1,3 @@
 class Property < ApplicationRecord
-    belongs_to :landlord, class_name: "Landlord", foreign_key: "landlord_id"
+    has_and_belongs_to_many :landlords, foreign_key: "landlords_id", null: false
 end

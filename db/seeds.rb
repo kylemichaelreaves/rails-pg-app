@@ -1,6 +1,6 @@
-require 'csv'
-require 'open-uri'
-require 'geocoder'
+# require 'csv'
+# require 'open-uri'
+# require 'geocoder'
 
 # raw_csv_path = URI.open("https://raw.githubusercontent.com/kylemichaelreaves/landlord_data/main/JerseyCity/raw_csv/0906demo191023.csv")
 
@@ -38,13 +38,11 @@ require 'geocoder'
 unique_landlord_names = Property.pluck(:owner_name).uniq
 
 # unique_landlord_names.each do |name|
-#    ids_properties_owned = Property.where(owner_name: name).pluck(:id)
 #    mailing_address = Property.where(owner_name: name).pluck(:owner_mailing_address)
 #    city_state_zip = Property.where(owner_name: name).pluck(:city_state_zip)
 #    full_mailing_address = Property.where(owner_name: name).pluck(:owner_full_mailing_address)
 #    Landlord.create!(
 #       name: name,
-#       ids_properties_owned: ids_properties_owned,
 #       mailing_address: mailing_address[0],
 #       city_state_zip: city_state_zip[0],
 #       full_mailing_address: full_mailing_address[0]
@@ -54,6 +52,10 @@ unique_landlord_names = Property.pluck(:owner_name).uniq
 
 # Update the Property Model with the id of the Landlord
 unique_landlord_names.each do |n|
+   property = Property.where(owner_name: n)
    landlord_id = Landlord.where(name: n).pluck(:id)[0]
-   byebug
+   puts "#{n} #{landlord_id}"
+   property.update(landlords_id: landlord_id)
+   puts "#{property} updated with #{landlord_id}"
+   puts ""
 end
