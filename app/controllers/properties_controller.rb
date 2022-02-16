@@ -1,6 +1,6 @@
 class PropertiesController < ApplicationController
   def index
-    @properties = Property.all
+    @properties = Property.order(params[:sort])
     # property = Property.all.order(created_at: :desc)
     # render json: property
   end
