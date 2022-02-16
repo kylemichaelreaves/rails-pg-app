@@ -5,6 +5,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import App from "../components/App";
 
 function Hello (props) {
   return <div>Hello {props.name}!</div>
@@ -22,6 +23,7 @@ Hello.propTypes = {
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
       <Hello name="React" />,
+      <App />,
       document.body.appendChild(document.createElement('h1'))
     );
   });
