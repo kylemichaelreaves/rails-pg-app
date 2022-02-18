@@ -27,8 +27,9 @@ gem 'rails-erd', group: :development
 gem 'geocoder'
 # react-rails allows for easy passing of Rails objects as props
 gem 'react-rails'
-
+# for opening a url in my seeds
 gem 'open-uri'
+#
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
