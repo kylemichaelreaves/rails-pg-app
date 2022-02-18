@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
-import { Property } from "./Property";
+import { Property } from "./PropertyTable";
 
 export interface Landlord {
     id: number,
