@@ -1,5 +1,5 @@
-<%= javascript_pack_tag 'Index' %>
 <h1>Properties#index</h1>
+<%= react_component("Property") %>
 <table>
   <thead>
     <tr>
@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @properties.each do |property| %>
+    <% @properties.last(10).each do |property| %>
       <tr>
         <td><%= property.id %></td>
         <td><%= property.street_address %></td>

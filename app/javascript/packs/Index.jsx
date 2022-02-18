@@ -5,7 +5,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import App from "../components/App";
+
+import { hello_typescript } from 'hello_typescript'
 
 function Hello (props) {
   return <div>Hello {props.name}!</div>
@@ -13,7 +14,7 @@ function Hello (props) {
 
 
 Hello.defaultProps = {
-  name: 'David'
+  name: 'Kyle'
 }
 
 Hello.propTypes = {
@@ -22,7 +23,7 @@ Hello.propTypes = {
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
-      <Hello name="React" />,
+      <hello_typescript name="React" />,
       <App />,
       document.body.appendChild(document.createElement('h1'))
     );

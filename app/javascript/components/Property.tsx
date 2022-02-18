@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
+import { Landlord } from "./Landlord";
 
 export interface Property {
   id: number;
@@ -30,8 +31,13 @@ const defaultPropertyProps: Property = {
   longitude: 0,
 };
 
-export default function NewProperty() {
-  
-  const [property, setProperty] =
-    React.useState<Property>(defaultPropertyProps);
+export default function Property() {
+  // const [property, setProperty] =
+  //   React.useState<Property>(defaultPropertyProps);
+    return (
+      <>
+      <h1>Property, a React Function Component in Rails 7</h1>
+      <h1>not me finally integrating Rails (7.0.2.2) and React (17.0.2) with react-rails by correctly importing from the components folder…</h1>
+      </>
+    )
 }
