@@ -37,8 +37,8 @@ var Styles = styled.div`
 
 export default function Home() {
   return (
-    <Container className='center'>
-      <Link to="/properties" className="btn btn-lg custom-button" role="button">
+    <Container>
+      <Link to="api/v1/properties" className="btn btn-lg custom-button" role="button">
         Properties
       </Link>
       {" "}

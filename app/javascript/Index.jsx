@@ -10,8 +10,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Home from './components/Home'
 
 ReactDOM.render(
+  <React.StrictMode>
     <BrowserRouter>
       <Home />
-    </BrowserRouter>,
-  document.getElementById('root')
+    </BrowserRouter>
+  </React.StrictMode>,
+    document.getElementById('root')
 );
