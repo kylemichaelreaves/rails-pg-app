@@ -1,10 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
-import { Landlord } from "./Landlord";
-import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
-import styled from "styled-components";
 
 export interface Property {
   id: number;
@@ -34,46 +29,32 @@ const defaultPropertyProps: Property = {
   longitude: 0,
 };
 
-
-
-
-
 export default function PropertyTable({ columns, data }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
   return (
-    // <>
-    //   <Table striped bordered hover size="sm"></Table>
-    //   <h1>Property, a React Function Component in Rails 7</h1>
-    //   <h1>
-    //     not me finally integrating Rails (7.0.2.2) and React (17.0.2) with
-    //     react-rails by correctly importing from the components folder…
-    //   </h1>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-              ))}
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+              })}
             </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    // </>
+          );
+        })}
+      </tbody>
+    </table>
   );
 }

@@ -1,8 +1,7 @@
 class PropertiesController < ApplicationController
   def index
     @properties = Property.order(params[:sort])
-    # property = Property.all.order(created_at: :desc)
-    # render json: property
+    render json: @properties
   end
 
   def create
@@ -18,13 +17,26 @@ class PropertiesController < ApplicationController
     @property = Property.find(params[:id])
   end
 
-  def destroy
-  end
+  # def destroy
+  # end
 
   private
 
   def property_params
-    params.permit(:street_address, :owner_name, :owner_mailing_address, :city_state_zip, :property_full_address, :units_at_property, :g_code, :latitude, :longitude, :owner_full_mailing_address)
+    params.permit(:street_address,
+                  :owner_name,
+                  :owner_mailing_address,
+                  :city_state_zip,
+                  :property_full_address,
+                  :units_at_property,
+                  :g_code,
+                  :latitude,
+                  :longitude,
+                  :owner_full_mailing_address)
+  end
+
+  def property
+    @property ||= Property.find(params[:id])
   end
 
 end

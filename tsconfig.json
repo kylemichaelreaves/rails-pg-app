@@ -9,7 +9,10 @@
     "sourceMap": true,
     "target": "es5",
     "jsx": "react",
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true,
+    "outDir": "./dist/",
+    "noImplicitAny": true,
   },
   "exclude": [
     "**/*.spec.ts",
