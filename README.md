@@ -1,30 +1,32 @@
 # README
 
-Frontend: React and TypeScript;
-Backend: Rails;
+Frontend: React 17.0.2 and TypeScript 4.5.5;
+  React librariess:
+    react-router: 6
+    react-bootstrap...
+    react-table...
+Backend: Rails 7.0.2.2;
+Webpack: 5.69.1;
 Database: Postgres;
 
-This app uses data I cleaned from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
+This app uses data from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
+It's essentially a Rails API with a React frontend, although I didn't build it as such at first.
+It was built as Rails v6, and therefore with webpacker.
+But I've since removed webpacker, since it's been retired, and switched to compiling with eslint and webpack.
+I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md) tutorial for making that switch.
 
-I am building essentially the same app, but in Python/Django, to get a sense for the strengths and limitations of both.
+I looked to this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend) as a guide for development.
+However, there were some necessary modifications.
+  - Step 5: react-router uses new syntax in v6. Moreover, sending props in the (unamed) App to the routes/Index prevented my React components from rendering.
+  - Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a javascript_include_tag pointing toward the Index.
 
-That project can be found at [django-pg-app](https://github.com/kylemichaelreaves/django-pg-app).
 
-### Create a Rails with Postgres, React, and TypeScript:
-
+0. Create a Rails with Postgres, React, and TypeScript:
 ```
 rails new [application name] -d postgresql --webpack=react
 ```
-
-#### cd inside the Rails app:
-
-#### adding TypeScript via webpacker
-
-```
-bundle exec rake webpacker:install:typescript
-```
-
-### Running this app locally requires some boilerplate:
+1. cd inside the Rails app:
+2. Running this app locally requires some boilerplate:
 
 - cd into the directory.
 - `touch config/boot.rb`
@@ -37,14 +39,14 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 ```
 
-### Create .node-versions and .ruby-versions:
+3. Create .node-versions and .ruby-versions:
 
-In the project folder create two files:
-`touch .node-version` with `16.13.1`
+4. In the project folder create two files:
+`touch .node-version` with `16.14.1`
 `touch .ruby-version` with `3.1.0`
 This is necessary in order to get the app to run locally.
 
-### Adding TypeScript/Webpack support
+5. Adding TypeScript/Webpack support
 
 ```
 yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-preact @types/webpack-env eslint-plugin-react -D
@@ -58,13 +60,13 @@ yarn add babel-plugin-transform-react-jsx
 yarn add @types/react @types/react-dom
 ```
 
-### Add rails-react gem, to pass Rails objects as props to React components
+6. Add rails-react gem, to pass Rails objects as props to React components
 
 In the gemfile, add: `gem react-rails`
 
 Then: `bundle install`
 
-### Seeding database
+7. Seeding database
 
 Use the csv module to iterate over the csv and create records:
 
@@ -78,6 +80,12 @@ require 'csv'
 ```
 bundle update
 ```
+
+### starting dev server – both Rails and React
+```
+bin/dev
+```
+
 ## Querying with ActiveRecord
 
 #### Finding landlords with the most property\
