@@ -9,7 +9,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 export default function () {
     <Routes>
       <Route path="/" element={<Home />} />
-        <Route path="properties" element={<Properties />}/>
+        <Route path="api/v1/properties" element={<Properties />}/>
     </Routes>
 }
 

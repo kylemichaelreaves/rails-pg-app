@@ -29,9 +29,9 @@ const defaultPropertyProps: Property = {
   longitude: 0,
 };
 
-export default function PropertyTable({ columns, data }) {
+export default function PropertyTable({ columns: [], data: [] }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns: [], data: [] });
   return (
     <table {...getTableProps()}>
       <thead>
