@@ -1,10 +1,29 @@
+# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root 'properties#index'
+  # namespace :api do
+  #   namespace :v1 do
+  #     get 'properties/index', to: 'properties#index'
+  #     post 'properties/create'
+  #     get 'properties/show/:id', to: 'properties#show'
+  #     delete 'properties/destroy'
+  #     get 'landlords/index', to: 'landlords#index'
+  #     post 'landlords/create'
+  #     get 'landlords/show', to: 'landlords#show'
+  #     delete 'landlords/destroy'
+  #   end
+  # end
 
-  get '/properties' => 'properties#index'
-  get '/properties/:id', to: 'properties#show'
 
-  get '/landlords' => 'landlords#index'
-  get '/landlords/:id', to: 'landlords#show'
+  # get '/properties', to: 'properties#index'
+  # get '/properties/:id', to: 'properties#show'
+
+  # get '/landlords', to: 'landlords#index'
+  # get '/landlords/:id', to: 'landlords#show'
+
+
+  # catch all route
+  get '/*path' => 'homepage#index'
+  get 'homepage/index', to: "homepage#index"
+
+  root 'homepage#index'
 end

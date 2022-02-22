@@ -85,3 +85,6 @@ yarn-debug.log*
 # DSTORE
 .DS_STORE
 /.DS_STORE
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

@@ -1,5 +1,5 @@
 module PropertiesHelper
-    class OwnerNameValidator < ActiveModel::Validator
+    # class OwnerNameValidator < ActiveModel::Validator
     #     def validate(record)
     #         # if owner_name has punctuation, or trailing or double spaces
     #         if Pattern.matches("\\p{Punct}", record)
@@ -17,5 +17,5 @@ module PropertiesHelper
     #         record.include? /\s{2,6}/
     #     end
     # end
-    end
+    # end
 end
