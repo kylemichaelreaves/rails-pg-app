@@ -17,10 +17,10 @@ I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switc
 
 I looked to this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend) as a guide for development.
 However, there were some necessary modifications.
-  - Step 5: react-router uses new syntax in v6. Moreover, sending props in the (unamed) App to the routes/Index prevented my React components from rendering.
+  - Step 5: react-router uses new syntax in v6. Moreover, sending props in the (unamed) App to the routes/Index prevented my React components from rendering. I'm [following a tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
   - Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a javascript_include_tag pointing toward the Index.
 
-
+This is roughly the order I followed when creating the app, though I've taken out the webpacker steps and switched them with yarn commands, since I'm no longer using webpacker. 
 0. Create a Rails with Postgres, React, and TypeScript:
 ```
 rails new [application name] -d postgresql --webpack=react

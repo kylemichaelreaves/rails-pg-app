@@ -37,6 +37,8 @@ gem "sprockets-rails"
 
 gem 'jsbundling-rails'
 
+gem 'bootstrap', '~> 5.1.3'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
