@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
+import NavBar from "./NavBar";
 
 var Styles = styled.div`
   padding: 1rem;
@@ -38,13 +38,15 @@ var Styles = styled.div`
 export default function Home() {
   return (
     <Container>
-      <Link to="api/v1/properties" className="btn btn-lg custom-button" role="button">
+      <h1 className="display-4">Find My Landlord: North Jersey</h1>
+      {/* <Link to="api/v1/properties" className="btn btn-lg custom-button" role="button">
         Properties
       </Link>
       {" "}
       <Link to="/landlords" className="btn btn-lg custom-button" role="button">
         Landlords
-      </Link>
+      </Link> */}
+      <NavBar />
     </Container>
   );
 }

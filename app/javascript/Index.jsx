@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Home from './components/Home'
+import * as bootstrap from 'bootstrap';
 
 ReactDOM.render(
   <React.StrictMode>
