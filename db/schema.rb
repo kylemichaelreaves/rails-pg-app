@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_10_014311) do
   end
 
   create_table "landlords", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "mailing_address"
     t.string "city_state_zip"
     t.string "full_mailing_address"

@@ -2,6 +2,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      resources :properties, :landlords
+      
       get 'properties/index', to: 'properties#index'
       post 'properties/create'
       get 'properties/show/:id', to: 'properties#show'
