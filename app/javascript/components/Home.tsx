@@ -1,10 +1,12 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+
 import Container from "react-bootstrap/Container";
 import styled from "styled-components";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import NavBar from "./NavBar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import "react-quill/dist/quill.snow.css";
+
+import "react-quill/dist/quill.snow.css";
 
 var Styles = styled.div`
   padding: 1rem;
@@ -46,7 +48,7 @@ export default function Home() {
       <Link to="/landlords" className="btn btn-lg custom-button" role="button">
         Landlords
       </Link> */}
-      <NavBar />
+      {/* <NavBar /> */}
     </Container>
   );
 }

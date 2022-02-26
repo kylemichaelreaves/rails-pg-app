@@ -1,13 +1,9 @@
 class Api::V1::LandlordsController < ApplicationController
   def index
-  end
-
-  def create
+    @landlords = Landlord.all
   end
 
   def show
-  end
-
-  def destroy
+      @landlord = Landlord.find(params[:id])
   end
 end

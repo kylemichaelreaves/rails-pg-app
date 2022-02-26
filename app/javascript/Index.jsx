@@ -2,19 +2,31 @@
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
-import { BrowserRouter } from 'react-router-dom'
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Properties from './components/Property/Properties';
+import Property from './components/Property/Property';
+import Landlords from './components/Landlord/Landlords';
+import Landlord from './components/Landlord/Landlord';
+import NotFound from './components/NotFound';
+import App from './components/App'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Home from './components/Home'
-import * as bootstrap from 'bootstrap';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Home />
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path="api/v1/properties" element={<Properties />} />
+          <Route path=":propertiesId" element={<Property />} />
+          <Route path="api/v1/landlords" element={<Landlords />} />
+          <Route path=":landlordsId" element={<Landlord />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>,
-    document.getElementById('root')
+  document.getElementById('root')
 );
