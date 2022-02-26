@@ -6,7 +6,6 @@ export interface PropertiesInterface {
   properties: PropertyInterface[]
 }
 
-
 export default function Properties() {
   const columns = React.useMemo(
     () => [
