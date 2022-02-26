@@ -1,5 +1,11 @@
 import * as React from "react";
-import ReactQuill from "react-quill";
+import Container from "react-bootstrap/Container";
+import { PropertyInterface } from "./Property";
+
+export interface PropertiesInterface {
+  properties: PropertyInterface[]
+}
+
 
 export default function Properties() {
   const columns = React.useMemo(
@@ -48,5 +54,19 @@ export default function Properties() {
     []
   );
 
-  return <h1>Properties component</h1>;
+  return (
+    <Container>
+      <h3>Properties</h3>
+      <br />
+      <h5>
+        A React component, inside another React component, supported by a Rails
+        API
+      </h5>
+      <br />
+      <p>
+        A list of all the properties in our database will be generated here in
+        this absolutely stunning component.
+      </p>
+    </Container>
+  );
 }

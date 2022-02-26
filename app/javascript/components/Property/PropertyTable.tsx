@@ -1,6 +1,23 @@
 import * as React from "react";
 import { useTable } from "react-table";
 
+const propertyTableCols = [
+  "id",
+  "streetAddress",
+  "ownerName",
+  "ownerMailingAddress",
+  "cityStateZip",
+  "propertyFullAddress",
+  "unitsAtProperty",
+  "gCode",
+  "latitude",
+  "longitude",
+  "createdAt",
+  "updatedAt",
+  "ownerFullMailingAddress",
+  "landlordsId",
+];
+
 export default function PropertyTable({ columns: [], data: [] }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns: [], data: [] });

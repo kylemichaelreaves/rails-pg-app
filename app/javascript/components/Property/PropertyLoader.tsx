@@ -52,11 +52,11 @@ const defaultPropertyProps: PropertyProps = {
 //   )
 // }
 
-export default function PropertyLoader(props) {
+export default function PropertyLoader(props: any) {
   return (
     <>
       <h2>Properties from the API</h2>
-      {props.properties.map((property) => {
+      {props.properties.map((property: any) => {
         return (
           <div key={property.id}>
             <h2>{property.street_address}</h2>

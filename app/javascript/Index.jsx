@@ -19,10 +19,12 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="api/v1/properties" element={<Properties />} />
-          <Route path=":propertiesId" element={<Property />} />
-          <Route path="api/v1/landlords" element={<Landlords />} />
-          <Route path=":landlordsId" element={<Landlord />} />
+          <Route path="api/v1/properties" element={<Properties />} >
+            <Route path=":propertiesId" element={<Property />} />
+          </Route>
+          <Route path="api/v1/landlords" element={<Landlords />} >
+            <Route path=":landlordsId" element={<Landlord />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

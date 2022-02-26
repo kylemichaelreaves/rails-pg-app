@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css";
 
 import "react-quill/dist/quill.snow.css";
 
-var Styles = styled.div`
+const Styles = styled.div`
   padding: 1rem;
 
   table {
@@ -37,20 +37,13 @@ var Styles = styled.div`
   }
 `;
 
+const API_URL = "http://localhost:3000/properties/";
+
 export default function Home() {
   return (
     <Container>
       <h1 className="display-4">Find My Landlord: North Jersey</h1>
-      {/* <Link to="api/v1/properties" className="btn btn-lg custom-button" role="button">
-        Properties
-      </Link>
-      {" "}
-      <Link to="/landlords" className="btn btn-lg custom-button" role="button">
-        Landlords
-      </Link> */}
-      {/* <NavBar /> */}
     </Container>
   );
 }
 
-// const API_URL = "http://localhost:3000/properties/";
