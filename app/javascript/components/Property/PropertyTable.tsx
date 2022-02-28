@@ -1,26 +1,15 @@
 import * as React from "react";
 import { useTable } from "react-table";
 
-const propertyTableCols = [
-  "id",
-  "streetAddress",
-  "ownerName",
-  "ownerMailingAddress",
-  "cityStateZip",
-  "propertyFullAddress",
-  "unitsAtProperty",
-  "gCode",
-  "latitude",
-  "longitude",
-  "createdAt",
-  "updatedAt",
-  "ownerFullMailingAddress",
-  "landlordsId",
-];
+// is there a type that corresponds to useMemo?
+interface PropertyTableProps {
+  columns: any
+  data: any
+}
 
-export default function PropertyTable({ columns: [], data: [] }) {
+export default function PropertyTable({ columns, data }: PropertyTableProps) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: [], data: [] });
+    useTable({ columns, data });
   return (
     <table {...getTableProps()}>
       <thead>

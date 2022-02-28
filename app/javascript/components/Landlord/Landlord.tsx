@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export interface LandlordInterface {
+export type Landlord = {
   id: number;
   name: string;
   mailingAddress: string;

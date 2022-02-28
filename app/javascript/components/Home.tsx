@@ -5,8 +5,9 @@ import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "react-quill/dist/quill.snow.css";
-
 import "react-quill/dist/quill.snow.css";
+import NavBar from "./NavBar";
+
 
 const Styles = styled.div`
   padding: 1rem;
@@ -37,12 +38,13 @@ const Styles = styled.div`
   }
 `;
 
-const API_URL = "http://localhost:3000/properties/";
+
 
 export default function Home() {
   return (
     <Container>
       <h1 className="display-4">Find My Landlord: North Jersey</h1>
+      <NavBar />
     </Container>
   );
 }

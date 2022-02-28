@@ -1,10 +1,10 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
-import { PropertyInterface } from "../Property/Property";
-import { LandlordInterface } from "./Landlord";
+import { Property } from "../Property/Property";
+import { Landlord } from "./Landlord";
 
-export interface LandlordsInterface {
-  landlords: LandlordInterface[]
+export type Landlords = {
+  landlords: Landlord[]
 }
 
 export default function Landlords() {

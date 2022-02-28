@@ -1,31 +1,25 @@
 # README
 
-Frontend: React 17.0.2 and TypeScript 4.5.5;
-  React librariess:
-    react-router: 6
-    react-bootstrap...
-    react-table...
-Backend: Rails 7.0.2.2;
-Webpack: 5.69.1;
-Database: Postgres;
-
 This app uses data from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
-It's essentially a Rails API with a React frontend, although I didn't build it as such at first.
-It was built as Rails v6, and therefore with webpacker.
-But I've since removed webpacker, since it's been retired, and switched to compiling with eslint and webpack.
-I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md) tutorial for making that switch.
 
-I looked to this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend) as a guide for development.
-However, there were some necessary modifications.
-  - Step 5: react-router uses new syntax in v6. Moreover, sending props in the (unamed) App to the routes/Index prevented my React components from rendering. I'm [following a tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
-  - Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a javascript_include_tag pointing toward the Index.
+It's a Rails API with a React frontend. I've switched to compiling with `eslint` and `webpack` since `webpacker` has been retired. References to webacker were replaced with `yarn` and its appropriate commands. I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md) tutorial for making that switch.
 
-This is roughly the order I followed when creating the app, though I've taken out the webpacker steps and switched them with yarn commands, since I'm no longer using webpacker. 
+For inspiration and guidance, I looked to this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend). However, in order to work with the latest libraries, there were some necessary modifications:
+
+- react-router uses new syntax in v6. Moreover, sending props in the (unamed) App to the routes/Index prevented my React components from rendering. I'm [following a tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
+
+- Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a javascript_include_tag pointing toward the Index.
+
+This is roughly the order I followed when creating the app:
+
 0. Create a Rails with Postgres, React, and TypeScript:
+
 ```
 rails new [application name] -d postgresql --webpack=react
 ```
-1. cd inside the Rails app:
+
+1. `cd` into the Rails app
+
 2. Running this app locally requires some boilerplate:
 
 - cd into the directory.
@@ -42,9 +36,9 @@ require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 3. Create .node-versions and .ruby-versions:
 
 4. In the project folder create two files:
-`touch .node-version` with `16.14.1`
-`touch .ruby-version` with `3.1.0`
-This is necessary in order to get the app to run locally.
+   `touch .node-version` with `16.14.1`
+   `touch .ruby-version` with `3.1.0`
+   This is necessary in order to get the app to run locally.
 
 5. Adding TypeScript/Webpack support
 
@@ -76,12 +70,15 @@ require 'csv'
       Property.create!(row.to_hash)
     end
 ```
-### Updating to the latest Rails version
+
+### Updating to the latest Rails version:
+
 ```
 bundle update
 ```
 
-### starting dev server – both Rails and React
+### starting the dev server – both Rails and React:
+
 ```
 bin/dev
 ```
@@ -89,7 +86,13 @@ bin/dev
 ## Querying with ActiveRecord
 
 #### Finding landlords with the most property\
-In the app's rails console…(`bin/rails console`)…
+
+##### Start Rails console:
+
+```
+bin/rails console
+```
+
 - Return the number of records with `Property.count`
   ```ruby
   irb(main):017:0> Property.count
@@ -106,16 +109,17 @@ In the app's rails console…(`bin/rails console`)…
   ```ruby
   Property.distinct(:owner_name).pluck(:owner_name)
   ```
-- Return a sorted array of arrays; the second value in the nested arrays is the value count of name in the properties table
+- Return an array sorted by its nested second value; the second value is the count of `owner_name` in the properties table
   ```ruby
   Property.pluck(:owner_name).tally.sort_by { |k, v|v }
   ```
-- Return malformed (strings including more than two spaces) owner_name
+- Return malformed `owner_name` (strings including more than two spaces)
+
   ```ruby
   Property.distinct.pluck(:owner_name).each_with_index { |el, i| puts el, i if el.match?(/\s+{2}/) }
   ```
 
-- Returning the id's of the properties associated with a given owner, in this case, the name which appears the most (617) in the `properties` table: `COA 99 HUDSON,LLC`
+- Returning the id's of the properties associated with a given owner
   ```ruby
   Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
   ```

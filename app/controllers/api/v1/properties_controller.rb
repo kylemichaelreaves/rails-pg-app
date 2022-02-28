@@ -1,24 +1,24 @@
 class Api::V1::PropertiesController < ApplicationController
     def index
-      properties = Property.order(params[:sort])
-      render json: properties
+      @properties = Property.order(params[:sort])
+      render json: @properties
     end
 
     def create
-      property = Property.create!(property_params)
+      @property = Property.create!(property_params)
       if property
-        render json: property
+        render json: @property
       else
-        render json: property.errors
+        render json: @property.errors
       end
     end
 
     def show
-      # property = Property.find(params[:id])
-      if property
-        render json: property
+      @property = Property.find(params[:id])
+      if @property
+        render json: @property
       else
-        render json: property.errors
+        render json: @property.errors
       end
     end
 
@@ -41,7 +41,7 @@ class Api::V1::PropertiesController < ApplicationController
     end
 
     def property
-      property ||= Property.find(params[:id])
+      @property ||= Property.find(params[:id])
     end
 
   end

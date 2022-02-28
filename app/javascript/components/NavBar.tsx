@@ -9,7 +9,7 @@ export default function NavBar() {
     <Container>
       <Nav justify variant="tabs" defaultActiveKey="/home">
         <Nav.Item>
-          <LinkContainer to="api/v1/properties">
+          <LinkContainer to="api/v1/properties/">
             <Nav.Link>Properties</Nav.Link>
           </LinkContainer>
         </Nav.Item>

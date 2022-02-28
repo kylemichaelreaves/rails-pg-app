@@ -1,13 +1,35 @@
 import * as React from "react";
-import NavBar from "./NavBar";
 import Home from "./Home";
 import { Outlet } from "react-router";
+import PropertyTable from "./Property/PropertyTable";
+import useProperties from './Property/useProperties'
 
 export default function App() {
+
+  const propertyTableCols = [
+    "id",
+    "streetAddress",
+    "ownerName",
+    "ownerMailingAddress",
+    "cityStateZip",
+    "propertyFullAddress",
+    "unitsAtProperty",
+    "gCode",
+    "latitude",
+    "longitude",
+    "createdAt",
+    "updatedAt",
+    "ownerFullMailingAddress",
+    "landlordsId",
+  ];
+
+  const columns = React.useMemo(() => propertyTableCols, [])
+  const data = React.useMemo(() => useProperties(), [])
+
   return (
     <>
       <Home />
-      <NavBar />
+      <PropertyTable columns={columns} data={data} />
       <Outlet />
     </>
   );
