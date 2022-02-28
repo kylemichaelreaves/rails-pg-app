@@ -3,25 +3,9 @@ import Container from "react-bootstrap/Container";
 import Property from "./Property";
 import { useTable, usePagination } from "react-table";
 import { QueryClient, QueryClientProvider, useQueryClient } from "react-query";
+import { PropertyProps } from "./Property";
 
 import useProperties from "./useProperties";
-
-interface PropertyProp {
-  id: number;
-  streetAddress: string;
-  ownerName: string;
-  ownerMailingAddress: string;
-  cityStateZip: string;
-  propertyFullAddress: string;
-  unitsAtProperty: number;
-  gCode: string;
-  latitude: number;
-  longitude: number;
-  createdAt: string;
-  updatedAt: string;
-  ownerFullMailingAddress: string;
-  landlordsId: number;
-}
 
 const queryClient = new QueryClient();
 // function propertiesLoader() {
@@ -65,16 +49,16 @@ const propertyTableCols = [
   "landlordsId",
 ];
 
-export type Properties = {
-  properties: PropertyProp[];
+export type PropertiesProps = {
+  properties: PropertyProps[];
 };
 
-interface PropertiesProps {
+interface PropertiesFunctionProps {
   setPropertyId: Function;
 }
 
 // Properties contains Links to Property
-export default function Properties({ setPropertyId }: PropertiesProps) {
+export default function Properties({ setPropertyId }: PropertiesFunctionProps) {
   const queryClient = useQueryClient();
   const { status, data, error, isFetching } = useProperties();
 
@@ -142,11 +126,11 @@ export default function Properties({ setPropertyId }: PropertiesProps) {
         ) : (
           <>
             <div>
-              {data.map((property: PropertyProp) => (
+              {data.map((property: PropertyProps) => (
                 <p key={property.id}>
                   {/* the link to the individual property will go here */}
-                  {property.ownerName}
-                  {property.landlordsId}
+                  {property.owner_name}
+                  {property.landlords_id}
                 </p>
               ))}
             </div>
