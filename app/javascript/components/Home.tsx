@@ -8,7 +8,6 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.snow.css";
 import NavBar from "./NavBar";
 
-
 const Styles = styled.div`
   padding: 1rem;
 
@@ -38,8 +37,6 @@ const Styles = styled.div`
   }
 `;
 
-
-
 export default function Home() {
   return (
     <Container>
@@ -48,4 +45,3 @@ export default function Home() {
     </Container>
   );
 }
-

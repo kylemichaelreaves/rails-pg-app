@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getPropertyById } from "./getPropertyById";
 
-export interface PropertyProp {
+export interface Property {
   id: number;
   street_address: string;
   owner_name: string;
@@ -18,8 +18,8 @@ export interface PropertyProp {
   landlords_id: number;
 }
 
-export default function useProperty(propertyId: number) {
-  return useQuery(["property", propertyId], () => getPropertyById(propertyId), {
-    enabled: !!propertyId,
+export default function useProperty(id: number) {
+  return useQuery(["property", id], () => getPropertyById(id), {
+    enabled: !!id,
   });
 }
