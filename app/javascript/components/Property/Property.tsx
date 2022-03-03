@@ -2,7 +2,6 @@ import * as React from "react";
 import Container from "react-bootstrap/Container";
 
 import Properties from "./Properties";
-import  {ReactQueryDevtools}  from "react-query/types/devtools";
 
 interface PropertyFunctionProps {
   propertyId: number;
@@ -36,7 +35,7 @@ export default function Property(props: PropertyFunctionProps) {
      ) : (
        <Properties setPropertyId={setPropertyId} />
      )}
-       <ReactQueryDevtools initialIsOpen />
+       
     </Container>
   );
 }

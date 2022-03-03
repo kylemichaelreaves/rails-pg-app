@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
+    include ActionController::MimeResponds
+
     protect_from_forgery with: :null_session
-    respond_to :json
+    # respond_to :json
 
     before_action :underscore_params!
 

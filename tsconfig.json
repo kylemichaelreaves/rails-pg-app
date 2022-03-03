@@ -18,7 +18,8 @@
     "**/*.spec.ts",
     "node_modules",
     "vendor",
-    "public"
+    "public",
+    "react-query/types/devtools"
   ],
   "compileOnSave": false
 }
