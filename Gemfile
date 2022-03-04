@@ -38,6 +38,10 @@ gem "sprockets-rails"
 gem 'jsbundling-rails'
 
 gem 'bootstrap', '~> 5.1.3'
+# gem for jobs queue
+gem 'delayed_job_active_record'
+# another way of importing records
+gem 'activerecord-import'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
