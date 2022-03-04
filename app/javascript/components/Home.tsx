@@ -7,6 +7,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.snow.css";
 import NavBar from "./NavBar";
+import GeocoderForm from "./GeocoderForm";
+import { Address } from "./GeocoderForm";
 
 const Styles = styled.div`
   padding: 1rem;
@@ -38,10 +40,17 @@ const Styles = styled.div`
 `;
 
 export default function Home() {
+  const [addresses, setAddresses] = React.useState<Address[]>([]);
+
+  function addAddress(address: Address) {
+    setAddresses([...addresses, address]);
+  }
+
   return (
     <Container>
       <h1 className="display-4">Find My Landlord: North Jersey</h1>
       <NavBar />
+      <GeocoderForm onSave={addAddress} />
     </Container>
   );
 }
