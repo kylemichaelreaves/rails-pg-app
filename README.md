@@ -8,7 +8,7 @@ For inspiration and guidance, I looked to this [tutorial](https://www.digitaloce
 
 - react-router uses new syntax in v6. Moreover, sending props in the (unamed) App to the routes/Index prevented my React components from rendering. I'm [following a tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
 - Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a javascript_include_tag pointing toward the Index. In order to get the Bootstrap style to load I placed a `stylesheet_tag` beneath the generic Rails one. 
-- I'm using [react-query](https://react-query.tanstack.com/) and axios to call the API data. With TypeScript, there is some [additional finessing](https://tkdodo.eu/blog/react-query-and-type-script) needed for the component to work. 
+- I'm using [react-query](https://react-query.tanstack.com/) and axios to call the API data. With TypeScript, [prop and return types needed to be specified for useQuery](https://tkdodo.eu/blog/react-query-and-type-script) in order for the component to work. 
 
 This is roughly the order I followed when creating the app:
 
