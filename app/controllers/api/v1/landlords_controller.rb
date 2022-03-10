@@ -1,20 +1,20 @@
 class Api::V1::LandlordsController < ApplicationController
   def index
-    landlords = Landlord.all
+    @landlords = Landlord.all
     render json: landlords
   end
 
   def show
-    if landlord
-      render json: landlord
+    if @landlord
+      render json: @landlord
     else
-      render json: landlord.errors
+      render json: @landlord.errors
     end
   end
 
   private
 
   def landlord
-    landlord ||= Landlord.find(params[:id])
+    @landlord ||= Landlord.find(params[:id])
   end
 end

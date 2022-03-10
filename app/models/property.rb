@@ -1,5 +1,5 @@
 class Property < ApplicationRecord
-    validates :street_address, presence: true
+    validates :street_address, :owner_name, presence: true
     validates :owner_name, presence: true
     validates :owner_mailing_address, presence: true
     validates :city_state_zip, presence: true
