@@ -30,7 +30,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
       {address.zipCode !== "" && address.zipCode.length === 5 ? (
         <div>{JSON.stringify(address.zipCode)}</div>
       ) : (
-        <br/>
+        <br />
       )}
       <Form>
         <Form.Group className="mb-3" controlId="geocoderFrom.ControlInput1">
