@@ -37,7 +37,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
           <Form.Label>Street Address</Form.Label>
           <Form.Control
             type="text"
-            placeholder="streetAddress"
+            placeholder="street address"
             value={address.streetAddress}
             onChange={(e) =>
               setAddress({ ...address, streetAddress: e.target.value })
