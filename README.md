@@ -6,7 +6,7 @@ It's a Rails API with a React frontend. I've switched to compiling with `eslint`
 
 For general inspiration and guidance, I looked to this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend). However, in order to work with the latest libraries, there were some necessary modifications:
 
-- react-router uses new syntax in v6. Moreover, in `Step 5 — Configuring React as Your Rails Frontend`, sending props in App.jsx to the routes/Index didn't work. I [followed a tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
+- react-router uses new syntax in v6. Moreover, in `Step 5 — Configuring React as Your Rails Frontend`, sending props in App.jsx to the routes/Index didn't work. I [this tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
 - Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a javascript_include_tag pointing toward the Index. In order to get the Bootstrap style to load I placed a `stylesheet_tag` beneath the generic Rails one. 
 - I'm using [react-query](https://react-query.tanstack.com/) and axios to call the API data. With TypeScript, [prop and return types needed to be specified for useQuery](https://tkdodo.eu/blog/react-query-and-type-script) in order for the component to work. 
 
