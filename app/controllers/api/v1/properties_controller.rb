@@ -1,12 +1,12 @@
 class Api::V1::PropertiesController < ApplicationController
     def index
       @properties = Property.order(params[:sort])
-      render json: @properties
+      render json: @properties.then(&paginate)
     end
 
     def create
       @property = Property.create!(property_params)
-      
+
       if property
         render json: @property
       else

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
     include ActionController::MimeResponds
+    include Pagination
 
     protect_from_forgery with: :null_session
     # respond_to :json

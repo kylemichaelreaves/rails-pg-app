@@ -4,7 +4,9 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
 export interface Address {
+  id: number;
   streetAddress: string;
   city: string;
   state: string;
@@ -12,6 +14,7 @@ export interface Address {
 }
 
 let blankAddress: Address = {
+  id: 0,
   streetAddress: "",
   city: "",
   state: "",
@@ -82,7 +85,11 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
       </Form>
       <Button
         size="lg"
-        onClick={() => [onSave(address), setAddress(blankAddress)]}
+        onClick={() => [
+          onSave(address),
+          blankAddress.id++,
+          setAddress(blankAddress),
+        ]}
       >
         {address.zipCode !== "" && address.zipCode.length === 5 ? (
           <>Geocode Zipcode</>
