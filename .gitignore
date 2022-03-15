@@ -52,6 +52,8 @@ bower.json
 
 # Ignore node_modules
 node_modules/
+!node_modules/@types/react-table/index.d.ts
+!node_modules/@types/react-table-config.d.ts
 
 # Ignore precompiled javascript packs
 /public/packs

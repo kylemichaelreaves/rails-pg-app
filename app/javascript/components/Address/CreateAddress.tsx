@@ -46,7 +46,7 @@ function useAddresses<TData = Address[]>(
   return useQuery("address", fetchAddresses, options);
 }
 
-function AddressCounter() {
+export function AddressCounter() {
   const counterQuery = useAddresses({
     select: (data) => data.length,
     notifyOnChangeProps: ["data"],
@@ -59,15 +59,21 @@ function AddressCounter() {
   return <div>AddressCounter: {counterQuery.data ?? 0}</div>;
 }
 
-export default function AddressCreator() {
+interface AddressCreatorProps {
+  onSave: (address: Address) => {};
+}
+
+export default function AddressCreator({ onSave }: AddressCreatorProps) {
   const counterQuery = useQueryClient();
   const [address, setAddress] = React.useState(blankAddress);
   const { isFetching, ...queryInfo } = useAddresses();
 
   const addAddressMutation = useMutation(
-    (newAddress) => axios.post("api/v1/address", { address: newAddress }),
+    (newAddress: Address) =>
+      axios.post("api/v1/addresses/new", { address: newAddress }),
     {
       onMutate: async (newAddress: Address) => {
+        blankAddress.id++;
         setAddress(blankAddress);
         await queryClient.cancelQueries("addresses");
         const previousAddresses =
@@ -95,11 +101,39 @@ export default function AddressCreator() {
     }
   );
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        addAddressMutation.mutate(address);
-      }}
-    ></Form>
+    <>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addAddressMutation.mutate(address);
+        }}
+      ></Form>
+      <Button
+        size="lg"
+        onClick={() => [
+          onSave(address),
+          blankAddress.id++,
+          setAddress(blankAddress),
+        ]}
+      >
+        Geocode Address
+      </Button>
+      <br />
+      {queryInfo.isSuccess && (
+        <>
+          <div>Updated At: {new Date().toLocaleTimeString()}</div>
+          <ul>
+            {queryInfo.data.map((address) => (
+              <li key={address.id}>
+                {address.street_address},{address.zip}
+              </li>
+            ))}
+          </ul>
+          {isFetching && <div>Updating in background...</div>}
+        </>
+      )}
+      {queryInfo.isLoading && "Loading"}
+      {queryInfo.error?.message}
+    </>
   );
 }

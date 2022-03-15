@@ -1,11 +1,10 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
-
 import Properties from "./Properties";
 
 interface PropertyFunctionProps {
   propertyId: number;
-  setPropertyId: Function;
+  setPropertyId: (propertyId: number) => void;
 }
 export interface PropertyProps {
   id: number;
@@ -30,12 +29,11 @@ export default function Property(props: PropertyFunctionProps) {
 
   return (
     <Container>
-     {propertyId > -1 ? (
+     {/* {propertyId > -1 ? (
        <Property propertyId={propertyId} setPropertyId={setPropertyId} />
      ) : (
        <Properties setPropertyId={setPropertyId} />
-     )}
-       
+     )} */}
     </Container>
   );
 }
