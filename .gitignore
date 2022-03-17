@@ -51,10 +51,8 @@ bower.json
 .byebug_history
 
 # Ignore node_modules
-node_modules/
+node_modules/*
 !node_modules/@types/react-table/index.d.ts
-!node_modules/@types/react-table-config.d.ts
-
 # Ignore precompiled javascript packs
 /public/packs
 /public/packs-test
@@ -71,7 +69,7 @@ yarn-debug.log*
 
 /public/packs
 /public/packs-test
-/node_modules
+
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity

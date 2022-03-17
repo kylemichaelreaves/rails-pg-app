@@ -2,10 +2,16 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { Property } from "./useProperty";
 
-export default function useProperties() {
-  return useQuery<Property[], Error>("properties", async () => {
-    return await axios
-      .get("api/v1/properties")
-      .then((response) => response.data);
-  });
+export async function fetchProperties(pageParam: any) {
+  return await axios
+    .get("http://127.0.0.1:3000/api/v1/properties?cursor" + pageParam)
+    .then((response) => response.data);
+}
+
+export default function useProperties(page = 0) {
+  return useQuery<Property[], Error>(
+    ["properties", page],
+    () => fetchProperties(page),
+    { keepPreviousData: true, staleTime: 5000 }
+  );
 }

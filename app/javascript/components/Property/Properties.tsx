@@ -1,5 +1,8 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
 import {
   useTable,
   useFilters,
@@ -11,43 +14,19 @@ import {
   QueryClient,
   QueryClientProvider,
   useQueryClient,
+  useInfiniteQuery,
   useQuery,
 } from "react-query";
 import { PropertyProps } from "./Property";
 import { Property } from "./useProperty";
-import axios, { AxiosError } from "axios";
+import useIntersectionObserver from "../hooks/useIntersectObserver";
+import useProperties, { fetchProperties } from "./useProperties";
 
 const queryClient = new QueryClient();
 
 export type PropertiesProps = {
   properties: PropertyProps[];
 };
-
-interface PropertiesFunctionProps {
-  setPropertyId: (propertyId: number) => {};
-}
-
-async function fetchProperties(): Promise<Property[]> {
-  return await axios
-    .get("http://127.0.0.1:3000/api/v1/properties")
-    .then((response) => response.data);
-}
-
-function useProperties() {
-  return useQuery<Property[], Error>("properties", fetchProperties);
-}
-
-async function fetchProperty(id: number | undefined) {
-  return typeof id === "undefined"
-    ? Promise.reject(new Error("invalid id"))
-    : await axios.get(`properties/${id}`).then((response) => response.data);
-}
-
-function useProperty(id: number | undefined) {
-  return useQuery(["property", id], () => {
-    enabled: Boolean(id);
-  });
-}
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -88,14 +67,46 @@ function fuzzyTextFilterFn(rows: any, id: any, filterValue: any) {
 // Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = (val: any) => !val;
 
-// Properties contains Links to Property
-export default function Properties({ setPropertyId }: PropertiesFunctionProps) {
-  const { status, data, error, isFetching } = useProperties();
+export default function Properties() {
+  // const { status, data, error, isFetching } = useProperties();
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useInfiniteQuery("properties", fetchProperties, {
+    getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
+    getNextPageParam: (lastPage) => lastPage.nextId ?? false,
+  });
+
+  const loadMoreButtonRef = React.useRef();
+
+  useIntersectionObserver({
+    target: loadMoreButtonRef,
+    onIntersect: fetchNextPage,
+    enabled: !!hasNextPage,
+  });
 
   return (
     <Container>
       <h2>Properties</h2>
-      <h3>Jersey City</h3>
+      <h4>Jersey City</h4>
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="search properties"
+          aria-label="search properties"
+          aria-describedby="basic-addon2"
+        />
+        <Button variant="outline-secondary" id="button-addon2">
+          Button
+        </Button>
+      </InputGroup>
       <div>
         {status === "loading" ? (
           "Loading…"
@@ -104,7 +115,7 @@ export default function Properties({ setPropertyId }: PropertiesFunctionProps) {
         ) : (
           <>
             <div>
-              {data.map((property: PropertyProps) => (
+              {data.pages.map((property: Property) => (
                 <p key={property.id}>
                   {property.street_address} {property.owner_name}{" "}
                   {property.landlords_id}
@@ -116,6 +127,7 @@ export default function Properties({ setPropertyId }: PropertiesFunctionProps) {
           </>
         )}
       </div>
+      <Button>Button</Button>
     </Container>
   );
 }

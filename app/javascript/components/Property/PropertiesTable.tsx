@@ -5,14 +5,6 @@ import {
   useGlobalFilter,
   useAsyncDebounce,
 } from "react-table";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-  UseQueryOptions,
-} from "react-query";
 import { matchSorter } from "match-sorter";
 
 interface DefaultColumnFilterProps {
