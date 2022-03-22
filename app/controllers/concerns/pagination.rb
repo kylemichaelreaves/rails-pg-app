@@ -14,7 +14,11 @@ module Pagination
     end
 
     def paginate_offset
-      (page_no-1)*per_page
+      if page_no > 1
+        (page_no-1)*per_page
+      else
+        (page_no)*per_page
+      end
     end
 
     def paginate
