@@ -1,9 +1,7 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
-import Properties from "./Properties";
-import axios from "axios";
 import { useQuery } from "react-query";
-
+import axios from "axios";
 interface PropertyFunctionProps {
   propertyId: number;
   setPropertyId: (propertyId: number) => void;
