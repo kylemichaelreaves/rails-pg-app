@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import { useInfiniteQuery } from "react-query";
+import { QueryClient, useInfiniteQuery } from "react-query";
 import { PropertyProps } from "./Property";
 import { Property } from "./useProperty";
 import useIntersectionObserver from "../hooks/useIntersectObserver";
@@ -11,7 +11,6 @@ import axios, { AxiosError } from "axios";
 import useProperties, { fetchProperties } from "./useProperties";
 import { useInView } from "react-intersection-observer";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { QueryClient } from "react-query";
 
 export type PropertiesProps = {
   properties: PropertyProps[];
@@ -26,6 +25,8 @@ export default function Properties() {
   const [page, setPage] = React.useState(0);
 
   const { ref, inView } = useInView();
+
+  const propertiesQuery = useProperties(page);
 
   const {
     status,
@@ -61,7 +62,7 @@ export default function Properties() {
 
   React.useEffect(() => {
     if (inView) {
-      console.log('ref in view; fetching next page');
+      console.log("ref in view; fetching next page");
       fetchNextPage();
     }
   }, [inView]);
