@@ -7,16 +7,23 @@ import { useInfiniteQuery } from "react-query";
 import { PropertyProps } from "./Property";
 import { Property } from "./useProperty";
 import useIntersectionObserver from "../hooks/useIntersectObserver";
+import axios, { AxiosError } from "axios";
 import useProperties, { fetchProperties } from "./useProperties";
 import { useInView } from "react-intersection-observer";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient } from "react-query";
 
 export type PropertiesProps = {
   properties: PropertyProps[];
 };
 
+const queryClient = new QueryClient();
+
 export default function Properties() {
   // const { status, data, error, isFetching } = useProperties();
+  type PropertyResponse = { next?: number; properties: Property[] };
+
+  const [page, setPage] = React.useState(0);
 
   const { ref, inView } = useInView();
 
@@ -31,10 +38,18 @@ export default function Properties() {
     fetchPreviousPage,
     hasNextPage,
     hasPreviousPage,
-  } = useInfiniteQuery("properties", fetchProperties, {
-    getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
-    getNextPageParam: (lastPage) => lastPage.nextId ?? false,
-  });
+  } = useInfiniteQuery(
+    "properties",
+    async ({ pageParam = 0 }) => {
+      return await axios
+        .get("api/v1/properties?cursor=" + pageParam)
+        .then((res) => res.data);
+    },
+    {
+      getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
+      getNextPageParam: (lastPage) => lastPage.nextId ?? false,
+    }
+  );
 
   const loadMoreButtonRef = React.useRef();
 
@@ -46,23 +61,10 @@ export default function Properties() {
 
   React.useEffect(() => {
     if (inView) {
-      console.log("ref is in view");
+      console.log('ref in view; fetching next page');
       fetchNextPage();
     }
   }, [inView]);
-
-  React.useEffect(() => {
-    const onBottom = function () {
-      const bottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      if (bottom) {
-        console.log(
-          "you've reached bottom"
-        );
-      }
-    };
-    window.addEventListener("scroll", onBottom);
-  }, []);
 
   return (
     <>
@@ -76,7 +78,7 @@ export default function Properties() {
             aria-describedby="basic-addon2"
           />
           <Button variant="outline-secondary" id="button-addon2">
-            Button
+            Input Search Button
           </Button>
         </InputGroup>
         <div>
@@ -87,13 +89,11 @@ export default function Properties() {
           ) : (
             <>
               <div>
-                {data.pages[0].map((property: Property, i: number) => (
-                  <React.Fragment key={i}>
-                    <p key={property.id}>
-                      {property.street_address} {property.owner_name}{" "}
-                      {property.landlords_id}{" "}
-                      {property.owner_full_mailing_address}{" "}
-                    </p>
+                {data.pages.map((page) => (
+                  <React.Fragment key={page.nextId}>
+                    {page.data.map((property: Property) => (
+                      <p key={property.id}>{property.street_address} </p>
+                    ))}
                   </React.Fragment>
                 ))}
               </div>
