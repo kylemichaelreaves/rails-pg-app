@@ -1,32 +1,25 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import { QueryClient, useInfiniteQuery } from "react-query";
+import { QueryClient, useInfiniteQuery, useQuery } from "react-query";
 import { PropertyProps } from "./Property";
-import { Property } from "./useProperty";
-import useIntersectionObserver from "../hooks/useIntersectObserver";
+import fetchProperty, { Property } from "./useProperty";
 import axios, { AxiosError } from "axios";
 import useProperties, { fetchProperties } from "./useProperties";
 import { useInView } from "react-intersection-observer";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-export type PropertiesProps = {
-  properties: PropertyProps[];
-};
-
-const queryClient = new QueryClient();
-
 export default function Properties() {
-  // const { status, data, error, isFetching } = useProperties();
-  type PropertyResponse = { next?: number; properties: Property[] };
-
-  const [page, setPage] = React.useState(0);
-
+  const [pageParam, setPageParam] = React.useState(0);
   const { ref, inView } = useInView();
 
-  const propertiesQuery = useProperties(page);
+  const getInfiniteProperties = async ({ pageParam = 0 }) => {
+    return await axios
+      .get(`http://127.0.0.1:3000/api/v1/properties`, {
+        params: { page: pageParam },
+      })
+      .then((response) => response.data);
+  };
 
   const {
     status,
@@ -39,83 +32,76 @@ export default function Properties() {
     fetchPreviousPage,
     hasNextPage,
     hasPreviousPage,
-  } = useInfiniteQuery(
-    "properties",
-    async ({ pageParam = 0 }) => {
-      return await axios
-        .get("api/v1/properties?cursor=" + pageParam)
-        .then((res) => res.data);
+  } = useInfiniteQuery("properties", getInfiniteProperties, {
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.data;
     },
-    {
-      getPreviousPageParam: (firstPage) => firstPage.previousId ?? false,
-      getNextPageParam: (lastPage) => lastPage.nextId ?? false,
-    }
-  );
-
-  const loadMoreButtonRef = React.useRef();
-
-  useIntersectionObserver({
-    target: loadMoreButtonRef,
-    onIntersect: fetchNextPage,
-    enabled: !!hasNextPage,
   });
 
   React.useEffect(() => {
+    if (data?.pages) {
+      console.log(
+        `data.pages: ${data?.pages?.map((page) =>
+          page?.map((property: Property) => property?.street_address)
+        )}`
+      );
+    }
+  }, [data]);
+
+  React.useEffect(() => {
     if (inView) {
-      console.log("ref in view; fetching next page");
-      fetchNextPage();
+      console.log("button is in view");
+      setPageParam(pageParam + 1);
+      console.log(`pageParam: ${pageParam}`);
+      fetchNextPage({ pageParam });
     }
   }, [inView]);
 
   return (
-    <>
-      <Container>
-        <h2>Properties</h2>
-        <h4>Jersey City</h4>
-        <InputGroup className="mb-3">
-          <FormControl
-            placeholder="search properties"
-            aria-label="search properties"
-            aria-describedby="basic-addon2"
-          />
-          <Button variant="outline-secondary" id="button-addon2">
-            Input Search Button
-          </Button>
-        </InputGroup>
-        <div>
-          {status === "loading" ? (
-            "Loading…"
-          ) : status === "error" ? (
-            <span>Error: {error}</span>
-          ) : (
-            <>
-              <div>
-                {data.pages.map((page) => (
-                  <React.Fragment key={page.nextId}>
-                    {page.data.map((property: Property) => (
-                      <p key={property.id}>{property.street_address} </p>
-                    ))}
-                  </React.Fragment>
-                ))}
-              </div>
-              <div>{isFetching ? "Background Updating…" : " "}</div>
-            </>
-          )}
-        </div>
-        <Button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? "Loading more..."
-            : hasNextPage
-            ? "Load Newer"
-            : "Nothing more to load"}
-          Button
-        </Button>
-      </Container>
+    <Container>
+      <h2>Properties Component</h2>
+      <div>
+        {status === "loading" ? (
+          "Loading…"
+        ) : status === "error" ? (
+          <span>Error: {error}</span>
+        ) : (
+          <>
+            <Button
+              onClick={() => fetchPreviousPage()}
+              disabled={!hasPreviousPage || isFetchingPreviousPage}
+            >
+              {isFetchingPreviousPage
+                ? "Loading more..."
+                : hasPreviousPage
+                ? "Load Older"
+                : "Nothing more to load"}
+            </Button>
+            <div>
+              {data?.pages?.map((page, i) => (
+                <React.Fragment key={i}>
+                  {page?.map((property: Property) => (
+                    <li key={property.id}>{property.street_address}</li>
+                  ))}
+                </React.Fragment>
+              ))}
+            </div>
+            <div>{isFetching ? "Background Updating…" : " "}</div>
+          </>
+        )}
+      </div>
+      <Button
+        ref={ref}
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? "Loading more..."
+          : hasNextPage
+          ? "Load Newer"
+          : "Nothing more to load"}
+      </Button>
       <ReactQueryDevtools initialIsOpen />
-    </>
+    </Container>
   );
 }

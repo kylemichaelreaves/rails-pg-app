@@ -1,7 +1,7 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
 import { useQuery } from "react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 interface PropertyFunctionProps {
   propertyId: number;
   setPropertyId: (propertyId: number) => void;
@@ -23,10 +23,12 @@ export interface PropertyProps {
   landlords_id: number;
 }
 
-async function fetchProperty(id: number | undefined) {
-  return typeof id === "undefined"
-    ? Promise.reject(new Error("invalid id"))
-    : await axios.get(`properties/${id}`).then((response) => response.data);
+export function fetchProperty(
+  pageParam: number | undefined
+): Promise<PropertyProps> {
+  return typeof pageParam === "undefined"
+    ? Promise.reject(new Error("invalid pageParam"))
+    : axios.get(`properties/${pageParam}`).then((response) => response.data);
 }
 
 function useProperty(id: number | undefined) {
