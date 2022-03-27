@@ -2,13 +2,11 @@ import { useQuery } from "react-query";
 import axios, { AxiosError } from "axios";
 import { Property } from "./useProperty";
 
-export async function fetchProperties(
-  pageParam: number | undefined
-): Promise<Property[]> {
+export async function fetchProperties(pageParam: number): Promise<Property[]> {
   return typeof pageParam === "undefined"
     ? Promise.reject(new Error("Invalid pageParam"))
     : await axios
-        .get("http://127.0.0.1:3000/api/v1/properties?cursor=" + pageParam)
+        .get("properties?page=" + pageParam)
         .then((response) => response.data);
 }
 
