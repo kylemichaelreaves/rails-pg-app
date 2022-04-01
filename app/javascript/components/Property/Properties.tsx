@@ -1,13 +1,25 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
+import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
-import { QueryClient, useInfiniteQuery, useQuery } from "react-query";
-import { PropertyProps } from "./Property";
-import fetchProperty, { Property } from "./useProperty";
-import axios, { AxiosError } from "axios";
-import useProperties, { fetchProperties } from "./useProperties";
+import { useInfiniteQuery, useQuery } from "react-query";
+import { Property } from "./useProperty";
+import axios from "axios";
 import { useInView } from "react-intersection-observer";
 import { ReactQueryDevtools } from "react-query/devtools";
+
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+function usePropertiesCount() {
+  return useQuery("properties", async () => {
+    await axios
+      .get("http://127.0.0.1:3000/api/v1/properties")
+      .then((response) => response.data),
+      {
+        select: (properties: Property[]) => properties.length,
+      };
+  });
+}
 
 export default function Properties() {
   const [pageParam, setPageParam] = React.useState(0);
@@ -54,6 +66,7 @@ export default function Properties() {
       setPageParam(pageParam + 1);
       console.log(`pageParam: ${pageParam}`);
       fetchNextPage({ pageParam });
+      console.log(`usePropertiesCount: ${usePropertiesCount()}`);
     }
   }, [inView]);
 
@@ -80,9 +93,13 @@ export default function Properties() {
             <div>
               {data?.pages?.map((page, i) => (
                 <React.Fragment key={i}>
-                  {page?.map((property: Property) => (
-                    <li key={property.id}>{property.street_address}</li>
-                  ))}
+                  <ListGroup variant="flush">
+                    {page?.map((property: Property) => (
+                      <ListGroup.Item key={property.id}>
+                        {property.street_address}
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
                 </React.Fragment>
               ))}
             </div>
