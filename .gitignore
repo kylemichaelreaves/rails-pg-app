@@ -82,8 +82,8 @@ yarn-debug.log*
 .ruby-version
 
 # DSTORE
-.DS_STORE
-/.DS_STORE
+.DS_Store
+/.DS_Store
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
