@@ -10,19 +10,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-function usePropertiesCount() {
-  return useQuery("properties", async () => {
-    await axios
-      .get("http://127.0.0.1:3000/api/v1/properties")
-      .then((response) => response.data),
-      {
-        select: (properties: Property[]) => properties.length,
-      };
-  });
-}
-
 export default function Properties() {
-  const [pageParam, setPageParam] = React.useState(0);
+  const [pageParam, setPageParam] = React.useState<number>(0);
   const { ref, inView } = useInView();
 
   const getInfiniteProperties = async ({ pageParam = 0 }) => {
@@ -31,6 +20,17 @@ export default function Properties() {
         params: { page: pageParam },
       })
       .then((response) => response.data);
+  };
+
+  const usePropertiesCount = () => {
+    return useQuery("properties", async () => {
+      await axios
+        .get("http://127.0.0.1:3000/api/v1/properties")
+        .then((response) => response.data),
+        {
+          select: (properties: Property[]) => properties.length,
+        };
+    });
   };
 
   const {
@@ -57,6 +57,7 @@ export default function Properties() {
           page?.map((property: Property) => property?.street_address)
         )}`
       );
+      console.log(`${data?.pages?.length} pages`);
     }
   }, [data]);
 
@@ -66,7 +67,6 @@ export default function Properties() {
       setPageParam(pageParam + 1);
       console.log(`pageParam: ${pageParam}`);
       fetchNextPage({ pageParam });
-      console.log(`usePropertiesCount: ${usePropertiesCount()}`);
     }
   }, [inView]);
 
@@ -90,19 +90,21 @@ export default function Properties() {
                 ? "Load Older"
                 : "Nothing more to load"}
             </Button>
-            <div>
-              {data?.pages?.map((page, i) => (
-                <React.Fragment key={i}>
-                  <ListGroup variant="flush">
-                    {page?.map((property: Property) => (
-                      <ListGroup.Item key={property.id}>
-                        {property.street_address}
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                </React.Fragment>
-              ))}
-            </div>
+            <Container>
+              <div>
+                {data?.pages?.map((page, i) => (
+                  <React.Fragment key={i}>
+                    <ListGroup variant="flush">
+                      {page?.map((property: Property) => (
+                        <ListGroup.Item key={property.id}>
+                          {property.street_address}
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  </React.Fragment>
+                ))}
+              </div>
+            </Container>
             <div>{isFetching ? "Background Updating…" : " "}</div>
           </>
         )}
