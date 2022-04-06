@@ -1,4 +1,5 @@
 class Address < ApplicationRecord
+  include Geocoder::Model::Base
   validates :street_address, :municipality, :state, :zipcode, presence: true
 
   geocoded_by :full_address
