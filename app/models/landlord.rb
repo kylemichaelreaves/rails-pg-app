@@ -7,10 +7,11 @@ class Landlord < ApplicationRecord
   end
 
   def single_person?
+    name.not.include? "&" or name.chars.count(",") <= 1 and name.not.include? "LLC"
   end
 
   def multiple_owners?
-    name.include? "&" and name.not.include? "LLC"
+    name.include? "&" or name.chars.count(",") >= 1 and name.not.include? "LLC"
   end
 
   def llc?
