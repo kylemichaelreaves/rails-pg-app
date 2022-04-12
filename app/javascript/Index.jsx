@@ -10,7 +10,7 @@ import Property from './components/Property/Property';
 import Landlords from './components/Landlord/Landlords';
 import Landlord from './components/Landlord/Landlord';
 import NotFound from './components/NotFound';
-import App from './components/App'
+import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 

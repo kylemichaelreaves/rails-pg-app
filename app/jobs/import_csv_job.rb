@@ -11,7 +11,7 @@ class ImportCsvJob < ApplicationJob
       # check if the filename contains 'demo'
       # if it does, slice the string and grab the numbers before 'demo'
       # put those numbers through the municipal_code method
-      
+
   #   properties = []
   #   CSV.foreach(filename, headers: true) do |row|
   #     properties << row
