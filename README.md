@@ -88,6 +88,11 @@ bin/dev
 pg_dump rails_pg_app_development > db.sql
 ```
 
+## loading the dumped db
+```
+cat db.sql | psql -d rails_pg_app_development
+```
+
 ## Querying with ActiveRecord
 
 #### Finding landlords with the most property\
