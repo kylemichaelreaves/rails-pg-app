@@ -2,7 +2,7 @@ import * as React from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import { Property } from "./useProperty";
 import axios from "axios";
 import { useInView } from "react-intersection-observer";
@@ -20,17 +20,6 @@ export default function Properties() {
         params: { page: pageParam },
       })
       .then((response) => response.data);
-  };
-
-  const usePropertiesCount = () => {
-    return useQuery("properties", async () => {
-      await axios
-        .get("http://127.0.0.1:3000/api/v1/properties")
-        .then((response) => response.data),
-        {
-          select: (properties: Property[]) => properties.length,
-        };
-    });
   };
 
   const {
@@ -87,8 +76,8 @@ export default function Properties() {
               {isFetchingPreviousPage
                 ? "Loading more..."
                 : hasPreviousPage
-                ? "Load Older"
-                : "Nothing more to load"}
+                  ? "Load Older"
+                  : "Nothing more to load"}
             </Button>
             <Container>
               <div>
@@ -117,8 +106,8 @@ export default function Properties() {
         {isFetchingNextPage
           ? "Loading more..."
           : hasNextPage
-          ? "Load Newer"
-          : "Nothing more to load"}
+            ? "Load Newer"
+            : "Nothing more to load"}
       </Button>
       <ReactQueryDevtools initialIsOpen />
     </Container>

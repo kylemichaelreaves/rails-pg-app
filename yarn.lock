@@ -1559,6 +1559,11 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
+"@react-icons/all-files@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@react-icons/all-files/-/all-files-4.1.0.tgz#477284873a0821928224b6fc84c62d2534d6650b"
+  integrity sha512-hxBI2UOuVaI3O/BhQfhtb4kcGn9ft12RWAFVMUeNjqqhLsHvFtzIkFaptBJpFDANTKoDfdVoHTKZDlwKCACbMQ==
+
 "@restart/hooks@^0.4.0", "@restart/hooks@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@restart/hooks/-/hooks-0.4.6.tgz#15dcf34631a618c513efc924705c7cbe349a4a0c"
@@ -6901,9 +6906,9 @@ makeerror@1.0.12:
     tmpl "1.0.5"
 
 mapbox-gl@^2.6.1:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.8.0.tgz#698f028575f202d25f2ccb5d6359761d1affb8e2"
-  integrity sha512-sP7TclFDmGhZWfcBlptnA24xO9T4a419W2Y6znGvuRXLkucnGErDIG+/7WLVDrebMYp4E2FtCG+1RtGcYVRIFQ==
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-2.8.1.tgz#431cd772b50883da53a4e210c0b23297631831f6"
+  integrity sha512-AmttsfvuWonyuOu7HcwM6Ok738A0yVYx5h3tjCAFrAsivY8SiCvF/stK2CXhSw2/6/BbZ3qe/S03J7GvisNskA==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.1"
     "@mapbox/geojson-types" "^1.0.2"
