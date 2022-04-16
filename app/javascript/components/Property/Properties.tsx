@@ -35,7 +35,7 @@ export default function Properties() {
     hasPreviousPage,
   } = useInfiniteQuery("properties", getInfiniteProperties, {
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.data;
+      return lastPage.id;
     },
   });
 
