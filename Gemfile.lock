@@ -208,7 +208,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
-    regexp_parser (2.3.0)
+    regexp_parser (2.3.1)
     rexml (3.2.5)
     ruby-graphviz (1.2.5)
       rexml
