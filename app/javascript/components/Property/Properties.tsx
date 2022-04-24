@@ -75,7 +75,7 @@ export default function Properties() {
           <span>Error: {error}</span>
         ) : (
           <>
-            <SearchBar onSearch={filterList} />
+            <SearchBar data={data} onSearch={filterList} />
             {/* <Button
               onClick={() => fetchPreviousPage()}
               disabled={!hasPreviousPage || isFetchingPreviousPage}
