@@ -1,9 +1,17 @@
+import * as React from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import * as React from "react";
 import { InfiniteData } from "react-query";
 import { Property } from "./Property/useProperty";
+import {
+  Formik,
+  FormikHelpers,
+  Field,
+  Form,
+  useField,
+  useFormikContext,
+} from "formik";
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => Property[];
@@ -12,7 +20,8 @@ interface SearchBarProps {
 
 const emptySearch: string = "";
 
-export default function SearchBar({ onSearch, data }: SearchBarProps): any { // any will be swapped out later for a proper type
+export default function SearchBar({ onSearch, data }: SearchBarProps): any {
+  // any will be swapped out later for a proper type
   const [searchTerm, setSearchTerm] = React.useState(emptySearch);
 
   const handleSearch = (searchValue: string) => {
