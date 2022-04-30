@@ -42,7 +42,6 @@ gem 'activerecord-import'
 # squashing migrations
 gem 'squasher'
 
-
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

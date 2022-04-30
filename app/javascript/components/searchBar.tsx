@@ -4,35 +4,27 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import { InfiniteData } from "react-query";
 import { Property } from "./Property/useProperty";
-import {
-  Formik,
-  FormikHelpers,
-  Field,
-  Form,
-  useField,
-  useFormikContext,
-} from "formik";
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => Property[];
-  data: InfiniteData<any>[];
 }
 
 const emptySearch: string = "";
 
-export default function SearchBar({ onSearch, data }: SearchBarProps): any {
+export default function SearchBar({ onSearch }: SearchBarProps): any {
   // any will be swapped out later for a proper type
-  const [searchTerm, setSearchTerm] = React.useState(emptySearch);
+  const [query, setQuery] = React.useState<string>(emptySearch);
+  const [searchTerm, setSearchTerm] = React.useState<string>(emptySearch);
 
   const handleSearch = (searchValue: string) => {
-    setSearchTerm(searchValue);
     if (searchTerm !== emptySearch) {
-      const filteredData = data.filter((item: Object) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      });
+      // setSearchTerm(searchValue);
+      // const filteredData = data.pages.page.filter((item: Object) => {
+      //   return Object.values(item)
+      //     .join("")
+      //     .toLowerCase()
+      //     .includes(searchTerm.toLowerCase());
+      // });
     }
 
     React.useEffect(() => {
@@ -42,17 +34,24 @@ export default function SearchBar({ onSearch, data }: SearchBarProps): any {
     }, [searchTerm]);
 
     return (
-      <InputGroup className="mb-3">
+      <InputGroup
+        className="mb-3"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setQuery(e.target.value)
+        }
+      >
         <FormControl
           placeholder="search"
           aria-label="search"
           aria-describedby="basic-addon2"
-          onChange={(e) => handleSearch(e.target.value)}
+          onSubmit={(e: React.FormEvent<HTMLInputElement>) =>
+            handleSearch(e.currentTarget.value)
+          }
         />
         <Button
           variant="outline-secondary"
           id="button-addon2"
-          onClick={() => setSearchTerm(searchTerm)}
+          type="submit"
         >
           Search
         </Button>
