@@ -1,13 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+# Hackensack City Hall
 one:
-  property_location: MyString
-  municipality: MyString
-  state: MyString
-  zipcode: 1
+  street_address: 65 Central Ave
+  municipality: Hackensack
+  state: NJ
+  zipcode: "07601"
 
+# Bergen County Court House
 two:
-  property_location: MyString
-  municipality: MyString
-  state: MyString
-  zipcode: 1
+  street_address: 10 Main Street
+  municipality: Hackensack
+  state: New Jersey
+  zipcode: "07601"

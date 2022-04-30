@@ -15,7 +15,7 @@ class AddressesTest < ApplicationSystemTestCase
     click_on "New address"
 
     fill_in "Municipality", with: @address.municipality
-    fill_in "Property location", with: @address.property_location
+    fill_in "Street address", with: @address.street_address
     fill_in "State", with: @address.state
     fill_in "Zipcode", with: @address.zipcode
     click_on "Create Address"
@@ -29,7 +29,7 @@ class AddressesTest < ApplicationSystemTestCase
     click_on "Edit this address", match: :first
 
     fill_in "Municipality", with: @address.municipality
-    fill_in "Property location", with: @address.property_location
+    fill_in "Street address", with: @address.street_address
     fill_in "State", with: @address.state
     fill_in "Zipcode", with: @address.zipcode
     click_on "Update Address"
