@@ -44,15 +44,12 @@ export default function SearchBar({ onSearch }: SearchBarProps): any {
           placeholder="search"
           aria-label="search"
           aria-describedby="basic-addon2"
-          onSubmit={(e: React.FormEvent<HTMLInputElement>) =>
-            handleSearch(e.currentTarget.value)
-          }
+          onSubmit={(e: React.FormEvent<HTMLInputElement>) => [
+            setSearchTerm(e.currentTarget.value),
+            e.preventDefault(),
+          ]}
         />
-        <Button
-          variant="outline-secondary"
-          id="button-addon2"
-          type="submit"
-        >
+        <Button variant="outline-secondary" id="button-addon2" type="submit">
           Search
         </Button>
       </InputGroup>
