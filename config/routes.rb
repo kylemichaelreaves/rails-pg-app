@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   end
 
   # catch all route
-  get '/*path' => 'homepage#index'
-  get 'homepage/index', to: "homepage#index"
+  get "/*path" => "homepage#index"
+  get "homepage/index", to: "homepage#index"
 
-  root 'homepage#index'
+  root "homepage#index"
 end
