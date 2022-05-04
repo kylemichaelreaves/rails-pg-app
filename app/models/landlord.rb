@@ -4,6 +4,14 @@ class Landlord < ApplicationRecord
   has_and_belongs_to_many :properties
 
   def lives_outside_us?
+    # eventually it would be nice to check if the address already exists
+    # 
+
+    Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
+  end
+
+  def full_mailing_address
+    [mailing_address, city_state_zip].compact.join(", ")
   end
 
   def single_person?

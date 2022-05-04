@@ -8,6 +8,12 @@ class Api::V1::AddressesController < ApplicationController
 
   # GET /addresses/1 or /addresses/1.json
   def show
+    @address = Address.find(params[:id])
+    if @address
+      render json: @address
+    else
+      render json: @address.errors
+    end
   end
 
   # GET /addresses/new
@@ -58,13 +64,14 @@ class Api::V1::AddressesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_address
-      @address = Address.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def address_params
-      params.require(:address).permit(:street_address, :municipality, :state, :zipcode)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_address
+    @address = Address.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def address_params
+    params.require(:address).permit(:street_address, :municipality, :state, :zipcode)
+  end
 end
