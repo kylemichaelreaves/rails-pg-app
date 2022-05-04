@@ -1,11 +1,13 @@
 class Address < ApplicationRecord
 
   # an Address is intended to be a destrucuring of city_state_zip in Property.rb
+  # it's meant to provide everything needed to geocode an address
   # they're meant to be UNIQUE: no two records full_address should be the same
 
   validates :street_address, :municipality, :state, :zipcode, presence: true
 
   belongs_to :property
+  belongs_to :landlord through: :property
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude
