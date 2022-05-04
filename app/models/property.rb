@@ -1,10 +1,15 @@
 class Property < ApplicationRecord
-  # city_state_zip DOES NOT CORRESPOND to street_address
-  # city_state_zip corresponds to owner_mailing_address
+  # city_state_zip DOES NOT CORRESPOND to street_address but to owner_mailing_address
   validates :street_address, :owner_name, :owner_mailing_address, :city_state_zip, presence: true
 
   has_one :address
   has_and_belongs_to_many :landlords, foreign_key: "landlords_id", null: false
+
+  after_initialize :ensure_property_full_address,
+                   :ensure_owner_full_mailing_address,
+                   :ensure_property_has_gcode,
+                   :ensure_latitude,
+                   :ensure_longitude
 
   def difference_between_addresses?
     owner_mailing_address != street_address
@@ -19,32 +24,40 @@ class Property < ApplicationRecord
   end
 
   def get_municipality
+    # this is does not capture the municipal code but it should
+    # this might ultimately wind up being an instance for a concern
     Geocoder.search(city_state_zip)[0].data["address"]["town"]
   end
 
   private
 
   def ensure_owner_full_mailing_address
-    if self.owner_full_mailing_address.nil?
-      [owner_mailing_address, city_state_zip].compact.join(", ")
+    if owner_full_mailing_address.nil?
+      self.owner_full_mailing_address = [owner_mailing_address, city_state_zip].compact.join(", ")
     end
   end
 
   def ensure_property_full_address
     if property_full_address.nil?
-      [street_address, city_state_zip].compact.join(", ")
+      self.property_full_address = [street_address, city_state_zip].compact.join(", ")
     end
   end
 
-  def ensure_latitude_and_longitude
-    if self.latitude.nil? || self.longitude.nil?
-      address.geocode
+  def ensure_latitude
+    if latitude.nil?
+      self.latitude = Geocoder.search(property_full_address)[0].data["lat"]
+    end
+  end
+
+  def ensure_longtiude
+    if longitude.nil?
+      self.longitude = Geocoder.search(property_full_address)[0].data["log"]
     end
   end
 
   def ensure_property_has_gcode
-    if self.g_code.nil?
-      self.g_code = Geocoder.search(full_mailing_address)[0].data["display_name"]
+    if g_code.nil?
+      self.g_code = Geocoder.search(property_full_address)[0].data["display_name"]
     end
   end
 end
