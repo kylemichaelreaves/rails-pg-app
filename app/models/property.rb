@@ -49,7 +49,7 @@ class Property < ApplicationRecord
     end
   end
 
-  def ensure_longtiude
+  def ensure_longitude
     if longitude.nil?
       self.longitude = Geocoder.search(property_full_address)[0].data["log"]
     end
