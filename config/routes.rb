@@ -2,7 +2,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :properties, :landlords, :addresses
+      resources :properties, :landlords, :addresses do
+        collection do
+          get 'search'
+        end
+      end
     end
   end
 

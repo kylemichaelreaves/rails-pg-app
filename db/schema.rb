@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_07_021133) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_05_205250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_07_021133) do
     t.datetime "updated_at", null: false
     t.float "longitude"
     t.float "latitude"
+    t.string "latitude_and_longitude"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -89,10 +90,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_07_021133) do
     t.datetime "updated_at", null: false
     t.string "owner_full_mailing_address"
     t.bigint "landlords_id"
+    t.bigint "addresses_id"
+    t.index ["addresses_id"], name: "index_properties_on_addresses_id"
     t.index ["landlords_id"], name: "index_properties_on_landlords_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "properties", "addresses", column: "addresses_id"
   add_foreign_key "properties", "landlords", column: "landlords_id"
 end

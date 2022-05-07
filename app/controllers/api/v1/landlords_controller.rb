@@ -4,6 +4,11 @@ class Api::V1::LandlordsController < ApplicationController
   def index
     @landlords = Landlord.all
     render json: @landlords
+
+    if params[:search]
+      @landlords = Landlord.search(params[:search])
+    end
+
   end
 
   def show
