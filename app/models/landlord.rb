@@ -2,10 +2,18 @@ class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
 
   has_and_belongs_to_many :properties
+  has_many :addresses, through: :properties
+
+  def self.search(search)
+    search = search.upcase
+    if search
+        Landlord.where("name LIKE ?", "%#{search}%")
+    else
+        all
+    end
+  end
 
   def lives_outside_us?
-    # eventually it would be nice to check if full_mailing_address already exists
-
     Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
   end
 

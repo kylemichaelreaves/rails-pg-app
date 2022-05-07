@@ -4,12 +4,16 @@ class Api::V1::PropertiesController < ApplicationController
   def index
     @properties = Property.order(params[:sort])
     render json: @properties.then(&paginate)
+
+    if param[:search]
+      @properties = Property.search(params[:search])
+    end
+
   end
 
-  def create
-    @property = Property.create!(property_params)
-
-    if property
+  def show
+    @property = Property.find(params[:id])
+    if @property
       render json: @property
     else
       render json: @property.errors
@@ -20,13 +24,7 @@ class Api::V1::PropertiesController < ApplicationController
     @property = Property.new
   end
 
-  def show
-    @property = Property.find(params[:id])
-    if @property
-      render json: @property
-    else
-      render json: @property.errors
-    end
+  def edit
   end
 
   def create
@@ -64,6 +62,16 @@ class Api::V1::PropertiesController < ApplicationController
     end
   end
 
+  def search_by_street_address
+    @get_street_address = Property.where("street_address LIKE ?", "%#{params[:street_address]}%")
+    puts @get_street_address
+  end
+
+  def search_by_owner_name
+    @get_owner_name = Property.where("owner_name LIKE ?", "%#{params[:owner_name]}%")
+    puts @get_owner_name
+  end
+
   private
 
   def set_property
@@ -71,21 +79,7 @@ class Api::V1::PropertiesController < ApplicationController
   end
 
   def property_params
-    params.permit(:street_address,
-                  :owner_name,
-                  :owner_mailing_address,
-                  :city_state_zip)
-
-    # none of these parameters are necessary,
-    # they can all be derived from methods in the model…
-
-    # :property_full_address,
-    # :units_at_property,
-    # :g_code,
-    # :latitude,
-    # :longitude,
-    # :owner_full_mailing_address
-
+    params.require(:property).permit(:street_address, :owner_name, :owner_mailing_address, :city_state_zip, :search)
   end
 
   def property

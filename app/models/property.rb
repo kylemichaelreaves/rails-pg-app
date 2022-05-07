@@ -11,6 +11,15 @@ class Property < ApplicationRecord
                    :ensure_latitude,
                    :ensure_longitude
 
+  def self.search(search)
+    search = search.upcase
+    if search
+        Property.where("owner_name LIKE ?", "%#{search}%")
+    else
+        all
+    end
+  end
+
   def difference_between_addresses?
     owner_mailing_address != street_address
   end
@@ -24,9 +33,19 @@ class Property < ApplicationRecord
   end
 
   def get_municipality
-    # this is does not capture the municipal code but it should
+    # the type on the Geocoder.search result varies; sometimes its a town, othertimes its a city
+    # Moreover this is does not capture the municipal code but it should
+    # there is no gaurentee that the city of city_state_zip is the same as the municipality of the property
     # this might ultimately wind up being an instance for a concern
-    Geocoder.search(city_state_zip)[0].data["address"]["town"]
+
+    # this won't always return a ["town"], sometimes it will return ["city"]
+    # if it returns ["hamlet"], get the next attribute
+    address = Geocoder.search(city_state_zip)[0].data["address"]
+    if address["town"].nil?
+      address["city"]
+    else
+      address["town"]
+    end
   end
 
   private
@@ -51,7 +70,7 @@ class Property < ApplicationRecord
 
   def ensure_longitude
     if longitude.nil?
-      self.longitude = Geocoder.search(property_full_address)[0].data["log"]
+      self.longitude = Geocoder.search(property_full_address)[0].data["lon"]
     end
   end
 
