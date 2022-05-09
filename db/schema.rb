@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_05_205250) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_08_043235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,7 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_05_205250) do
     t.datetime "updated_at", null: false
     t.float "longitude"
     t.float "latitude"
-    t.string "latitude_and_longitude"
+    t.string "latitude_and_longitude", unique: true
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -70,10 +70,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_05_205250) do
   end
 
   create_table "landlords", force: :cascade do |t|
-    t.string "name"
+    t.string "name", unique: true
     t.string "mailing_address"
     t.string "city_state_zip"
     t.string "full_mailing_address"
+  end
+
+  create_table "landlords_properties", id: false, force: :cascade do |t|
+    t.bigint "landlord_id", null: false
+    t.bigint "property_id", null: false
+    t.index ["landlord_id", "property_id"], name: "index_landlords_properties_on_landlord_id_and_property_id"
+    t.index ["property_id", "landlord_id"], name: "index_landlords_properties_on_property_id_and_landlord_id"
   end
 
   create_table "properties", force: :cascade do |t|

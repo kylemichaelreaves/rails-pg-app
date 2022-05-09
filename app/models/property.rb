@@ -1,7 +1,7 @@
 class Property < ApplicationRecord
   # city_state_zip DOES NOT CORRESPOND to street_address but to owner_mailing_address
   validates :street_address, :owner_name, :owner_mailing_address, :city_state_zip, presence: true
-
+  # Does property really have one address, if another address exists on the record?
   has_one :address
   has_and_belongs_to_many :landlords, foreign_key: "landlords_id", null: false
 
@@ -32,6 +32,7 @@ class Property < ApplicationRecord
     else "addresses are the same"     end
   end
 
+  # getting the municipality of the particular property record
   def get_municipality
     # the type on the Geocoder.search result varies; sometimes its a town, othertimes its a city
     # Moreover this is does not capture the municipal code but it should
@@ -79,4 +80,9 @@ class Property < ApplicationRecord
       self.g_code = Geocoder.search(property_full_address)[0].data["display_name"]
     end
   end
+
+  def owner_full_mailing_address_gcode
+    Geocoder.search(owner_full_mailing_address)[0].data["address"]
+  end
+
 end

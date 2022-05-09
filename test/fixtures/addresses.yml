@@ -2,6 +2,7 @@
 
 # Hackensack City Hall
 one:
+  id: 1
   street_address: 65 Central Ave
   municipality: Hackensack
   state: NJ
@@ -9,6 +10,7 @@ one:
 
 # Bergen County Court House
 two:
+  id: 2
   street_address: 10 Main Street
   municipality: Hackensack
   state: New Jersey

@@ -5,10 +5,17 @@ class Api::V1::PropertiesController < ApplicationController
     @properties = Property.order(params[:sort])
     render json: @properties.then(&paginate)
 
-    if param[:search]
+    if params[:search]
+      @properties = Property.search(params[:search])
+    end
+  end
+
+  def search
+    if params[:search]
       @properties = Property.search(params[:search])
     end
 
+    render json: @properties.then(&paginate)
   end
 
   def show
@@ -62,15 +69,15 @@ class Api::V1::PropertiesController < ApplicationController
     end
   end
 
-  def search_by_street_address
-    @get_street_address = Property.where("street_address LIKE ?", "%#{params[:street_address]}%")
-    puts @get_street_address
-  end
+  # def search_by_street_address
+  #   @get_street_address = Property.where("street_address LIKE ?", "%#{params[:street_address]}%")
+  #   puts @get_street_address
+  # end
 
-  def search_by_owner_name
-    @get_owner_name = Property.where("owner_name LIKE ?", "%#{params[:owner_name]}%")
-    puts @get_owner_name
-  end
+  # def search_by_owner_name
+  #   @get_owner_name = Property.where("owner_name LIKE ?", "%#{params[:owner_name]}%")
+  #   puts @get_owner_name
+  # end
 
   private
 
@@ -79,7 +86,7 @@ class Api::V1::PropertiesController < ApplicationController
   end
 
   def property_params
-    params.require(:property).permit(:street_address, :owner_name, :owner_mailing_address, :city_state_zip, :search)
+    params.require(:property).permit(:street_address, :owner_name, :owner_mailing_address, :city_state_zip)
   end
 
   def property

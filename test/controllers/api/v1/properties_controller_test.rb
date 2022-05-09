@@ -1,23 +1,38 @@
 require "test_helper"
 
 class Api::V1::PropertiesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @property = properties(:one)
+  end
+
   test "should get index" do
-    get api_v1_properties_index_url
+    get properties_url, as: :json
     assert_response :success
   end
 
-  test "should get create" do
-    get api_v1_properties_create_url
+  test "should create property" do
+    assert_difference("Property.count") do
+      post properties_url, params: { property: {  } }, as: :json
+    end
+
+    assert_response :created
+  end
+
+  test "should show property" do
+    get property_url(@property), as: :json
     assert_response :success
   end
 
-  test "should get show" do
-    get api_v1_properties_show_url
+  test "should update property" do
+    patch property_url(@property), params: { property: {  } }, as: :json
     assert_response :success
   end
 
-  test "should get destroy" do
-    get api_v1_properties_destroy_url
-    assert_response :success
+  test "should destroy property" do
+    assert_difference("Property.count", -1) do
+      delete property_url(@property), as: :json
+    end
+
+    assert_response :no_content
   end
 end
