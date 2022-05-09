@@ -87,3 +87,8 @@ yarn-debug.log*
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea

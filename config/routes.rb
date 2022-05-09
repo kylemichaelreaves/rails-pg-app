@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :properties, :landlords, :addresses do
         collection do
-          get 'search'
+          get "search"
         end
       end
     end

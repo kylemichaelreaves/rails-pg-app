@@ -4,8 +4,15 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
+one:
+  street_address: 65 Central Ave
+  owner_name: Beverly Buttkiss
+  owner_mailing_address: 208 Main Street
+  city_state_zip: Hackensack, NJ 07601
+
 #
-two: {}
-# column: value
+two:
+  street_address: 50 State St
+  owner_name: Dingus Buttkiss
+  owner_mailing_address: 208 Main Street
+  city_state_zip: Hackensack, NJ 07601
