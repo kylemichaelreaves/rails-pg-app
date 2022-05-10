@@ -6,12 +6,12 @@ class PropertiesTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
-    visit properties_url
+    visit api_v1_properties_url
     assert_selector "h1", text: "Properties"
   end
 
   test "should create property" do
-    visit properties_url
+    visit api_v1_properties_url
     click_on "New property"
 
     click_on "Create Property"
@@ -21,7 +21,7 @@ class PropertiesTest < ApplicationSystemTestCase
   end
 
   test "should update Property" do
-    visit property_url(@property)
+    visit api_v1_property_url(@property)
     click_on "Edit this property", match: :first
 
     click_on "Update Property"
@@ -31,7 +31,7 @@ class PropertiesTest < ApplicationSystemTestCase
   end
 
   test "should destroy Property" do
-    visit property_url(@property)
+    visit api_v1_property_url(@property)
     click_on "Destroy this property", match: :first
 
     assert_text "Property was successfully destroyed"

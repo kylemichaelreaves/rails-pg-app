@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_08_043235) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_09_202031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,10 +77,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_08_043235) do
   end
 
   create_table "landlords_properties", id: false, force: :cascade do |t|
-    t.bigint "landlord_id", null: false
-    t.bigint "property_id", null: false
-    t.index ["landlord_id", "property_id"], name: "index_landlords_properties_on_landlord_id_and_property_id"
-    t.index ["property_id", "landlord_id"], name: "index_landlords_properties_on_property_id_and_landlord_id"
+    t.bigint "landlords_id", null: false
+    t.bigint "properties_id", null: false
+    t.index ["landlords_id", "properties_id"], name: "index_landlords_properties_on_landlords_id_and_properties_id"
+    t.index ["properties_id", "landlords_id"], name: "index_landlords_properties_on_properties_id_and_landlords_id"
   end
 
   create_table "properties", force: :cascade do |t|
