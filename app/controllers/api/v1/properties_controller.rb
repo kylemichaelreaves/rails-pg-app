@@ -2,8 +2,10 @@ class Api::V1::PropertiesController < ApplicationController
   before_action :set_property, only: %i[ show edit update destroy ]
 
   def index
-    @properties = Property.order(params[:sort])
-    render json: @properties.then(&paginate)
+    if params[:sort]
+      @properties = Property.order(params[:sort])
+      render json: @properties.then(&paginate)
+    end
 
     if params[:search]
       @properties = Property.search(params[:search])
@@ -89,7 +91,7 @@ class Api::V1::PropertiesController < ApplicationController
     params.require(:property).permit(:street_address, :owner_name, :owner_mailing_address, :city_state_zip)
   end
 
-  def property
-    @property ||= Property.find(params[:id])
-  end
+  # def property
+  #   @property ||= Property.find(params[:id])
+  # end
 end
