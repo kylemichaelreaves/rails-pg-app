@@ -51,7 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_202031) do
     t.datetime "updated_at", null: false
     t.float "longitude"
     t.float "latitude"
-    t.string "latitude_and_longitude"
+    t.string "latitude_and_longitude", unique: true
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -70,7 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_202031) do
   end
 
   create_table "landlords", force: :cascade do |t|
-    t.string "name"
+    t.string "name", unique: true
     t.string "mailing_address"
     t.string "city_state_zip"
     t.string "full_mailing_address"
