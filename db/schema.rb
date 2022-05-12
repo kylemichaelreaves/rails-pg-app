@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_09_202031) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_11_025259) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,7 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_202031) do
     t.datetime "updated_at", null: false
     t.float "longitude"
     t.float "latitude"
-    t.string "latitude_and_longitude", unique: true
+    t.string "latitude_and_longitude"
+    t.string "full_address"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -70,7 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_09_202031) do
   end
 
   create_table "landlords", force: :cascade do |t|
-    t.string "name", unique: true
+    t.string "name"
     t.string "mailing_address"
     t.string "city_state_zip"
     t.string "full_mailing_address"
