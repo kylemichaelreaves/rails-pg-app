@@ -1909,16 +1909,16 @@
     loader-utils "^2.0.0"
 
 "@tanstack/react-table@^8.0.0-alpha.26":
-  version "8.0.0-alpha.72"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.0.0-alpha.72.tgz#5999c55df4302f69cf143f294145221d5904f7ea"
-  integrity sha512-xGwVUHyqWLOZeLzWYOxt0qzS5BxUrpb+F+j5LzKM97AK7RTGk+fsd7q+glvOE6EvI1Y5fj1+zOuMKlbAklD8EA==
+  version "8.0.0-alpha.73"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.0.0-alpha.73.tgz#f78817d8c2f733ff6f01c976c7dae1ff3cff5c2b"
+  integrity sha512-fd02DC/wuMit4SESUD92edx5TpWq/C9XNO0YQ+p+iPg4KKw7+YoMytJKAVNMtuJ9dsfrl8DuHGe4w+P7pJszWg==
   dependencies:
-    "@tanstack/table-core" "8.0.0-alpha.72"
+    "@tanstack/table-core" "8.0.0-alpha.73"
 
-"@tanstack/table-core@8.0.0-alpha.72":
-  version "8.0.0-alpha.72"
-  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.0.0-alpha.72.tgz#16e8b5affe575402768fda050fa0659d8d075483"
-  integrity sha512-a/WQXtvPUCrc5N8OxnFZZVWx+i9cVhWCSZD5fXPPjnpFveazQvNLNkzQDlbvDkeO8FbLQtsO7DAZsrHtCvmEoQ==
+"@tanstack/table-core@8.0.0-alpha.73":
+  version "8.0.0-alpha.73"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.0.0-alpha.73.tgz#b8b5857dc0e5a9f2b1562b3b5670029b33049301"
+  integrity sha512-vbt3OsTqXGjMiUIayhONO0KfX7CQYxzFbPVtWp+23OJHv0aQq/b62qjT2g5tiBvixVEjJLvLHSlQLQ8GUUFjoA==
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -2384,9 +2384,9 @@
     "@types/react" "*"
 
 "@types/react-dom@^17.0.11":
-  version "17.0.16"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.16.tgz#7caba93cf2806c51e64d620d8dff4bae57e06cc4"
-  integrity sha512-DWcXf8EbMrO/gWnQU7Z88Ws/p16qxGpPyjTKTpmBSFKeE+HveVubqGO1CVK7FrwlWD5MuOcvh8gtd0/XO38NdQ==
+  version "17.0.17"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.17.tgz#2e3743277a793a96a99f1bf87614598289da68a1"
+  integrity sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==
   dependencies:
     "@types/react" "^17"
 
@@ -2457,16 +2457,7 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^17":
-  version "17.0.44"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.44.tgz#c3714bd34dd551ab20b8015d9d0dbec812a51ec7"
-  integrity sha512-Ye0nlw09GeMp2Suh8qoOv0odfgCoowfM/9MG6WeRD60Gq9wS90bdkdRtYbRkNhXOpG4H+YXGvj4wOWhAC0LJ1g==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^17.0.39":
+"@types/react@^17", "@types/react@^17.0.39":
   version "17.0.45"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.45.tgz#9b3d5b661fd26365fefef0e766a1c6c30ccf7b3f"
   integrity sha512-YfhQ22Lah2e3CHPsb93tRwIGNiSwkuz1/blk4e6QrWS0jQzCSNbGLtOEYhPg02W0yGTTmpajp7dCTbBAMN3qsg==
