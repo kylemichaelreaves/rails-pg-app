@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Property } from './useProperty'
+import { Property, blankProperty } from './useProperty'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -7,23 +7,6 @@ import Row from 'react-bootstrap/Row'
 
 interface PropertyFormProps {
   onSave: (property: Property) => void;
-}
-
-const blankProperty: Property = {
-  id: 0,
-  street_address: '',
-  owner_name: '',
-  owner_mailing_address: '',
-  city_state_zip: '',
-  property_full_address: '',
-  units_at_property: 0,
-  g_code: '',
-  latitude: 0,
-  longitude: 0,
-  created_at: '',
-  updated_at: '',
-  owner_full_mailing_address: '',
-  landlords_id: 0
 }
 
 export default function PropertyForm({ onSave }: PropertyFormProps) {

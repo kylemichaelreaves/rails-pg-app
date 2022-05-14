@@ -1,7 +1,3 @@
-// Run this example by adding <%= javascript_pack_tag 'hello_react' %> to the head of your layout file,
-// like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
-// of the page.
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -24,6 +20,9 @@ ReactDOM.render(
           </Route>
           <Route path="api/v1/landlords" element={<Landlords />} >
             <Route path=":landlordsId" element={<Landlord />} />
+          </Route>
+          <Route path="api/v1/addresses" element={<Addresses />} >
+            <Route path=":addressesId" element={<Address />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
