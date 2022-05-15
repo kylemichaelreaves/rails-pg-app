@@ -330,6 +330,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   debug
   delayed_job_active_record
+  factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   faker
   geocoder
@@ -363,4 +364,4 @@ RUBY VERSION
    ruby 3.1.2p20
 
 BUNDLED WITH
-   2.3.4
+   2.3.13
