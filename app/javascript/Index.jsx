@@ -5,6 +5,8 @@ import Properties from './components/Property/Properties';
 import Property from './components/Property/Property';
 import Landlords from './components/Landlord/Landlords';
 import Landlord from './components/Landlord/Landlord';
+import Address from './components/Address/Address';
+import Addresses from './components/Address/Addresses';
 import NotFound from './components/NotFound';
 import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
