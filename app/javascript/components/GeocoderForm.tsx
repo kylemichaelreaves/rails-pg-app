@@ -5,7 +5,8 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export interface Address {
+
+export interface AddressProps {
   id: number;
   streetAddress: string;
   municipality: string;
@@ -13,7 +14,7 @@ export interface Address {
   zipCode: string;
 }
 
-let blankAddress: Address = {
+let blankAddress: AddressProps = {
   id: 0,
   streetAddress: "",
   municipality: "",

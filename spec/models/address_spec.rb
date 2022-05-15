@@ -1,11 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Address, type: :model do
-
-  subject { build(:address) }
-
   describe "validations" do
-    it "builds with a valid factory" do
+    subject { build(:address) }
+
+    it "has a valid factory" do
       expect(subject).to be_valid
     end
 

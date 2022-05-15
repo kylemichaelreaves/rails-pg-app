@@ -25,7 +25,6 @@ class Address < ApplicationRecord
 
   private
 
-
   def ensure_full_address
     if full_address.nil?
       self.full_address = concat_full_address
@@ -35,6 +34,8 @@ class Address < ApplicationRecord
   def ensure_latitude
     if latitude.nil?
       self.latitude = self.geocode[0]
+    end
+  end
 
   def ensure_longitude
     if longitude.nil?
@@ -48,9 +49,4 @@ class Address < ApplicationRecord
     end
   end
 
-  def ensure_full_address
-    if full_address.nil?
-      self.full_address = concat_full_address
-    end
-  end
 end
