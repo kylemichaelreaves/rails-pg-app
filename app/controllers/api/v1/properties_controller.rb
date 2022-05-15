@@ -9,7 +9,6 @@ class Api::V1::PropertiesController < ApplicationController
       @properties = Property.search(params[:search])
       render json: @properties.then(&paginate)
     end
-
   end
 
   def search

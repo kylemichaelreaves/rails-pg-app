@@ -4,7 +4,22 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { AddressProps, blankAddress } from "./Address/Address";
+
+export interface AddressProps {
+  id: number;
+  streetAddress: string;
+  municipality: string;
+  state: string;
+  zipCode: string;
+}
+
+let blankAddress: AddressProps = {
+  id: 0,
+  streetAddress: "",
+  municipality: "",
+  state: "",
+  zipCode: "",
+};
 
 interface GeocoderFormProps {
   onSave: (address: AddressProps) => void;

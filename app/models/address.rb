@@ -25,19 +25,21 @@ class Address < ApplicationRecord
 
   private
 
+  def ensure_full_address
+    if full_address.nil?
+      self.full_address = concat_full_address
+    end
+  end
+
   def ensure_latitude
     if latitude.nil?
-      if !Geocoder.search(full_address)[0].nil?
-        self.latitude = Geocoder.search(full_address)[0].data["lat"]
-      end
+      self.latitude = self.geocode[0]
     end
   end
 
   def ensure_longitude
     if longitude.nil?
-      if !Geocoder.search(full_address)[0].nil?
-        self.longitude = Geocoder.search(full_address)[0].data["lon"]
-      end
+      self.longitude = self.geocode[-1]
     end
   end
 
@@ -47,9 +49,4 @@ class Address < ApplicationRecord
     end
   end
 
-  def ensure_full_address
-    if full_address.nil?
-      self.full_address = concat_full_address
-    end
-  end
 end
