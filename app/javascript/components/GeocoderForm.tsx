@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+
 export interface AddressProps {
   id: number;
   streetAddress: string;
@@ -20,6 +21,8 @@ let blankAddress: AddressProps = {
   state: "",
   zipCode: "",
 };
+
+import { AddressProps, blankAddress } from "./Address/Address";
 
 interface GeocoderFormProps {
   onSave: (address: AddressProps) => void;
