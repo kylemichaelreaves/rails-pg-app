@@ -8,8 +8,7 @@ class Address < ApplicationRecord
   # There can be a special subtype of address, associated to a landlord as a mailing address
 
   validates :street_address, :municipality, :state, :zipcode, presence: true
-  validates :full_address, uniqueness: true
-  validates :latitude_and_longitude, uniqueness: true
+  validates :full_address, :latitude_and_longitude, uniqueness: true
 
   belongs_to :property
   has_many :landlords, through: :properties
@@ -26,6 +25,7 @@ class Address < ApplicationRecord
 
   private
 
+
   def ensure_full_address
     if full_address.nil?
       self.full_address = concat_full_address
@@ -35,8 +35,6 @@ class Address < ApplicationRecord
   def ensure_latitude
     if latitude.nil?
       self.latitude = self.geocode[0]
-    end
-  end
 
   def ensure_longitude
     if longitude.nil?
@@ -47,6 +45,12 @@ class Address < ApplicationRecord
   def ensure_latitude_and_longitude
     if latitude_and_longitude.nil?
       self.latitude_and_longitude = [latitude, longitude].compact.join(", ")
+    end
+  end
+
+  def ensure_full_address
+    if full_address.nil?
+      self.full_address = concat_full_address
     end
   end
 end

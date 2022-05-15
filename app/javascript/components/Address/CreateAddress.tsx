@@ -13,26 +13,12 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios, { AxiosError } from "axios";
+import { AddressProps, blankAddress } from "./Address";
+
 
 const queryClient = useQueryClient();
 
-export interface Address {
-  id: number;
-  street_address: string;
-  city: string;
-  state: string;
-  zip: string;
-}
-
-const blankAddress: Address = {
-  id: 0,
-  street_address: "",
-  city: "",
-  state: "",
-  zip: "",
-};
-
-async function fetchAddresses(): Promise<Address[]> {
+async function fetchAddresses(): Promise<AddressProps[]> {
   return await axios.get("api/v1/address").then((response) => response.data);
 }
 
@@ -40,8 +26,8 @@ export async function createAddress() {
   return await axios.post("api/v1/addresses").then((response) => response.data);
 }
 
-function useAddresses<TData = Address[]>(
-  options?: UseQueryOptions<Address[], AxiosError, TData>
+function useAddresses<TData = AddressProps[]>(
+  options?: UseQueryOptions<AddressProps[], AxiosError, TData>
 ) {
   return useQuery("address", fetchAddresses, options);
 }
@@ -60,7 +46,7 @@ export function AddressCounter() {
 }
 
 interface AddressCreatorProps {
-  onSave: (address: Address) => {};
+  onSave: (address: AddressProps) => {};
 }
 
 export default function AddressCreator({ onSave }: AddressCreatorProps) {
@@ -69,18 +55,18 @@ export default function AddressCreator({ onSave }: AddressCreatorProps) {
   const { isFetching, ...queryInfo } = useAddresses();
 
   const addAddressMutation = useMutation(
-    (newAddress: Address) =>
+    (newAddress: AddressProps) =>
       axios.post("api/v1/addresses/new", { address: newAddress }),
     {
-      onMutate: async (newAddress: Address) => {
+      onMutate: async (newAddress: AddressProps) => {
         blankAddress.id++;
         setAddress(blankAddress);
         await queryClient.cancelQueries("addresses");
         const previousAddresses =
-          queryClient.getQueryData<Address[]>("addresses");
+          queryClient.getQueryData<AddressProps[]>("addresses");
 
         if (previousAddresses) {
-          queryClient.setQueryData<Address[]>("addresses", {
+          queryClient.setQueryData<AddressProps[]>("addresses", {
             ...previousAddresses,
           });
         }
@@ -89,7 +75,7 @@ export default function AddressCreator({ onSave }: AddressCreatorProps) {
 
       onError: (err, variables, context) => {
         if (context?.previousAddresses) {
-          queryClient.setQueryData<Address[]>(
+          queryClient.setQueryData<AddressProps[]>(
             "addresses",
             context.previousAddresses
           );
@@ -103,7 +89,7 @@ export default function AddressCreator({ onSave }: AddressCreatorProps) {
   return (
     <>
       <Form
-        onSubmit={(e) => {
+        onSubmit={(e: React.FormEvent) => {
           e.preventDefault();
           addAddressMutation.mutate(address);
         }}
@@ -125,7 +111,7 @@ export default function AddressCreator({ onSave }: AddressCreatorProps) {
           <ul>
             {queryInfo.data.map((address) => (
               <li key={address.id}>
-                {address.street_address},{address.zip}
+                {address.streetAddress},{address.zipCode}
               </li>
             ))}
           </ul>

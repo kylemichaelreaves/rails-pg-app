@@ -70,16 +70,6 @@ class Api::V1::PropertiesController < ApplicationController
     end
   end
 
-  # def search_by_street_address
-  #   @get_street_address = Property.where("street_address LIKE ?", "%#{params[:street_address]}%")
-  #   puts @get_street_address
-  # end
-
-  # def search_by_owner_name
-  #   @get_owner_name = Property.where("owner_name LIKE ?", "%#{params[:owner_name]}%")
-  #   puts @get_owner_name
-  # end
-
   private
 
   def set_property
@@ -90,7 +80,7 @@ class Api::V1::PropertiesController < ApplicationController
     params.require(:property).permit(:street_address, :owner_name, :owner_mailing_address, :city_state_zip)
   end
 
-  # def property
-  #   @property ||= Property.find(params[:id])
-  # end
+  def property
+    @property ||= Property.find(params[:id])
+  end
 end

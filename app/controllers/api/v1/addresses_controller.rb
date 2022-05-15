@@ -74,4 +74,9 @@ class Api::V1::AddressesController < ApplicationController
   def address_params
     params.require(:address).permit(:street_address, :municipality, :state, :zipcode)
   end
+
+  def address
+    @address ||= Address.find(params[:id])
+  end
+
 end

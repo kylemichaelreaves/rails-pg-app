@@ -1,6 +1,5 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
-import { Property } from "../Property/Property";
 import { Landlord } from "./Landlord";
 
 export type Landlords = {

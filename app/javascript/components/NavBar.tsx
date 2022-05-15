@@ -23,6 +23,11 @@ export default function NavBar() {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
+          <Nav.Link as={Link} to="api/v1/addresses">
+            Addresses
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
           <Nav.Link as={Link} to="link-2">
             Map
           </Nav.Link>

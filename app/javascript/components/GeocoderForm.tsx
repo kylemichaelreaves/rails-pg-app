@@ -21,8 +21,10 @@ let blankAddress: Address = {
   zipCode: "",
 };
 
+import { AddressProps, blankAddress } from "./Address/Address";
+
 interface GeocoderFormProps {
-  onSave: (address: Address) => void;
+  onSave: (address: AddressProps) => void;
 }
 
 export default function GeocoderForm({ onSave }: GeocoderFormProps) {
@@ -36,7 +38,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
         <br />
       )}
       <Form>
-        <Form.Group className="mb-3" controlId="geocoderFrom.ControlInput1">
+        <Form.Group className="mb-3" controlId="streetAddress">
           <Form.Label>Street Address</Form.Label>
           <Form.Control
             type="text"
@@ -48,8 +50,8 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
           />
         </Form.Group>
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="geocoderFrom.ControlInput2">
-            <Form.Label>City or municipality</Form.Label>
+          <Form.Group as={Col} controlId="municipality">
+            <Form.Label>Municipality</Form.Label>
             <Form.Control
               type="text"
               placeholder="city"
@@ -59,7 +61,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
               }}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="geocoderFrom.ControlInput3">
+          <Form.Group as={Col} controlId="state">
             <Form.Label>State</Form.Label>
             <Form.Control
               type="text"
@@ -70,7 +72,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
               }}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="geocoderFrom.ControlInput4">
+          <Form.Group as={Col} controlId="zipCode">
             <Form.Label>Zipcode</Form.Label>
             <Form.Control
               type="text"

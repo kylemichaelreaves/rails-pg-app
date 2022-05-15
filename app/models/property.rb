@@ -14,9 +14,9 @@ class Property < ApplicationRecord
   def self.search(search)
     search = search.upcase
     if search
-        Property.where("owner_name LIKE ?", "%#{search}%")
+      Property.where("owner_name LIKE ?", "%#{search}%")
     else
-        all
+      all
     end
   end
 
@@ -84,5 +84,4 @@ class Property < ApplicationRecord
   def owner_full_mailing_address_gcode
     Geocoder.search(owner_full_mailing_address)[0].data["address"]
   end
-
 end
