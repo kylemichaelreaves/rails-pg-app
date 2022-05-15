@@ -2,20 +2,12 @@ class Api::V1::PropertiesController < ApplicationController
   before_action :set_property, only: %i[ show edit update destroy ]
 
   def index
-    if params[:sort]
-      @properties = Property.order(params[:sort])
-    end
+    @properties = Property.order(params[:sort])
+    render json: @properties.then(&paginate)
 
     if params[:search]
       @properties = Property.search(params[:search])
-    end
-
-    respond_to do |format|
-      if @properties
-        format.json { render json: @properties.then(&paginate) }
-      else
-        format.json { render json: { error: "No properties found" }, status: :not_found }
-      end
+      render json: @properties.then(&paginate)
     end
   end
 

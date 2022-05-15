@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 export interface Address {
   id: number;
   streetAddress: string;
-  city: string;
+  municipality: string;
   state: string;
   zipCode: string;
 }
@@ -16,7 +16,7 @@ export interface Address {
 let blankAddress: Address = {
   id: 0,
   streetAddress: "",
-  city: "",
+  municipality: "",
   state: "",
   zipCode: "",
 };
@@ -42,7 +42,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
             type="text"
             placeholder="street address"
             value={address.streetAddress}
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setAddress({ ...address, streetAddress: e.target.value })
             }
           />
@@ -53,9 +53,9 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
             <Form.Control
               type="text"
               placeholder="city"
-              value={address.city}
-              onChange={(e) => {
-                setAddress({ ...address, city: e.target.value });
+              value={address.municipality}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setAddress({ ...address, municipality: e.target.value });
               }}
             />
           </Form.Group>
@@ -65,7 +65,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
               type="text"
               placeholder="state"
               value={address.state}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAddress({ ...address, state: e.target.value });
               }}
             />
@@ -76,7 +76,7 @@ export default function GeocoderForm({ onSave }: GeocoderFormProps) {
               type="text"
               placeholder="zip"
               value={address.zipCode}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAddress({ ...address, zipCode: e.target.value });
               }}
             />

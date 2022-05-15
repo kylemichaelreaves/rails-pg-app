@@ -1,18 +1,17 @@
 require "rails_helper"
 
 RSpec.describe Landlord, type: :model do
-  let(:landlord) { create(:landlord, name: "Cynthia Drangus", mailing_address: "208 Anderson St", city_state_zip: "Hackensack, NJ") }
-
   describe "validations" do
-    it { is_expected.to validate_presence_of(:name) }
+    subject { build(:landlord) }
 
     it "has a valid factory" do
-      expect(build(:landlord)).to be_valid
+      expect(build(subject)).to be_valid
     end
 
-    it "is invalid without a name" do
-      landlord.name = nil
-      expect(landlord).to_not be_valid
-    end
+    it { should validate_presence_of(:name) }
+    it { should validate_uniqueness_of(:name) }
+    it { should validate_presence_of(:steet_address) }
+    it { should validate_presence_of(:mailing_address) }
+    it { should validate_presence_of(:city_state_zip) }
   end
 end
