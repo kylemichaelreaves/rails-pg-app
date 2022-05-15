@@ -33,6 +33,15 @@ class Landlord < ApplicationRecord
     name.include? "LLC"
   end
 
+  #  is the mailing address the same as the Property.street_address?
+  def mailing_address_is_same_as_property_address?
+    if self.addresses.count > 0
+      self.addresses.first.street_address == self.properties.first.street_address
+    else
+      false
+    end
+  end
+
   def owns_multiple_properties?
     number_of_properties_owned > 1
   end

@@ -8,27 +8,48 @@ class Address < ApplicationRecord
   # There can be a special subtype of address, associated to a landlord as a mailing address
 
   validates :street_address, :municipality, :state, :zipcode, presence: true
-  validates :full_address, uniqueness: true
-  validates :latitude_and_longitude, uniqueness: true
+  validates :full_address, :latitude_and_longitude, uniqueness: true
 
   belongs_to :property
   has_many :landlords, through: :properties
 
-  after_initialize :ensure_latitude_and_longitude
+  after_initialize :ensure_full_address, :ensure_latitude, :ensure_longitude, :ensure_latitude_and_longitude
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude
   after_validation :geocode, :reverse_geocode
 
-  def full_address
+  def concat_full_address
     [street_address, municipality, state, zipcode].compact.join(", ")
   end
 
   private
 
+  def ensure_latitude
+    if latitude.nil?
+      if !Geocoder.search(full_address)[0].nil?
+        self.latitude = Geocoder.search(full_address)[0].data["lat"]
+      end
+    end
+  end
+
+  def ensure_longitude
+    if longitude.nil?
+      if !Geocoder.search(full_address)[0].nil?
+        self.longitude = Geocoder.search(full_address)[0].data["lon"]
+      end
+    end
+  end
+
   def ensure_latitude_and_longitude
     if latitude_and_longitude.nil?
       self.latitude_and_longitude = [latitude, longitude].compact.join(", ")
+    end
+  end
+
+  def ensure_full_address
+    if full_address.nil?
+      self.full_address = concat_full_address
     end
   end
 end
