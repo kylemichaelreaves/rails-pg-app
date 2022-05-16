@@ -60,7 +60,7 @@ group :development, :test do
   # factory_bot gem
   gem "factory_bot_rails", "~> 6.2"
   gem "shoulda-matchers", "~> 5.1"
-  gem 'faker'
+  gem "faker"
 end
 
 group :development do
@@ -79,13 +79,10 @@ group :test do
   gem "capybara", ">= 3.26"
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
+  gem "webdrivers"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "aws-sdk-s3", "~> 1.113"
-
-gem "factory_bot", "~> 6.2"
-

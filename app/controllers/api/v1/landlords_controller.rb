@@ -63,6 +63,10 @@ class Api::V1::LandlordsController < ApplicationController
 
   private
 
+  def set_landlord
+    @landlord = Landlord.find(params[:id])
+  end
+
   def landlord
     @landlord ||= Landlord.find(params[:id])
   end

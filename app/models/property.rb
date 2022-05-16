@@ -84,4 +84,37 @@ class Property < ApplicationRecord
   def owner_full_mailing_address_gcode
     Geocoder.search(owner_full_mailing_address)[0].data["address"]
   end
+
+  def ensure_address_exists_for_property
+    if addresses_id.nil?
+      # create new Address record
+      address = Address.create!(street_address: Property.street_address,
+                                 municipality: get_municipality,
+                                 state: city_state_zip.split(",")[1],
+                                 zipcode: city_state_zip.split(",")[2],
+                                 latitude: latitude,
+                                 longitude: longitude,
+                                 latitude_and_longitude: [latitude, longitude].compact.join(", "))
+      # update self to include the addresses_id
+      self.addresses_id = address.addresses_id
+    end
+  end
+
+  def ensure_landlord_exists_for_property
+    if landlords_id.nil?
+      # create Landlords record
+      landlord = Landlord.create!(name: owner_name,
+                                    full_mailing_address: owner_full_mailing_address,
+                                    g_code: owner_full_mailing_address_gcode)
+      # update self to include the landlords_id
+      self.landlords_id = landlord.landlords_id
+    end
+  end
 end
+
+# Property.new(
+#   street_address: "200 Main St",
+#   city_state_zip: "Hackensack, NJ 07601",
+#   owner_name: "John Doe",
+#   owner_mailing_address: "200 State St",
+# )
