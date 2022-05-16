@@ -1,9 +1,18 @@
 class Address < ApplicationRecord
+  # an Address is intended to be a destrucuring of Property
+  #     Property.street_address === Address.street_address
+  #     Property.city_state_zip.split(',')[0] === Address.municipality
+  #     Property.city_state_zip.split(',')[1]=== Address.state
+  #     Property.city_state_zip.split(',')[2]=== Address.zipcode
 
-  # an Address is intended to be a destrucuring of city_state_zip in Property.rb
-  # they're meant to be UNIQUE: no two records full_address should be the same
-  # A Property can have at most two Addresses: one for the owners_full_mailing_address and one for property_full_address
-  # an Address should have unique coordinates (latitude and longitude)
+  # they're  UNIQUE: no two records full_address should be the same
+  # A Property can have at most two Addresses:
+          # one for the owners_full_mailing_address
+          # and one for property_full_address
+
+          # an Address should have
+          #   unique coordinates (latitude and longitude)
+          #   unique full_address
 
   # There can be a special subtype of address, associated to a landlord as a mailing address
 
@@ -48,5 +57,7 @@ class Address < ApplicationRecord
       self.latitude_and_longitude = [latitude, longitude].compact.join(", ")
     end
   end
+
+  # ensure address is associated with a property
 
 end
