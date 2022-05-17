@@ -80,7 +80,7 @@ class Property < ApplicationRecord
                                 longitude: longitude,
                                 latitude_and_longitude: [latitude, longitude].compact.join(", "))
       # update self to include the addresses_id
-      self.addresses_id = address.addresses_id
+      self.addresses_id = address.id
     end
   end
 
@@ -91,7 +91,7 @@ class Property < ApplicationRecord
                                   full_mailing_address: owner_full_mailing_address,
                                   g_code: owner_full_mailing_address_gcode)
       # update self to include the landlords_id
-      self.landlords_id = landlord.landlords_id
+      self.landlords_id = landlord.id
     end
   end
 end

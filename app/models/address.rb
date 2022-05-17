@@ -7,12 +7,12 @@ class Address < ApplicationRecord
 
   # they're  UNIQUE: no two records full_address should be the same
   # A Property can have at most two Addresses:
-          # one for the owners_full_mailing_address
-          # and one for property_full_address
+  # one for the owners_full_mailing_address
+  # and one for property_full_address
 
-          # an Address should have
-          #   unique coordinates (latitude and longitude)
-          #   unique full_address
+  # an Address should have
+  #   unique coordinates (latitude and longitude)
+  #   unique full_address
 
   # There can be a special subtype of address, associated to a landlord as a mailing address
 
@@ -35,29 +35,18 @@ class Address < ApplicationRecord
   private
 
   def ensure_full_address
-    if full_address.nil?
-      self.full_address = concat_full_address
-    end
+    self.full_address = concat_full_address if full_address.nil?
   end
 
   def ensure_latitude
-    if latitude.nil?
-      self.latitude = self.geocode[0]
-    end
+    self.latitude = self.geocode[0] if latitude.nil?
   end
 
   def ensure_longitude
-    if longitude.nil?
-      self.longitude = self.geocode[-1]
-    end
+    self.longitude = self.geocode[-1] if longitude.nil?
   end
 
   def ensure_latitude_and_longitude
-    if latitude_and_longitude.nil?
-      self.latitude_and_longitude = [latitude, longitude].compact.join(", ")
-    end
+    self.latitude_and_longitude = [latitude, longitude].compact.join(", ") if latitude_and_longitude.nil?
   end
-
-  # ensure address is associated with a property
-
 end
