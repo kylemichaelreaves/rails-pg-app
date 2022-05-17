@@ -11,7 +11,7 @@
     "@types/d3": "^7.1.0",
     "@types/history": "^4.7.9",
     "@types/mapbox-gl": "^2.6.0",
-    "@types/react": "^17.0.39",
+    "@types/react": "^18.0.0",
     "@types/react-bootstrap": "^0.32.29",
     "@types/react-dom": "^17.0.11",
     "@types/react-router": "^5.1.17",
@@ -34,9 +34,9 @@
     "popper.js": "^1.16.1",
     "postcss": "7.0.39",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
+    "react": "^18.1.0",
     "react-bootstrap": "^2.1.2",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.1.0",
     "react-intersection-observer": "^8.33.1",
     "react-is": "^17.0.2",
     "react-query": "^3.34.16",
@@ -62,7 +62,7 @@
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
     "@rails/ujs": "^7.0.0",
-    "@testing-library/react": "^12.1.0",
+    "@testing-library/react": "^13.2.0",
     "@types/jest": "^27.5.1",
     "@types/react-test-renderer": "^18.0.0",
     "@types/webpack-env": "^1.16.3",
@@ -74,7 +74,7 @@
     "eslint-plugin-react": "^7.27.1",
     "jest-environment-jsdom": "^28.1.0",
     "msw": "^0.39.2",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^18.1.0"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
