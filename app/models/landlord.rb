@@ -18,10 +18,6 @@ class Landlord < ApplicationRecord
       Property.where(owner_name: name).count > 1
     }
 
-  # def lives_outside_us?
-  #   Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
-  # end
-
   def full_mailing_address
     [mailing_address, city_state_zip].compact.join(", ")
   end
@@ -46,12 +42,4 @@ class Landlord < ApplicationRecord
       false
     end
   end
-
-  # def owns_multiple_properties?
-  #   number_of_properties_owned > 1
-  # end
-
-  # def number_of_properties_owned
-  #   Property.where(owner_name: name).count
-  # end
 end
