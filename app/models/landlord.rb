@@ -1,21 +1,26 @@
 class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
 
-  has_and_belongs_to_many :properties
+  has_and_belongs_to_many :properties, foreign_key: "properties_id", null: false, join_table: "properties_landlords"
   has_many :addresses, through: :properties
 
-  def self.search(search)
-    search = search.upcase
-    if search
-        Landlord.where("name LIKE ?", "%#{search}%")
-    else
-        all
-    end
-  end
+  scope :search_by_name, ->(name) {
+      name.upcase
+      where("name LIKE ?", "%#{name}%")
+    }
 
-  def lives_outside_us?
-    Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
-  end
+  # return records of landlords who live outside of the US
+  scope :lives_outside_of_the_US, -> {
+      Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
+    }
+
+  scope :owns_multiple_properties, -> {
+      Property.where(owner_name: name).count > 1
+    }
+
+  # def lives_outside_us?
+  #   Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
+  # end
 
   def full_mailing_address
     [mailing_address, city_state_zip].compact.join(", ")
@@ -42,11 +47,11 @@ class Landlord < ApplicationRecord
     end
   end
 
-  def owns_multiple_properties?
-    number_of_properties_owned > 1
-  end
+  # def owns_multiple_properties?
+  #   number_of_properties_owned > 1
+  # end
 
-  def number_of_properties_owned
-    Property.where(owner_name: name).count
-  end
+  # def number_of_properties_owned
+  #   Property.where(owner_name: name).count
+  # end
 end
