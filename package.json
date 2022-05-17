@@ -5,7 +5,6 @@
     "@popperjs/core": "^2.10.2",
     "@rails/actioncable": "^7.0.0",
     "@rails/activestorage": "^7.0.0",
-    "@rails/ujs": "^7.0.0",
     "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-table": "^8.0.0-alpha.26",
     "@testing-library/jest-dom": "^5.16.4",
@@ -62,6 +61,7 @@
     "@babel/preset-env": "^7.17.12",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
+    "@rails/ujs": "^7.0.0",
     "@testing-library/react": "^12.1.0",
     "@types/jest": "^27.5.1",
     "@types/react-test-renderer": "^18.0.0",
@@ -73,6 +73,7 @@
     "eslint-config-preact": "^1.2.0",
     "eslint-plugin-react": "^7.27.1",
     "jest-environment-jsdom": "^28.1.0",
+    "msw": "^0.39.2",
     "react-test-renderer": "^17.0.2"
   },
   "scripts": {
