@@ -6,9 +6,17 @@ RSpec.describe Property, type: :model do
     # it "builds with a valid factory" do
     #   expect(subject).to be_valid
     # end
-    it { is_excpected.to exist }
+    it { should initialize }
 
-    it { should have_many(:landlords) }
-    it { should has_one(:addresses) }
+    # it { is_expected.to exist }
+    # it { should exist }
+
+    it { should validate_presence_of(:street_address)}
+    it { should validate_presence_of(:owner_name)}
+    it { should validate_presence_of(:city_state_zip)}
+    it { should validate_presence_of(:owner_mailing_address)}
+
+    it { should have_and_belong_to_many(:landlords) }
+    it { should have_one(:address) }
   end
 end

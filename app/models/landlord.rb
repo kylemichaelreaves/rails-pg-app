@@ -1,5 +1,6 @@
 class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
+  validates :mailing_address, :city_state_zip, presence: true
 
   has_and_belongs_to_many :properties, foreign_key: "properties_id", null: false, join_table: "properties_landlords"
   has_many :addresses, through: :properties
@@ -9,9 +10,9 @@ class Landlord < ApplicationRecord
       where("name LIKE ?", "%#{name}%")
     }
 
-  # return records of landlords who live outside of the US
+  # return landlords who live outside of the US
   scope :lives_outside_of_the_US, -> {
-      Geocoder.search(full_mailing_address)[0].data["address"]["country"] != "United States"
+      Geocoder.search(full_mailing_address).first.country != "United States"
     }
 
   scope :owns_multiple_properties, -> {

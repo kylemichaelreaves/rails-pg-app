@@ -54,31 +54,59 @@ class Property < ApplicationRecord
   end
 
   def ensure_latitude
-    self.latitude = Geocoder.search(property_full_address)[0].data["lat"] if latitude.nil?
+    result = Geocoder.search(property_full_address)
+    if result
+      if result.first
+        if result.first.latitude
+          self.latitude = result.first.latitude if latitude.nil?
+        end
+      end
+    end
   end
 
   def ensure_longitude
-    self.longitude = Geocoder.search(property_full_address)[0].data["lon"] if longitude.nil?
+    result = Geocoder.search(property_full_address)
+    if result
+      if result.first
+        if result.first.longitude
+          self.longitude = Geocoder.search(property_full_address).first.longitude if longitude.nil?
+        end
+      end
+    end
   end
 
   def ensure_property_has_gcode
-    self.g_code = Geocoder.search(property_full_address)[0].data["display_name"] if g_code.nil?
+    result = Geocoder.search(property_full_address)
+    if result
+      if result.first
+        if result.first.display_name
+          self.g_code = Geocoder.search(property_full_address).first.display_name if g_code.nil?
+        end
+      end
+    end
   end
 
   def owner_full_mailing_address_gcode
-    Geocoder.search(owner_full_mailing_address)[0].data["address"]
+    result = Geocoder.search(owner_full_mailing_address)
+    if result
+      if result.first
+        if result.first.display_name
+          self.owner_full_mailing_address_gcode = result.first.display_name if owner_full_mailing_address_gcode.nil?
+        end
+      end
+    end
   end
 
   def ensure_address_exists_for_property
     if addresses_id.nil?
       # create new Address record
-      address = Address.create!(street_address: Property.street_address,
-                                municipality: get_municipality,
-                                state: city_state_zip.split(",")[1],
-                                zipcode: city_state_zip.split(",")[2],
-                                latitude: latitude,
-                                longitude: longitude,
-                                latitude_and_longitude: [latitude, longitude].compact.join(", "))
+      address = Address.find_or_initialize_by(street_address: Property.street_address,
+                                              municipality: get_municipality,
+                                              state: city_state_zip.split(",")[1],
+                                              zipcode: city_state_zip.split(",")[2],
+                                              latitude: latitude,
+                                              longitude: longitude,
+                                              latitude_and_longitude: [latitude, longitude].compact.join(", "))
       # update self to include the addresses_id
       self.addresses_id = address.id
     end
