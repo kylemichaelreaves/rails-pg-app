@@ -54,44 +54,52 @@ class Property < ApplicationRecord
   end
 
   def ensure_latitude
-    result = Geocoder.search(property_full_address)
-    if result
-      if result.first
-        if result.first.latitude
-          self.latitude = result.first.latitude if latitude.nil?
+    if latitude.nil?
+      result = Geocoder.search(property_full_address)
+      if result
+        if result.first
+          if result.first.latitude
+            self.latitude = result.first.latitude
+          end
         end
       end
     end
   end
 
   def ensure_longitude
-    result = Geocoder.search(property_full_address)
-    if result
-      if result.first
-        if result.first.longitude
-          self.longitude = Geocoder.search(property_full_address).first.longitude if longitude.nil?
+    if longitude.nil?
+      result = Geocoder.search(property_full_address)
+      if result
+        if result.first
+          if result.first.longitude
+            self.longitude = Geocoder.search(property_full_address).first.longitude
+          end
         end
       end
     end
   end
 
   def ensure_property_has_gcode
-    result = Geocoder.search(property_full_address)
-    if result
-      if result.first
-        if result.first.display_name
-          self.g_code = Geocoder.search(property_full_address).first.display_name if g_code.nil?
+    if g_code.nil?
+      result = Geocoder.search(property_full_address)
+      if result
+        if result.first
+          if result.first.display_name
+            self.g_code = result.first.display_name
+          end
         end
       end
     end
   end
 
   def owner_full_mailing_address_gcode
-    result = Geocoder.search(owner_full_mailing_address)
-    if result
-      if result.first
-        if result.first.display_name
-          self.owner_full_mailing_address_gcode = result.first.display_name if owner_full_mailing_address_gcode.nil?
+    if owner_full_mailing_address_gcode.nil?
+      result = Geocoder.search(owner_full_mailing_address)
+      if result
+        if result.first
+          if result.first.display_name
+            self.owner_full_mailing_address_gcode = result.first.display_name
+          end
         end
       end
     end
