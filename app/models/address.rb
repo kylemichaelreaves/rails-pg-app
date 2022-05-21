@@ -39,22 +39,26 @@ class Address < ApplicationRecord
   end
 
   def ensure_latitude
-    result = Geocoder.search(full_address)
-    if result
-      if result.first
-        if result.first.latitude
-          self.latitude = result.first.latitude if latitude.nil?
+    if latitude.nil?
+      result = Geocoder.search(full_address)
+      if result
+        if result.first
+          if result.first.latitude
+            self.latitude = result.first.latitude
+          end
         end
       end
     end
   end
 
   def ensure_longitude
-    result = Geocoder.search(full_address)
-    if result
-      if result.first
-        if result.first.longitude
-          self.longitude = Geocoder.search(full_address).first.longitude if longitude.nil?
+    if longitude.nil?
+      result = Geocoder.search(full_address)
+      if result
+        if result.first
+          if result.first.longitude
+            self.longitude = Geocoder.search(full_address).first.longitude if longitude.nil?
+          end
         end
       end
     end
