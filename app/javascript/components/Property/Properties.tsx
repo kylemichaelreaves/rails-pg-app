@@ -72,7 +72,7 @@ export default function Properties() {
         {status === "loading" ? (
           "Loading…"
         ) : status === "error" ? (
-          <span>Error: {error}</span>
+          <span>${`Error: {error}`}</span>
         ) : (
           <>
             {/* <SearchBar onSearch={filterList} /> */}
@@ -92,9 +92,12 @@ export default function Properties() {
                   <React.Fragment key={i}>
                     <ListGroup variant="flush">
                       {page?.map((property: Property) => (
-                        <ListGroup.Item key={property.id}>
-                          {property.street_address}
-                        </ListGroup.Item>
+                        <ListGroup key={property.id}>
+                          <ListGroup.Item>{property.id}</ListGroup.Item>
+                          <ListGroup.Item>{property.street_address}</ListGroup.Item>
+                          <ListGroup.Item>{property.landlords_id} {property.owner_name}</ListGroup.Item>
+                          <ListGroup.Item>{property.city_state_zip}</ListGroup.Item>
+                        </ListGroup>
                       ))}
                     </ListGroup>
                   </React.Fragment>

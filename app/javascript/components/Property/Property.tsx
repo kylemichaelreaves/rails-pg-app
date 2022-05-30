@@ -2,30 +2,15 @@ import * as React from "react";
 import Container from "react-bootstrap/Container";
 import { useQuery } from "react-query";
 import axios, { AxiosError } from "axios";
+import { Property } from "./useProperty";
 interface PropertyFunctionProps {
   propertyId: number;
   setPropertyId: (propertyId: number) => void;
 }
-export interface PropertyProps {
-  id: number;
-  street_address: string;
-  owner_name: string;
-  owner_mailing_address: string;
-  city_state_zip: string;
-  property_full_address: string;
-  units_at_property: number;
-  g_code: string;
-  latitude: number;
-  longitude: number;
-  created_at: string;
-  updated_at: string;
-  owner_full_mailing_address: string;
-  landlords_id: number;
-}
 
 export function fetchProperty(
   pageParam: number | undefined
-): Promise<PropertyProps> {
+): Promise<Property> {
   return typeof pageParam === "undefined"
     ? Promise.reject(new Error("invalid pageParam"))
     : axios.get(`properties/${pageParam}`).then((response) => response.data);
@@ -43,11 +28,7 @@ export default function Property(props: PropertyFunctionProps) {
 
   return (
     <Container>
-      {/* {propertyId > -1 ? (
-       <Property propertyId={propertyId} setPropertyId={setPropertyId} />
-     ) : (
-       <Properties setPropertyId={setPropertyId} />
-     )} */}
+
     </Container>
   );
 }

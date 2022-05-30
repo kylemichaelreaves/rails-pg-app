@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_14_030334) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_28_015343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,8 +53,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_14_030334) do
     t.float "latitude"
     t.string "latitude_and_longitude"
     t.string "full_address"
+    t.bigint "properties_id"
     t.index ["full_address"], name: "index_addresses_on_full_address", unique: true
     t.index ["latitude_and_longitude"], name: "index_addresses_on_latitude_and_longitude", unique: true
+    t.index ["properties_id"], name: "index_addresses_on_properties_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -106,8 +108,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_14_030334) do
     t.index ["landlords_id"], name: "index_properties_on_landlords_id"
   end
 
+  create_table "properties_addresses", id: false, force: :cascade do |t|
+    t.bigint "property_id", null: false
+    t.bigint "address_id", null: false
+    t.index ["address_id", "property_id"], name: "index_properties_addresses_on_address_id_and_property_id"
+    t.index ["property_id", "address_id"], name: "index_properties_addresses_on_property_id_and_address_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "properties", column: "properties_id"
   add_foreign_key "properties", "addresses", column: "addresses_id"
   add_foreign_key "properties", "landlords", column: "landlords_id"
 end

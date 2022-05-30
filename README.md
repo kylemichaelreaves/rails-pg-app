@@ -138,3 +138,4 @@ bin/rails console
   ```ruby
   Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
   ```
+- Returning the id's of properties with uniq full_address
