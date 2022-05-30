@@ -1,16 +1,40 @@
 import * as React from "react";
 import "@testing-library/jest-dom";
+
+import { renderHook } from "@testing-library/react-hooks";
 import {
   render,
   RenderOptions,
   screen,
   fireEvent,
 } from "@testing-library/react";
-// import renderer from "react-test-renderer";
+import { create } from "react-test-renderer";
 import Properties from "../../../../app/javascript/components/Property/Properties";
-import { QueryClient } from "react-query";
+import { QueryClient, QueryClientProvider, setLogger } from "react-query";
 
-const queryClient = new QueryClient();
+const createWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
+  return ({ children }: any) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+};
+
+it("renders asynchronously", async () => {
+  const { result, waitFor } = renderHook(() => <Properties />, {
+    wrapper: createWrapper(),
+  });
+
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+  expect(result.current.data).toBeDefined();
+});
 
 it("renders the component", () => {
   render(<Properties />);

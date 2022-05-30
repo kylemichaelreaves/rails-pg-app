@@ -6,9 +6,11 @@ class Landlord < ApplicationRecord
   has_many :addresses, through: :properties
 
   scope :search_by_name, ->(name) {
-      name.upcase
+      name = name.upcase
       where("name LIKE ?", "%#{name}%")
     }
+
+  scope :llc, -> { where("name LIKE ?", "%LLC%") }
 
   # return landlords who live outside of the US
   scope :lives_outside_of_the_US, -> {
