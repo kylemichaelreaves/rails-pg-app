@@ -125,17 +125,17 @@ bin/rails console
   ```
 - Return malformed `owner_name` (strings including more than two spaces)
 
-- Returning distinct full (concatenated) addresses
+- Return distinct full (concatenated) addresses
   ```ruby
   Property.distinct.pluck(:property_full_address).count
   ```
 - Return malformed (containing more than 1 \s) names and their indices
+
   ```ruby
   Property.distinct.pluck(:owner_name).each_with_index { |el, i| puts el, i if el.match?(/\s+{2}/) }
   ```
 
-- Returning the id's of the properties associated with a given owner
+- Return the id's of the properties associated with a given owner
   ```ruby
   Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
   ```
-- Returning the id's of properties with uniq full_address

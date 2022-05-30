@@ -131,14 +131,14 @@ class Property < ApplicationRecord
   end
 
   def ensure_street_address_normalized
-    sa_split = street_address.split
-    if sa_split.any? { |el| el.in? STREET_ADDRESS_HASH.keys }
-      # get the index of the element to be replaced
-      idx = sa_split.index { |el| el.in? STREET_ADDRESS_HASH.keys }
-      # replace the el in the array with its value from the dictionary
-      sa_split[idx] = STREET_ADDRESS_HASH[sa_split[idx]]
-      # update the records street_address with the joined array
-      update!(street_address: sa_split.join(" "))
-    end
+    # create a new string from a mapped split array
+    # if the array's elements are present in the hashing dictionary, its value is swapped for the key
+    # the els of array are joined with a space
+    new_address = street_address.split
+      .map { |el| STREET_ADDRESS_HASH[el] || el }
+      .join(" ")
+
+    # update the record's street_address with the cleaned string
+    update!(street_address: new_address)
   end
 end
