@@ -107,10 +107,7 @@ class Property < ApplicationRecord
 
       new_address = Address.find_or_create_by(
         street_address: street_address,
-        # street_address: g_code_split[0] + g_code_split[1],
         municipality: "Jersey City",
-        # municipality: get_municipality,
-        # lets save ourselves the trouble since we know the state
         state: "New Jersey",
         zipcode: g_code_split[-2].scan(/\d/).join("").strip,
         properties_id: self.id,
@@ -122,23 +119,19 @@ class Property < ApplicationRecord
 
   def ensure_landlords_id
     if landlords_id.nil?
-      landlord = Landlord.find_or_create_by(name: owner_name,
-                                            mailing_address: owner_mailing_address,
-                                            city_state_zip: city_state_zip)
+      new_landlord = Landlord.find_or_create_by(name: owner_name,
+                                                mailing_address: owner_mailing_address,
+                                                city_state_zip: city_state_zip)
 
-      update!(landlords_id: landlord.id)
+      update!(landlords_id: new_landlord.id)
     end
   end
 
   def ensure_street_address_normalized
-    # create a new string from a mapped split array
-    # if the array's elements are present in the hashing dictionary, its value is swapped for the key
-    # the els of array are joined with a space
     new_address = street_address.split
       .map { |el| STREET_ADDRESS_HASH[el] || el }
       .join(" ")
 
-    # update the record's street_address with the cleaned string
-    update!(street_address: new_address)
+    update!(street_address: new_address.id)
   end
 end
