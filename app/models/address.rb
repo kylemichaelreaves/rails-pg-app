@@ -57,13 +57,18 @@ class Address < ApplicationRecord
     self.latitude_and_longitude = [latitude, longitude].compact.join(", ") if latitude_and_longitude.nil?
   end
 
-  # def ensure_properties_id
-  #   if properties_id.nil?
-  #     # create new Property record
-  #     property = Property.find_or_create_by!(street_address: street_address)
-  #     # update self to include the properties_id
-  #     # self.properties_id = property.id
-  #     update(properties_id: property.id)
-  #   end
-  # end
+  def ensure_properties_id
+    if properties_id.nil?
+      # is there an property whose property_full_address matches an address's full_address?
+      # property = Property.where(property_full_address: full_address)
+      # if property.exists?
+      #   update(properties_id: property.pluck(:id))
+      # create new Property record
+      property = Property.find_or_create_by!(street_address: street_address)
+
+      # update self to include the properties_id
+      # self.properties_id = property.id
+      update(properties_id: property.pluck(:id)) if property.exists?
+    end
+  end
 end

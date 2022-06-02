@@ -2,8 +2,9 @@ class Property < ApplicationRecord
   include PropertiesHelper
   # city_state_zip DOES NOT CORRESPOND to street_address but to owner_mailing_address
   validates :street_address, :owner_name, :owner_mailing_address, :city_state_zip, presence: true
-  # Does a property *only* have one address, if another address exists on the record?
-  has_one :address
+  # TODO: resolve this ambiguity ->
+    # Does a property *only* have one address, if another address exists on the record? (:owner_full_mailing_address)
+  has_and_belongs_to_many :addresses, foreign_key: "addresses_id", null: false, join_table: "properties_addresses"
   has_and_belongs_to_many :landlords, foreign_key: "landlords_id", null: false, join_table: "properties_landlords"
 
   after_initialize :ensure_street_address_normalized,
@@ -13,10 +14,7 @@ class Property < ApplicationRecord
                    :ensure_latitude,
                    :ensure_longitude
 
-  before_save :ensure_addresses_id,
-              :ensure_landlords_id
-
-  # after_find :ensure_addresses_id
+  after_find :ensure_addresses_id
 
   geocoded_by :property_full_address
 
@@ -104,16 +102,20 @@ class Property < ApplicationRecord
   def ensure_addresses_id
     if addresses_id.nil?
       g_code_split = g_code.split(",")
-
-      new_address = Address.find_or_create_by(
-        street_address: street_address,
-        municipality: "Jersey City",
-        state: "New Jersey",
-        zipcode: g_code_split[-2].scan(/\d/).join("").strip,
-        properties_id: self.id,
-      )
-
-      update!(addresses_id: new_address.id)
+      # addresses have their lat, lon coordinates as a unique index
+      address = Address.where(latitude_and_longitude: [latitude.to_s + ", " + longitude.to_s])
+      if address.exists?
+        update(addresses_id: address.pluck(:id))
+      else
+        new_address = Address.create(
+          street_address: street_address,
+          municipality: "Jersey City",
+          state: "New Jersey",
+          zipcode: g_code_split[-2].scan(/\d/).join("").strip,
+          properties_id: self.id,
+        )
+        update(addresses_id: new_address.pluck(:id))
+      end
     end
   end
 
@@ -132,6 +134,6 @@ class Property < ApplicationRecord
       .map { |el| STREET_ADDRESS_HASH[el] || el }
       .join(" ")
 
-    update!(street_address: new_address.id)
+    update!(street_address: new_address)
   end
 end

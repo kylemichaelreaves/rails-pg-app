@@ -93,10 +93,12 @@ export default function Properties() {
                     <ListGroup variant="flush">
                       {page?.map((property: Property) => (
                         <ListGroup key={property.id}>
-                          <ListGroup.Item>{property.id}</ListGroup.Item>
+                          <ListGroup.Item>property_id: {property.id}</ListGroup.Item>
                           <ListGroup.Item>{property.street_address}</ListGroup.Item>
-                          <ListGroup.Item>{property.landlords_id} {property.owner_name}</ListGroup.Item>
+                          <ListGroup.Item>landlords_id: {property.landlords_id}</ListGroup.Item>
+                          <ListGroup.Item>{property.owner_name}</ListGroup.Item>
                           <ListGroup.Item>{property.city_state_zip}</ListGroup.Item>
+                          <ListGroup.Item>addresses_id: {property.addresses_id}</ListGroup.Item>
                         </ListGroup>
                       ))}
                     </ListGroup>
