@@ -3,11 +3,11 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import SearchBar from "../SearchBar";
 import { useInfiniteQuery } from "react-query";
 import { Property } from "./useProperty";
 import { useInView } from "react-intersection-observer";
 import { matchSorter } from "match-sorter";
+import { useQuery } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -68,6 +68,7 @@ export default function Properties() {
   return (
     <Container>
       <h2>Properties Component</h2>
+
       <div>
         {status === "loading" ? (
           "Loading…"
@@ -93,12 +94,20 @@ export default function Properties() {
                     <ListGroup variant="flush">
                       {page?.map((property: Property) => (
                         <ListGroup key={property.id}>
-                          <ListGroup.Item>property_id: {property.id}</ListGroup.Item>
-                          <ListGroup.Item>{property.street_address}</ListGroup.Item>
-                          <ListGroup.Item>landlords_id: {property.landlords_id}</ListGroup.Item>
+                          <ListGroup.Item>id: {property.id}</ListGroup.Item>
+                          <ListGroup.Item>
+                            {property.street_address}
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            landlords_id: {property.landlords_id}
+                          </ListGroup.Item>
                           <ListGroup.Item>{property.owner_name}</ListGroup.Item>
-                          <ListGroup.Item>{property.city_state_zip}</ListGroup.Item>
-                          <ListGroup.Item>addresses_id: {property.addresses_id}</ListGroup.Item>
+                          <ListGroup.Item>
+                            {property.city_state_zip}
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            addresses_id: {property.addresses_id}
+                          </ListGroup.Item>
                         </ListGroup>
                       ))}
                     </ListGroup>
