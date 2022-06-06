@@ -116,26 +116,37 @@ bin/rails console
   => 37494
   ```
 - Return an array of unique names
+
   ```ruby
   Property.distinct(:owner_name).pluck(:owner_name)
   ```
+
 - Return an array sorted by its nested second value; the second value is the count of `owner_name` in the properties table
+
   ```ruby
   Property.pluck(:owner_name).tally.sort_by { |k, v|v }
   ```
-- Return malformed `owner_name` (strings including more than two spaces)
 
 - Return distinct full (concatenated) addresses
+
   ```ruby
   Property.distinct.pluck(:property_full_address).count
   ```
-- Return malformed (containing more than 1 \s) names and their indices
+
+- Return malformed `owner_name` (strings including more than two spaces)
 
   ```ruby
   Property.distinct.pluck(:owner_name).each_with_index { |el, i| puts el, i if el.match?(/\s+{2}/) }
   ```
 
-- Return the id's of the properties associated with a given owner
+- Return the id's of properties of a given owner
+
   ```ruby
   Property.where(owner_name: "COA 99 HUDSON,LLC").pluck(:id)
   ```
+
+- Return records of Properties where Jersey City isn't in the g_code
+
+```ruby
+Property.pluck(:g_code).uniq.select { |el| puts el if !"Jersey City".in? el }
+```
