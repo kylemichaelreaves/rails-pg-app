@@ -5,36 +5,41 @@ class Landlord < ApplicationRecord
   has_and_belongs_to_many :properties, foreign_key: "properties_id", null: false, join_table: "properties_landlords"
   has_many :addresses, through: :properties
 
+  after_find :ensure_properties_id
+
   scope :search_by_name, ->(name) {
       name = name.upcase
       where("name LIKE ?", "%#{name}%")
     }
 
-  scope :llc, -> { where("name LIKE ?", "%LLC%") }
-
-  # return landlords who live outside of the US
-  scope :lives_outside_of_the_US, -> {
-      Geocoder.search(full_mailing_address).first.country != "United States"
-    }
-
-  scope :owns_multiple_properties, -> {
-      Property.where(owner_name: name).count > 1
-    }
+  def owns_multiple_properties?
+    Property.where(owner_name: name).count > 1
+  end
 
   def full_mailing_address
     [mailing_address, city_state_zip].compact.join(", ")
   end
 
-  def single_person?
-    name.not.include? "&" or name.chars.count(",") <= 1 and name.not.include? "LLC"
+  # should and LLC count as a single owner?
+  def single_owner?
+    !name.include? "&" or name.chars.count(",") <= 1 and !name.llc?
   end
 
   def multiple_owners?
-    name.include? "&" or name.chars.count(",") >= 1 and name.not.include? "LLC"
+    !single_owner?
   end
 
   def llc?
     name.include? "LLC"
+  end
+
+  def ensure_properties_id
+    properties_ids = Property.where(owner_name: name).pluck(:id)
+    if properties_ids.length > 1
+      properties_ids.each do |id| self.properties_ids << id end
+    elsif properties_ids.length == 1
+      self.properties_id << properties_ids[0]
+    end
   end
 
   #  is the mailing address the same as the Property.street_address?

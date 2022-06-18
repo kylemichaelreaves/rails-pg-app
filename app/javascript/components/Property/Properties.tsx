@@ -3,8 +3,9 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
-import { Property } from "./useProperty";
+import { PropertyInterface } from "./useProperty";
 import { useInView } from "react-intersection-observer";
 import { matchSorter } from "match-sorter";
 import { useQuery } from "react-query";
@@ -41,20 +42,9 @@ export default function Properties() {
     },
   });
 
-  function filterList(searchTerm: string): Property[] {
+  function filterList(searchTerm: string): PropertyInterface[] {
     return matchSorter(data.pages, searchTerm);
   }
-
-  React.useEffect(() => {
-    if (data?.pages) {
-      console.log(
-        `data.pages: ${data?.pages?.map((page) =>
-          page?.map((property: Property) => property?.street_address)
-        )}`
-      );
-      console.log(`${data?.pages?.length} pages`);
-    }
-  }, [data]);
 
   React.useEffect(() => {
     if (inView) {
@@ -68,7 +58,6 @@ export default function Properties() {
   return (
     <Container>
       <h2>Properties Component</h2>
-
       <div>
         {status === "loading" ? (
           "Loading…"
@@ -92,21 +81,46 @@ export default function Properties() {
                 {data?.pages?.map((page, i) => (
                   <React.Fragment key={i}>
                     <ListGroup variant="flush">
-                      {page?.map((property: Property) => (
+                      {page?.map((property: PropertyInterface) => (
                         <ListGroup key={property.id}>
-                          <ListGroup.Item>id: {property.id}</ListGroup.Item>
+                          <ListGroup.Item>
+                            id:
+                            <Link
+                              style={{ display: "inline" }}
+                              to={`${property.id}`}
+                              key={property.id}
+                            >
+                              {property.id}
+                            </Link>
+                          </ListGroup.Item>
                           <ListGroup.Item>
                             {property.street_address}
                           </ListGroup.Item>
                           <ListGroup.Item>
-                            landlords_id: {property.landlords_id}
+                            {/* Link to Landlord component */}
+                            landlords_id:
+                            <Link
+                              style={{ display: "inline" }}
+                              to={`landlords/${property.landlords_id}`}
+                              key={property.landlords_id}
+                            >
+                              {property.landlords_id}
+                            </Link>
                           </ListGroup.Item>
                           <ListGroup.Item>{property.owner_name}</ListGroup.Item>
                           <ListGroup.Item>
                             {property.city_state_zip}
                           </ListGroup.Item>
                           <ListGroup.Item>
-                            addresses_id: {property.addresses_id}
+                            {/* Link to Address component */}
+                            addresses_id:
+                            <Link
+                              style={{ display: "inline" }}
+                              to={`addresses/${property.addresses_id}`}
+                              key={property.addresses_id}
+                            >
+                              {property.addresses_id}
+                            </Link>
                           </ListGroup.Item>
                         </ListGroup>
                       ))}

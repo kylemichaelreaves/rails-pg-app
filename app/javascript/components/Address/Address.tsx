@@ -4,18 +4,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 
-// id
-// street_address
-// municipality
-// state
-// zipcode
-// longitude
-// latitude
-// latitude_and_longitude
-// full_address
-// properties_id
-
-export interface Address {
+export interface AddressInterface {
   id: number;
   street_address: string;
   municipality: string;
@@ -28,7 +17,7 @@ export interface Address {
   properties_id?: number;
 }
 
-const blankAddress: Address = {
+const blankAddress: AddressInterface = {
   id: 0,
   street_address: "",
   municipality: "",
@@ -36,8 +25,8 @@ const blankAddress: Address = {
   zipcode: "",
 };
 
-export interface Addresses {
-  addresses: Address[];
+export interface AddressesInterface {
+  addresses: AddressInterface[];
 }
 
 export default function AddressFunction() {
