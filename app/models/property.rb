@@ -5,7 +5,7 @@ class Property < ApplicationRecord
   # TODO: resolve this ambiguity ->
   # Does a property *only* have one address, if another address exists on the record? (:owner_full_mailing_address)
   has_and_belongs_to_many :addresses, foreign_key: "address_id", null: false, join_table: "properties_addresses"
-  has_and_belongs_to_many :landlords, foreign_key: "landlord_id", null: false, join_table: "properties_landlords"
+  has_and_belongs_to_many :landlords, foreign_key: "landlord_id", null: false, join_table: "landlords_properties"
 
   after_initialize :ensure_street_address_normalized,
                    :ensure_property_full_address,

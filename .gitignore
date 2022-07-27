@@ -93,7 +93,7 @@ yarn-debug.log*
 /workspace.xml
 /.idea
 
+/app/javascript/.idea
 app/javascript/.idea
-
 # ignore lambda related node_modules
 /lambdas/http-crud/nodejs/node_modules

@@ -2,8 +2,8 @@ class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
   validates :mailing_address, :city_state_zip, presence: true
 
-  has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "properties_landlords"
-  has_many :addresses, through: :properties
+  has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "landlords_properties"
+  has_and_belongs_to_many :addresses, foreign_key: "address_id", null: false, join_table: "properties_addresses"
 
   after_find :ensure_property_ids
 
@@ -11,6 +11,10 @@ class Landlord < ApplicationRecord
     name = name.upcase
     where("name LIKE ?", "%#{name}%")
   }
+
+  def properties
+    Property.where(owner_name: name)
+  end
 
   def owns_multiple_properties?
     Property.where(owner_name: name).count > 1
@@ -33,19 +37,18 @@ class Landlord < ApplicationRecord
     name.include? "LLC"
   end
 
+  def get_property_ids
+    Property.where(owner_name: name).pluck(:id)
+  end
+
   def ensure_property_ids
-    properties_ids = Property.where(owner_name: name).pluck(:id)
-    if properties_ids.length > 1
-      properties_ids.each do |id|
-        self.properties_ids << id
-      end
-    elsif properties_ids.length == 1
-      self.properties_id << properties_ids[0]
+    if property_ids.nil?
+      update!(property_ids: get_property_ids)
     end
   end
 
   #  is the mailing address the same as the Property.street_address?
-  def mailing_address_is_same_as_property_address?
+  def same_address?
     if self.addresses.count > 0
       self.addresses.first.street_address == self.properties.first.street_address
     else
