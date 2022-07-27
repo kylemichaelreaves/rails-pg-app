@@ -2,7 +2,7 @@ class Address < ApplicationRecord
   validates :street_address, :municipality, :state, :zipcode, presence: true
   validates :full_address, :latitude_and_longitude, uniqueness: true
 
-  has_and_belongs_to_many :properties, foreign_key: "properties_id", null: false, join_table: "properties_addresses"
+  has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "properties_addresses"
   has_many :landlords, through: :properties
 
   before_create :ensure_full_address,

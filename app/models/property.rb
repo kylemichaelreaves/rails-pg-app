@@ -3,9 +3,9 @@ class Property < ApplicationRecord
   # city_state_zip DOES NOT CORRESPOND to street_address but to owner_mailing_address
   validates :street_address, :owner_name, :owner_mailing_address, :city_state_zip, presence: true
   # TODO: resolve this ambiguity ->
-    # Does a property *only* have one address, if another address exists on the record? (:owner_full_mailing_address)
-  has_and_belongs_to_many :addresses, foreign_key: "addresses_id", null: false, join_table: "properties_addresses"
-  has_and_belongs_to_many :landlords, foreign_key: "landlords_id", null: false, join_table: "properties_landlords"
+  # Does a property *only* have one address, if another address exists on the record? (:owner_full_mailing_address)
+  has_and_belongs_to_many :addresses, foreign_key: "address_id", null: false, join_table: "properties_addresses"
+  has_and_belongs_to_many :landlords, foreign_key: "landlord_id", null: false, join_table: "properties_landlords"
 
   after_initialize :ensure_street_address_normalized,
                    :ensure_property_full_address,
@@ -19,22 +19,23 @@ class Property < ApplicationRecord
   geocoded_by :property_full_address
 
   scope :search_by_street_address, ->(street_address) {
-          street_address = street_address.upcase
-          where("street_address LIKE ?", "%#{street_address}%")
-        }
+    street_address = street_address.upcase
+    where("street_address LIKE ?", "%#{street_address}%")
+  }
 
   scope :search_by_name, ->(name) {
-          name = name.upcase
-          where("owner_name LIKE ?", "%#{name}%")
-        }
+    name = name.upcase
+    where("owner_name LIKE ?", "%#{name}%")
+  }
 
   # does the landlord live elsewhere?
   def landlord_lives_elsewhere
     owner_mailing_address != street_address && owner_full_mailing_address != property_street_address
   end
 
-  # there is no gaurentee that the city of city_state_zip is the same as the municipality of the property
+  # there is no guarantee that the city of city_state_zip is the same as the municipality of the property
   # this function does not capture the municipal code but it should … somehow … and it will … someday
+  #
   # getting the municipality of the particular property record
   def get_municipality
     # the keys on the Geocoder.search result varies; sometimes its a "town", othertimes its a "city"
@@ -100,12 +101,12 @@ class Property < ApplicationRecord
   end
 
   def ensure_addresses_id
-    if addresses_id.nil?
+    if address_id.nil?
       g_code_split = g_code.split(",")
       # addresses have their lat, lon coordinates as a unique index
       address = Address.where(latitude_and_longitude: [latitude.to_s + ", " + longitude.to_s])
       if address.exists?
-        update(addresses_id: address.pluck(:id))
+        update(address_id: address.pluck(:id))
       else
         new_address = Address.create(
           street_address: street_address,
@@ -114,25 +115,25 @@ class Property < ApplicationRecord
           zipcode: g_code_split[-2].scan(/\d/).join("").strip,
           properties_id: self.id,
         )
-        update(addresses_id: new_address.pluck(:id))
+        update(address_id: new_address.pluck(:id))
       end
     end
   end
 
   def ensure_landlords_id
-    if landlords_id.nil?
+    if landlord_id.nil?
       new_landlord = Landlord.find_or_create_by(name: owner_name,
                                                 mailing_address: owner_mailing_address,
                                                 city_state_zip: city_state_zip)
 
-      update!(landlords_id: new_landlord.id)
+      update!(landlord_id: new_landlord.id)
     end
   end
 
   def ensure_street_address_normalized
     new_address = street_address.split
-      .map { |el| STREET_ADDRESS_HASH[el] || el }
-      .join(" ")
+                                .map { |el| STREET_ADDRESS_HASH[el] || el }
+                                .join(" ")
 
     update!(street_address: new_address)
   end

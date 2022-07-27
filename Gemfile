@@ -34,7 +34,7 @@ gem "sprockets-rails"
 
 gem "jsbundling-rails"
 
-gem "bootstrap", "~> 5.1.3"
+gem "bootstrap"
 # gem for jobs queue
 gem "delayed_job_active_record"
 # another way of importing records
@@ -85,4 +85,5 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "aws-sdk-s3", "~> 1.113"
+# lets add the entire AWS SDK kit and caboodle
+gem 'aws-sdk'
