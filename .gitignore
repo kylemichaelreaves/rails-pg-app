@@ -83,7 +83,6 @@ yarn-debug.log*
 
 # DSTORE
 .DS_Store
-/.DS_Store
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
@@ -92,8 +91,7 @@ yarn-debug.log*
 /shelf/
 /workspace.xml
 /.idea
-
 /app/javascript/.idea
-app/javascript/.idea
+
 # ignore lambda related node_modules
 /lambdas/http-crud/nodejs/node_modules
