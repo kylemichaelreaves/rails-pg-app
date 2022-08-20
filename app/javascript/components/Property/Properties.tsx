@@ -4,11 +4,12 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import {useInfiniteQuery} from "react-query";
+import {useInfiniteQuery} from "@tanstack/react-query";
 import {PropertyInterface} from "./useProperty";
 import {useInView} from "react-intersection-observer";
+// @ts-ignore
 import {matchSorter} from "match-sorter";
-import {ReactQueryDevtools} from "react-query/devtools";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -35,7 +36,7 @@ export default function Properties() {
         fetchPreviousPage,
         hasNextPage,
         hasPreviousPage,
-    } = useInfiniteQuery("properties", getInfiniteProperties, {
+    } = useInfiniteQuery(['properties'], getInfiniteProperties, {
         getNextPageParam: (lastPage, pages) => {
             return lastPage.id;
         },
