@@ -1,27 +1,42 @@
 FactoryBot.define do
   factory :property do
-    street_address { "208 Main St" }
+    municipal_code { "0223" }
+    street_address { "435 Main St" }
     owner_name { "Cynthia Drangus" }
-    owner_mailing_address { "210 Main St" }
+    owner_mailing_address { "435 Main St" }
     city_state_zip { "Hackensack, NJ, 07601" }
 
-    # before(:create) do |property|
-    #   # check if property is associated with an address
-    #   if property.address.nil?
-    #     csz = property.city_state_zip.split(",")
-    #     property.address = build(:address,
-    #                              street_address: property.street_address,
-    #                              municipality: csz[0],
-    #                              state: csz[1],
-    #                              zipcode: csz[2])
-    #   end
+    transient do
+      landlords
+      addresses
+    end
 
-    #   if property.landlord.nil?
-    #     property.landlord = build(:landlord,
-    #                               name: property.owner_name,
-    #                               mailing_address: property.owner_mailing_address,
-    #                               city_state_zip: property.city_state_zip)
-    #   end
-    # end
+    after(:create) do |property, evaluator|
+      property.landlords << evaluator.landlords
+      property.addresses << evaluator.addresses
+      property.reload
+    end
   end
+
+  # factory :property_with_landlord do
+  #   transient do
+  #     landlord
+  #   end
+
+  #   after(:create) do |property, evaluator|
+  #     property.landlords << evaluator.landlord
+  #     property.reload
+  #   end
+  # end
+
+  # transient do
+  #   landlord
+  #   address
+  # end
+
+  # after(:create) do |property, evaluator|
+  #   property.landlords << evaluator.landlord
+  #   property.addresses << evaluator.address
+  #   property.reload
+  # end
 end

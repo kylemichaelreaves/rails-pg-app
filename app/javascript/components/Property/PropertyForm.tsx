@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 
 interface PropertyFormProps {
-    onSave: (property?: PropertyInterface) => void;
+    onSave: (property: PropertyInterface) => void;
 }
 
 export function PropertyForm({onSave}: PropertyFormProps) {

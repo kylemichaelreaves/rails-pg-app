@@ -2,13 +2,12 @@ class Api::V1::LandlordsController < ApplicationController
   before_action :set_landlord, only: %i[ :show, :edit, :update, :destroy ]
 
   def index
-    @landlords = Landlord.all
-    render json: @landlords
+    @landlords = Landlord.order(params[:sort])
+    render json: @landlords.then(&paginate)
 
     if params[:search]
       @landlords = Landlord.search(params[:search])
     end
-
   end
 
   def show

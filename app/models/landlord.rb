@@ -3,21 +3,21 @@ class Landlord < ApplicationRecord
   validates :mailing_address, :city_state_zip, presence: true
 
   has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "landlords_properties"
-  has_and_belongs_to_many :addresses, foreign_key: "address_id", null: false, join_table: "properties_addresses"
+  has_and_belongs_to_many :addresses, foreign_key: "address_id", null: false, join_table: "addresses_properties"
 
-  after_find :ensure_property_ids
+  after_find :ensure_properties_id
 
   scope :search_by_name, ->(name) {
-    name = name.upcase
-    where("name LIKE ?", "%#{name}%")
-  }
+          name = name.upcase
+          where("name LIKE ?", "%#{name}%")
+        }
 
-  def properties
+  def get_properties
     Property.where(owner_name: name)
   end
 
   def owns_multiple_properties?
-    Property.where(owner_name: name).count > 1
+    get_properties.count > 1
   end
 
   def full_mailing_address
@@ -38,21 +38,18 @@ class Landlord < ApplicationRecord
   end
 
   def get_property_ids
-    Property.where(owner_name: name).pluck(:id)
+    get_properties.pluck(:id)
   end
 
-  def ensure_property_ids
-    if property_ids.nil?
-      update!(property_ids: get_property_ids)
+  def ensure_properties_id
+    if property_id.nil?
+      update!(property_id: get_property_ids.first)
     end
   end
 
-  #  is the mailing address the same as the Property.street_address?
-  def same_address?
-    if self.addresses.count > 0
-      self.addresses.first.street_address == self.properties.first.street_address
-    else
-      false
+  def ensure_property_ids
+    if property_ids.empty? || property_ids.length != get_property_ids.length
+      get_property_ids.each do |id| update!(property_ids: id) end
     end
   end
 end
