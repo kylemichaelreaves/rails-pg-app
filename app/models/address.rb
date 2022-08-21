@@ -58,7 +58,7 @@ class Address < ApplicationRecord
   end
 
   def ensure_properties_id
-    if properties_id.nil?
+    if property_id.nil?
       # is there an property whose property_full_address matches an address's full_address?
       # property = Property.where(property_full_address: full_address)
       # if property.exists?
@@ -73,7 +73,7 @@ class Address < ApplicationRecord
   end
 
   def ensure_landlords_id
-    if landlords_id.nil?
+    if landlord_id.nil?
       id = landlords.first.id
       update(landlords_id: id)
     end
