@@ -1,7 +1,7 @@
 import * as React from "react";
 import Home from "./Home";
 import { Outlet } from "react-router";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 

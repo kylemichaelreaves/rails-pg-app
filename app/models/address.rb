@@ -43,39 +43,37 @@ class Address < ApplicationRecord
   def ensure_longitude
     if longitude.nil?
       result = Geocoder.search(full_address)
-      if result
-        if result.first
-          if result.first.longitude
-            self.longitude = result.first.longitude
-          end
+      if result.exists?
+        if result.first.longitude
+          self.longitude = result.first.longitude
         end
+      end
+
+    end
+
+    def ensure_latitude_and_longitude
+      self.latitude_and_longitude = [latitude, longitude].compact.join(", ") if latitude_and_longitude.nil?
+    end
+
+    def ensure_properties_id
+      if property_id.nil?
+        # is there an property whose property_full_address matches an address's full_address?
+        # property = Property.where(property_full_address: full_address)
+        # if property.exists?
+        #   update(properties_id: property.pluck(:id))
+        # create new Property record
+        property = Property.find_or_create_by!(street_address: street_address)
+
+        # update self to include the properties_id
+        # self.properties_id = property.id
+        update(properties_id: property.pluck(:id)) if property.exists?
+      end
+    end
+
+    def ensure_landlords_id
+      if landlord_id.nil?
+        id = landlords.first.id
+        update(landlords_id: id)
       end
     end
   end
-
-  def ensure_latitude_and_longitude
-    self.latitude_and_longitude = [latitude, longitude].compact.join(", ") if latitude_and_longitude.nil?
-  end
-
-  def ensure_properties_id
-    if property_id.nil?
-      # is there an property whose property_full_address matches an address's full_address?
-      # property = Property.where(property_full_address: full_address)
-      # if property.exists?
-      #   update(properties_id: property.pluck(:id))
-      # create new Property record
-      property = Property.find_or_create_by!(street_address: street_address)
-
-      # update self to include the properties_id
-      # self.properties_id = property.id
-      update(properties_id: property.pluck(:id)) if property.exists?
-    end
-  end
-
-  def ensure_landlords_id
-    if landlord_id.nil?
-      id = landlords.first.id
-      update(landlords_id: id)
-    end
-  end
-end
