@@ -95,3 +95,6 @@ yarn-debug.log*
 
 # ignore lambda related node_modules
 /lambdas/http-crud/nodejs/node_modules
+
+# ignore my unique mapBox accessToken
+app/javascript/components/accessToken.tsx

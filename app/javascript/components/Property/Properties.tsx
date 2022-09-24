@@ -64,7 +64,6 @@ export default function Properties() {
           <span>${`Error: {error}`}</span>
         ) : (
           <>
-            {/* <SearchBar onSearch={filterList} /> */}
             <Button
               onClick={() => fetchPreviousPage()}
               disabled={!hasPreviousPage || isFetchingPreviousPage}
@@ -100,7 +99,7 @@ export default function Properties() {
                             landlords_id:
                             <Link
                               style={{ display: "inline" }}
-                              to={`landlords/${property.landlord_id}`}
+                              to={`${property.landlord_id}`}
                               key={property.landlord_id}
                             >
                               {property.landlord_id}
