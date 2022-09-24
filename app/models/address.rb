@@ -2,8 +2,8 @@ class Address < ApplicationRecord
   validates :street_address, :municipality, :state, :zipcode, presence: true
   validates :full_address, :latitude_and_longitude, uniqueness: true
 
-  has_and_belongs_to_many :properties, foreign_key: "property_id", join_table: "addresses_properties"
-  has_and_belongs_to_many :landlords, foreign_key: "landlord_id", join_table: "landlords_properties"
+  has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "addresses_properties", dependent: :destroy
+  has_and_belongs_to_many :landlords, foreign_key: "landlord_id", null: false, join_table: "landlords_properties", dependent: :destroy
 
   before_create :ensure_full_address,
                 :ensure_latitude,
@@ -43,12 +43,11 @@ class Address < ApplicationRecord
   def ensure_longitude
     if longitude.nil?
       result = Geocoder.search(full_address)
-      if result.exists?
+      if result
         if result.first.longitude
           self.longitude = result.first.longitude
         end
       end
-
     end
 
     def ensure_latitude_and_longitude
@@ -59,7 +58,6 @@ class Address < ApplicationRecord
       if property_id.nil?
         # is there an property whose property_full_address matches an address's full_address?
         # property = Property.where(property_full_address: full_address)
-        # if property.exists?
         #   update(properties_id: property.pluck(:id))
         # create new Property record
         property = Property.find_or_create_by!(street_address: street_address)
@@ -77,3 +75,4 @@ class Address < ApplicationRecord
       end
     end
   end
+end
