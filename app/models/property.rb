@@ -41,20 +41,13 @@ class Property < ApplicationRecord
   end
 
   def get_address
-    # try to find the address with the address_id, if it exists
-    if !address_id.nil?
-      Address.find(address_id)
-    else
-      Address.where(full_address: property_full_address)
-    end
+    Address.where(latitude_and_longitude: latitude.to_s + ", " + longitude.to_s)
   end
 
   def get_zipcode
     # TODO refactor this method so it is doing this call somewhere else
     result = Geocoder.search("#{street_address}" + ", " + "#{get_municipality}" + ", " + "New Jersey").first
-    if result.present?
-      result.postal_code
-    end
+    result.postal_code if result.present?
   end
 
   def not_in_jersey_city?
