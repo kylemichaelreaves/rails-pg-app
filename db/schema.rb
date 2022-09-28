@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_24_013510) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_26_185754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,11 +64,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_24_013510) do
   create_table "addresses_landlords", id: false, force: :cascade do |t|
     t.bigint "address_id", null: false
     t.bigint "landlord_id", null: false
+    t.index ["address_id"], name: "index_addresses_landlords_on_address_id"
+    t.index ["landlord_id"], name: "index_addresses_landlords_on_landlord_id"
   end
 
   create_table "addresses_properties", id: false, force: :cascade do |t|
     t.bigint "address_id", null: false
     t.bigint "property_id", null: false
+    t.index ["address_id"], name: "index_addresses_properties_on_address_id"
+    t.index ["property_id"], name: "index_addresses_properties_on_property_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -101,6 +105,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_24_013510) do
   create_table "landlords_properties", id: false, force: :cascade do |t|
     t.bigint "landlord_id", null: false
     t.bigint "property_id", null: false
+    t.index ["landlord_id"], name: "index_landlords_properties_on_landlord_id"
+    t.index ["property_id"], name: "index_landlords_properties_on_property_id"
   end
 
   create_table "properties", force: :cascade do |t|

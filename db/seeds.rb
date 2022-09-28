@@ -1,7 +1,7 @@
 require "csv"
 require "open-uri"
 require "geocoder"
-require 'aws-sdk-s3'
+require "aws-sdk-s3"
 # iterate through Properties
 
 miscoded_ids = [13778,
@@ -168,11 +168,17 @@ miscoded_ids = [13778,
 for id in miscoded_ids
   property = Property.find(id)
   # normalize their street_address, update property_full_address
+  if property.not_in_jersey_city?
+    result = Geocoder.search(property.steet_address + ", Jersey City, New Jersey")
+    if result.count > 1
+      #  select the results with the residential type and whose display_name contains "Jersey City"
+      result = result.select { |r| r.data['type'] == 'residential' and r.data['display_name'].include? "Jersey City" }.first
+    end
+    property.update!(display_name: result.data['display_name'], latitude: result.lat, longitude: result.lon)
+  end
   byebug
   # geocode property_full_address
 
-  # end
-  #
   # properties = Property.pluck(:id, :display_name)
 
   # properties.each do |property|
@@ -329,4 +335,3 @@ for id in miscoded_ids
 
   # puts "Created #{street_address} as an Address!"
 end
-

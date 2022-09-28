@@ -18,19 +18,19 @@ RSpec.describe Property, type: :model do
 
   describe "get_municipality" do
     it "should return the municipality from a municipal code" do
-      property = build(:property, municipal_code: "0906", street_address: "677 Liberty St", city_state_zip: "Jersey City, NJ, 07307", owner_name: "Cynthia Drangus", owner_mailing_address: "677 Liberty St")
+      property = build(:property, municipal_code: "0906")
       expect(property.get_municipality).to eq("Jersey City")
     end
 
     it "should return the municipality from a different municipal code" do
-      property = build(:property, municipal_code: "0223", street_address: "453 Main St", city_state_zip: "Hackensack, NJ, 07601", owner_name: "Cynthia Drangus", owner_mailing_address: "677 Liberty St")
+      property = build(:property, municipal_code: "0223")
       expect(property.get_municipality).to eq("Hackensack")
     end
 
     #  when the municipal_code is Paterson, it should return Paterson
     it "should return the municipality from a different municipal code" do
       #163 Rosa Parks Blvd | Paterson, NJ, 07501
-      property = build(:property, municipal_code: "1608", street_address: "163 Rosa Parks Blvd", city_state_zip: "Paterson, NJ, 07601", owner_name: "Cynthia Drangus", owner_mailing_address: "677 Liberty St")
+      property = build(:property, municipal_code: "1608")
       expect(property.get_municipality).to eq("Paterson")
     end
 

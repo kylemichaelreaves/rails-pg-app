@@ -16,8 +16,7 @@ class Property < ApplicationRecord
   before_save :ensure_latitude,
               :ensure_longitude
 
-  after_find :ensure_municipal_code,
-             :ensure_landlord_id,
+  after_find :ensure_landlord_id,
              :ensure_address_id
 
   geocoded_by :property_full_address
@@ -51,7 +50,11 @@ class Property < ApplicationRecord
   end
 
   def get_zipcode
-    Geocoder.search("#{street_address}" + ", " + "#{get_municipality}" + ", " + "New Jersey").first.postal_code
+    # TODO refactor this method so it is doing this call somewhere else
+    result = Geocoder.search("#{street_address}" + ", " + "#{get_municipality}" + ", " + "New Jersey").first
+    if result.present?
+      result.postal_code
+    end
   end
 
   def not_in_jersey_city?
@@ -67,14 +70,16 @@ class Property < ApplicationRecord
   end
 
   def ensure_latitude
+    # TODO refactor this method into a single method whose result is an array of latitude and longitude
+    # TODO this method's Geocoder should specify as a parameter, the country and county of the address to avoid noisy results
     if latitude.nil?
       result = Geocoder.search(property_full_address)
-      municipality = get_municipality
       if result.length > 1
-        results = result.select { |property| municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }
-        self.latitude = results.first.latitude
+        res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
+        self.latitude = res.latitude if res.present?
       elsif result.length == 1
-        self.latitude = result.first.latitude
+        result = result.first
+        self.latitude = result.latitude if result.present?
       end
     end
   end
@@ -82,13 +87,13 @@ class Property < ApplicationRecord
   def ensure_longitude
     if longitude.nil?
       result = Geocoder.search(property_full_address)
-      municipality = get_municipality
       if result.length > 1
         # filter the results for only those that contain the municipality
-        results = result.select { |property| municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }
-        self.longitude = results.first.longitude
+        res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
+        self.longitude = res.longitude if res.present?
       elsif result.length == 1
-        self.longitude = result.first.longitude
+        res = result.first
+        self.longitude = res.longitude if res.present?
       end
     end
   end
@@ -98,10 +103,11 @@ class Property < ApplicationRecord
       result = Geocoder.search(property_full_address)
       # if there is more than one result, filter the results for only those that contain the municipality
       if result.length > 1
-        results = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }
-        self.display_name = results.first.data["display_name"]
+        res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
+        self.display_name = res.data["display_name"] if res.present?
       elsif result.length == 1
-        self.display_name = result.first.data["display_name"]
+        res = result.first
+        self.display_name = res.data["display_name"] if res.present?
       end
     end
   end
@@ -115,7 +121,7 @@ class Property < ApplicationRecord
   def ensure_address_id
     if address_id.nil?
       address = Address.find_by(latitude_and_longitude: latitude.to_s + ", " + longitude.to_s)
-      if !address.nil?
+      if address.present?
         update!(address_id: address.id)
       else
         new_address = Address.create!(
@@ -133,9 +139,9 @@ class Property < ApplicationRecord
 
   def ensure_landlord_id
     if landlord_id.nil?
-      landlord = Landlord.where(name: owner_name)
-      if landlord.exists?
-        update!(landlord_id: landlord.first.id)
+      landlord = Landlord.find_by(name: owner_name)
+      if landlord.present?
+        update!(landlord_id: landlord.id)
       else
         new_landlord = Landlord.create!(name: owner_name,
                                         mailing_address: owner_mailing_address,
