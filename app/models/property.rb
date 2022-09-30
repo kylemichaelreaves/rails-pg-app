@@ -45,9 +45,12 @@ class Property < ApplicationRecord
   end
 
   def get_zipcode
-    # TODO refactor this method so it is doing this call somewhere else
     result = Geocoder.search("#{street_address}" + ", " + "#{get_municipality}" + ", " + "New Jersey").first
     result.postal_code if result.present?
+  end
+
+  def geocoder_search(address, state = "New Jersey", country_code = "us")
+    Geocoder.search(address, params: { state: state, county_code: country_code })
   end
 
   def not_in_jersey_city?
@@ -62,39 +65,28 @@ class Property < ApplicationRecord
     end
   end
 
-  def ensure_latitude
-    # TODO refactor this method into a single method whose result is an array of latitude and longitude
-    # TODO this method's Geocoder should specify as a parameter, the country and county of the address to avoid noisy results
-    if latitude.nil?
-      result = Geocoder.search(property_full_address)
-      if result.length > 1
-        res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
-        self.latitude = res.latitude if res.present?
-      elsif result.length == 1
-        result = result.first
-        self.latitude = result.latitude if result.present?
-      end
+  def get_coordinates
+    result = geocoder_search(property_full_address)
+    if result.length > 1
+      res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
+      res.coordinates if res.present?
+    elsif result.length == 1
+      res = result.first
+      res.coordinates if res.present?
     end
   end
 
+  def ensure_latitude
+    get_coordinates[0]
+  end
+
   def ensure_longitude
-    if longitude.nil?
-      result = Geocoder.search(property_full_address)
-      if result.length > 1
-        # filter the results for only those that contain the municipality
-        res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
-        self.longitude = res.longitude if res.present?
-      elsif result.length == 1
-        res = result.first
-        self.longitude = res.longitude if res.present?
-      end
-    end
+    get_coordinates[-1]
   end
 
   def ensure_display_name
     if display_name.nil?
-      result = Geocoder.search(property_full_address)
-      # if there is more than one result, filter the results for only those that contain the municipality
+      result = geocoder_search(property_full_address)
       if result.length > 1
         res = result.select { |property| get_municipality.in?(property.data["display_name"]) and property.data["type"] == "residential" }.first
         self.display_name = res.data["display_name"] if res.present?
@@ -106,7 +98,7 @@ class Property < ApplicationRecord
   end
 
   def ensure_property_full_address
-    if property_full_address.nil? or self.street_address_changed?
+    if property_full_address.nil? or street_address_changed?
       self.property_full_address = [street_address, get_municipality, "New Jersey"].compact.join(", ")
     end
   end
