@@ -1,31 +1,26 @@
 import * as React from "react";
-import { useParams } from "react-router-dom";
-import useLandlord from "./useLandlord";
+import {useLoaderData} from "react-router-dom";
+import useLandlord, {LandlordInterface} from "./useLandlord";
 
-export interface LandlordInterface {
-  id: number;
-  name: string;
-  mailing_address: string;
-  city_state_zip: string;
-  full_mailing_address: string;
+export async function loader({params}: { params: { landlordId: number } }) {
+    return {
+        landlord: await useLandlord(params.landlordId),
+    };
 }
 
-export default function Landlord({ id }: { id: number }) {
-  const params = useParams();
-  const landlord = useLandlord(parseInt(params.landlordsId, 10));
+export default function Landlord() {
 
-  const { name, mailing_address, city_state_zip, full_mailing_address } =
-    landlord || {};
+    const landlord = useLoaderData() as LandlordInterface;
 
-  return landlord ? (
-    <>
-      <p>id: {id}</p>
-      <p>name: {name}</p>
-      <p>Mailing Address: {mailing_address}</p>
-      <p>City, State, Zip: {city_state_zip}</p>
-      <p>Full Mailing Address: {full_mailing_address}</p>
-    </>
-  ) : (
-    <p>Loading…</p>
-  );
+    return landlord ? (
+        <>
+            <p>id: {landlord.landlordId}</p>
+            <p>name: {landlord.name}</p>
+            <p>Mailing Address: {landlord.mailing_address}</p>
+            <p>City, State, Zip: {landlord.city_state_zip}</p>
+            <p>Full Mailing Address: {landlord.full_mailing_address}</p>
+        </>
+    ) : (
+        <p>Loading…</p>
+    );
 }
