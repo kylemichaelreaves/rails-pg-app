@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getPropertyById} from "./getPropertyById";
 
 export interface PropertyInterface {
-    id: number;
+    propertyId: number;
     street_address: string;
     owner_name: string;
     owner_mailing_address: string;
@@ -19,9 +19,8 @@ export interface PropertyInterface {
     address_id: number;
 }
 
-// TODO: Are these all of the keys on Property?
 export const blankProperty: PropertyInterface = {
-    id: 0,
+    propertyId: 0,
     street_address: "",
     owner_name: "",
     owner_mailing_address: "",
@@ -38,8 +37,8 @@ export const blankProperty: PropertyInterface = {
     address_id: 0,
 };
 
-export default function useProperty(id: number) {
-    return useQuery(["property", id], () => getPropertyById(id), {
-        enabled: !!id,
+export default function useProperty(propertyId: number) {
+    return useQuery(["property", propertyId], () => getPropertyById(propertyId), {
+        enabled: !!propertyId,
     }).data;
 }

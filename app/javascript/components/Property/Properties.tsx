@@ -41,7 +41,6 @@ export default function Properties() {
         },
     });
 
-
     React.useEffect(() => {
         if (inView) {
             console.log("button is in view");
@@ -73,19 +72,19 @@ export default function Properties() {
                         </Button>
                         <Container>
                             <div>
-                                {data?.pages?.map((page, page_index) => (
-                                    <React.Fragment key={page_index}>
+                                {data?.pages?.map((page, pageIndex) => (
+                                    <React.Fragment key={pageIndex}>
                                         <ListGroup variant="flush">
                                             {page?.map((property: PropertyInterface) => (
-                                                <ListGroup key={property.id}>
+                                                <ListGroup key={property.propertyId}>
                                                     <ListGroup.Item>
                                                         id:
                                                         <Link
                                                             style={{display: "inline"}}
-                                                            to={`${property.id}`}
-                                                            key={property.id}
+                                                            to={`${property.propertyId}`}
+                                                            key={property.propertyId}
                                                         >
-                                                            {property.id}
+                                                            {property.propertyId}
                                                         </Link>
                                                     </ListGroup.Item>
                                                     <ListGroup.Item>

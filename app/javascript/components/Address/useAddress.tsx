@@ -1,17 +1,17 @@
-import { useQuery } from "react-query";
+import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
-import { AddressInterface } from "./Address";
+import {AddressInterface} from "./Address";
 
-export const getAddressbyId = async (
-  id: number | undefined
+export const getAddressById = async (
+    id: number | undefined
 ): Promise<AddressInterface> => {
-  return await axios
-    .get(`api/v1/addresses/${id}`)
-    .then((response) => response.data);
+    return await axios
+        .get(`api/v1/addresses/${id}`)
+        .then((response) => response.data);
 };
 
 export default function useAddress(id: number) {
-  return useQuery(["address", id], () => getAddressbyId(id), {
-    enabled: !!id,
-  }).data;
+    return useQuery(["address", id], () => getAddressById(id), {
+        enabled: !!id,
+    }).data;
 }
