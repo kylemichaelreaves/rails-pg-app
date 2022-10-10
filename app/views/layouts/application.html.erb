@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Find Your Landlord: NJ</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" %>
-    <%= stylesheet_link_tag "https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css" %>
-  </head>
+<head>
+  <title>Find Your Landlord: NJ</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%#= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <%= vite_stylesheet_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= vite_stylesheet_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" %>
+  <%= vite_stylesheet_tag "https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css" %>
+  <%= vite_client_tag %>
+  <%= vite_javascript_tag 'index.tsx' %>
+  <!--
+    If using a TypeScript entrypoint file:
+      vite_typescript_tag 'application'
 
-  <body>
-    <%= yield %>
-    <div id="root"></div>
-    <%= javascript_include_tag 'index', 'data-turbolinks-track': 'reload' %>
-  </body>
+    If using a .jsx or .tsx entrypoint, add the extension:
+      vite_javascript_tag 'application.jsx'
+
+    Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+  -->
+
+</head>
+
+<body>
+<%= yield %>
+<div id="root"></div>
+<%= javascript_include_tag 'index', 'data-turbolinks-track': 'reload' %>
+</body>
 </html>
