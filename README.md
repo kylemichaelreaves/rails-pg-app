@@ -2,22 +2,26 @@
 
 This app uses data from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
 
-It's a Rails API with a React frontend. I've switched to compiling with `eslint` and `webpack` from `webpacker` since it
-has
-been retired. I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md)
-tutorial for making
-that switch.
+It's a Rails API with a React frontend.
+~~I've switched to compiling with `eslint` and `webpack` from `webpacker` since it has been retired.
+I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md) tutorial for making
+that switch.~~
+Since, bundling (webpack) is no longer necessary now that native ES modules are supported in current browsers, I've
+migrated to Vite and its integration with Rails.
 
 For general inspiration and guidance, I referenced to
 this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend)
 . However, in order to work with the latest libraries, there were some necessary modifications:
 
-- react-router uses new syntax in v6. Moreover, in `Step 5 — Configuring React as Your Rails Frontend`, sending props in
-  App.jsx to the routes/Index didn't work.
-  I referenced [this tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version 6.
-- Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a
+- ~~react-router uses new syntax in v6. Moreover, in `Step 5 — Configuring React as Your Rails Frontend`, sending props
+  in App.jsx to the routes/Index didn't work. I
+  referenced [this tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version
+  6.~~
+- React-Router 6.4 introduces new Route objects. I've remade the Route object according to react-router's latest
+  documentation.
+- ~~Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a
   javascript_include_tag pointing toward the Index. In order to get the Bootstrap style to load I placed
-  a `stylesheet_tag` beneath the generic Rails one.
+  a `stylesheet_tag` beneath the generic Rails one.~~  Vite's tags replaces these.
 - I'm using [react-query](https://react-query.tanstack.com/) and axios to call the API data. With
   TypeScript, [prop and return types needed to be specified for useQuery](https://tkdodo.eu/blog/react-query-and-type-script)
   in order for the component to work.
