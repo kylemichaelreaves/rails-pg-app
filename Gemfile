@@ -41,6 +41,8 @@ gem "delayed_job_active_record"
 gem "activerecord-import"
 # squashing migrations
 gem "squasher"
+# vite rails
+gem "vite_rails"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -85,7 +87,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# lets add the entire AWS SDK kit and caboodle
-gem 'aws-sdk'
+# AWS gems
+gem 'aws-sdk-s3'
+gem 'aws-sdk-lambda'
+gem 'aws-sdk-apigatewayv2'
+gem 'aws-sdk-rds'
 
 gem "sidekiq", "~> 6.5"
