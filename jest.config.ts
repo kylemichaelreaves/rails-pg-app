@@ -4,7 +4,7 @@ const config = {
     verbose: true,
     roots: ["<rootDir>/spec/javascript/components"],
     setupFilesAfterEnv: ["<rootDir>/spec/javascript/components/setupTests.ts"],
-    collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
+    collectCoverageFrom: ["<rootDir>/spec/javascript/**/*.{js,jsx,ts,tsx}", "!<rootDir>/spec/javascript/**/*.d.ts"],
     coveragePathIgnorePatterns: ["<rootDir>/node_modules/"],
     testMatch: [
         "<rootDir>/spec/javascript/components/**/__tests__/**/*.{js,jsx,ts,tsx}",
