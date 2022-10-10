@@ -3,17 +3,29 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
-    "module": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es6",
+    "target": "ESNext",
     "jsx": "react",
     "noEmit": true,
     "allowJs": true,
     "outDir": "./dist/",
     "noImplicitAny": true,
+    "paths": {
+      "~/*": [
+        "app/javascript*"
+      ]
+    }
   },
+  "include": [
+    "app/javascript"
+  ],
   "exclude": [
     "app/assets",
     "app/controllers",
