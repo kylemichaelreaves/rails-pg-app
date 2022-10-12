@@ -74,6 +74,7 @@
     "jest-watch-typeahead": "^2.2.0",
     "msw": "^0.46.1",
     "react-test-renderer": "^18.1.0",
+    "sass": "^1.55.0",
     "ts-jest": "^29.0.3",
     "vite": "^3.0.0",
     "vite-plugin-ruby": "^3.1.0",
