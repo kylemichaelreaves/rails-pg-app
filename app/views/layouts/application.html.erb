@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%#= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-  <%= vite_stylesheet_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= vite_stylesheet_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" %>
-  <%= vite_stylesheet_tag "https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css" %>
+
+  <%= vite_stylesheet_tag 'application.scss', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= vite_client_tag %>
   <%= vite_javascript_tag 'index.tsx' %>
   <!--
@@ -25,7 +23,6 @@
 
 <body>
 <%= yield %>
-<div id="root"></div>
-<%= javascript_include_tag 'index', 'data-turbolinks-track': 'reload' %>
+<div id="root"/>
 </body>
 </html>
