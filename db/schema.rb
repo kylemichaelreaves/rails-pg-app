@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_26_185754) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_28_180458) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,24 +53,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_185754) do
     t.float "latitude"
     t.string "latitude_and_longitude"
     t.string "full_address"
-    t.bigint "landlord_id"
     t.bigint "property_id"
+    t.bigint "landlord_id"
     t.index ["full_address"], name: "index_addresses_on_full_address", unique: true
     t.index ["landlord_id"], name: "index_addresses_on_landlord_id"
     t.index ["latitude_and_longitude"], name: "index_addresses_on_latitude_and_longitude", unique: true
     t.index ["property_id"], name: "index_addresses_on_property_id"
   end
 
-  create_table "addresses_landlords", id: false, force: :cascade do |t|
-    t.bigint "address_id", null: false
-    t.bigint "landlord_id", null: false
-    t.index ["address_id"], name: "index_addresses_landlords_on_address_id"
-    t.index ["landlord_id"], name: "index_addresses_landlords_on_landlord_id"
-  end
-
   create_table "addresses_properties", id: false, force: :cascade do |t|
-    t.bigint "address_id", null: false
     t.bigint "property_id", null: false
+    t.bigint "address_id", null: false
     t.index ["address_id"], name: "index_addresses_properties_on_address_id"
     t.index ["property_id"], name: "index_addresses_properties_on_property_id"
   end
@@ -95,9 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_185754) do
     t.string "mailing_address"
     t.string "city_state_zip"
     t.string "full_mailing_address"
-    t.bigint "address_id"
     t.bigint "property_id"
-    t.index ["address_id"], name: "index_landlords_on_address_id"
     t.index ["name"], name: "index_landlords_on_name", unique: true
     t.index ["property_id"], name: "index_landlords_on_property_id"
   end
@@ -122,19 +113,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_26_185754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "owner_full_mailing_address"
-    t.string "municipal_code"
     t.bigint "landlord_id"
     t.bigint "address_id"
+    t.string "municipal_code"
     t.index ["address_id"], name: "index_properties_on_address_id"
     t.index ["landlord_id"], name: "index_properties_on_landlord_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "addresses", "landlords", on_delete: :cascade
-  add_foreign_key "addresses", "properties", on_delete: :cascade
-  add_foreign_key "landlords", "addresses", on_delete: :cascade
-  add_foreign_key "landlords", "properties", on_delete: :cascade
-  add_foreign_key "properties", "addresses", on_delete: :cascade
-  add_foreign_key "properties", "landlords", on_delete: :cascade
+  add_foreign_key "addresses", "landlords", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "addresses", "properties", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "landlords", "properties", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "properties", "addresses", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "properties", "landlords", on_update: :cascade, on_delete: :cascade
 end
