@@ -7,7 +7,7 @@ It's a Rails API with a React frontend.
 I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md) tutorial for making
 that switch.~~
 Since, bundling (webpack) is no longer necessary now that native ES modules are supported in current browsers, I've
-migrated to Vite and its integration with Rails.
+migrated to compiling with Vite and its integration with Rails, Vite-Ruby.
 
 For general inspiration and guidance, I referenced to
 this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend)

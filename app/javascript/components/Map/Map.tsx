@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as mapboxgl from "mapbox-gl";
 import { useRef, useEffect, useState } from "react";
-import { mapBoxAccessToken } from "/Users/kylereaves/src/rails-pg-app/app/javascript/components/accessToken";
+
+const mapBoxAccessToken: string = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
 
 export default function Map() {
   const mapContainer = useRef(null);
