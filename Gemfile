@@ -94,3 +94,5 @@ gem 'aws-sdk-apigatewayv2'
 gem 'aws-sdk-rds'
 
 gem "sidekiq", "~> 6.5"
+
+gem "rubocop", "~> 1.36"

@@ -1,13 +1,10 @@
 class Api::V1::LandlordsController < ApplicationController
-  before_action :set_landlord, only: %i[ :show, :edit, :update, :destroy ]
+  before_action :set_landlord, only: %i[show edit update destroy]
 
   def index
     @landlords = Landlord.order(params[:sort])
     render json: @landlords.then(&paginate)
 
-    if params[:search]
-      @landlords = Landlord.search(params[:search])
-    end
   end
 
   def show
@@ -30,7 +27,7 @@ class Api::V1::LandlordsController < ApplicationController
 
     respond_to do |format|
       if @landlord.save
-        format.html { redirect_to landlord_url(@landlord), notice: "Landlord was successfully created." }
+        format.html { redirect_to landlord_url(@landlord), notice: 'Landlord was successfully created.' }
         format.json { render :show, status: :created, location: @landlord }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -42,7 +39,7 @@ class Api::V1::LandlordsController < ApplicationController
   def update
     respond_to do |format|
       if @landlord.update(landlord_params)
-        format.html { redirect_to landlord_url(@landlord), notice: "Landlord was successfully updated." }
+        format.html { redirect_to landlord_url(@landlord), notice: 'Landlord was successfully updated.' }
         format.json { render :show, status: :ok, location: @landlord }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,7 +52,7 @@ class Api::V1::LandlordsController < ApplicationController
     @landlord.destroy
 
     respond_to do |format|
-      format.html { redirect_to landlords_url, notice: "Landlord was successfully destroyed." }
+      format.html { redirect_to landlords_url, notice: 'Landlord was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -68,6 +65,12 @@ class Api::V1::LandlordsController < ApplicationController
 
   def landlord
     @landlord ||= Landlord.find(params[:id])
+  end
+
+  def search
+    if params[:search]
+      @landlords = Landlord.search_by_name(params[:search])
+    end
   end
 
   def landlord_params

@@ -1,6 +1,6 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
 require 'active_job'
 
 # Require the gems listed in Gemfile, including any gems
@@ -20,9 +20,6 @@ module RailsPgApp
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     # config.active_job.queue_adapter = :delayed_job_active_record
-
-    config.react.server_renderer_extensions = ["jsx", "js", "tsx", "ts"]
-
     config.api_only = true
   end
 end

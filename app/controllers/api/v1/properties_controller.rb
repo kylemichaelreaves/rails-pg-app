@@ -4,16 +4,11 @@ class Api::V1::PropertiesController < ApplicationController
   def index
     @properties = Property.order(params[:sort])
     render json: @properties.then(&paginate)
-
-    if params[:search]
-      @properties = Property.search(params[:search])
-      render json: @properties.then(&paginate)
-    end
   end
 
   def search
     if params[:search]
-      @properties = Property.search(params[:search])
+      @properties = Property.search_by_street_address(params[:search])
     end
 
     render json: @properties.then(&paginate)

@@ -1,8 +1,14 @@
-require "csv"
-require "open-uri"
-require "geocoder"
-require "aws-sdk-s3"
-# iterate through Properties
+require 'csv'
+require 'open-uri'
+require 'geocoder'
+require 'aws-sdk-s3'
+
+# concat the csvs from Jersey City, Hackensack, Paterson, Newark
+
+# @municipal_code, @street_address, @name, @mailing_address, @city_state_zip
+# clean and normalize @street_address, @name, @mailing_address, €city_state_zip
+# Property.street_address = geocoder_search(street_address, MUNICIPAL_HASH[municipal_code], NJ)
+# Landlord.mailing_address = mailing_address + city_state_zip
 
 miscoded_ids = [13778,
                 2041,
@@ -165,16 +171,16 @@ miscoded_ids = [13778,
                 13769,
                 31988]
 
-for id in miscoded_ids
+miscoded_ids.each do |id|
   property = Property.find(id)
   # normalize their street_address, update property_full_address
   if property.not_in_jersey_city?
-    result = Geocoder.search(property.steet_address + ", Jersey City, New Jersey")
+    result = Geocoder.search("#{property.steet_address}, Jersey City, New Jersey")
     if result.count > 1
       #  select the results with the residential type and whose display_name contains "Jersey City"
-      result = result.select { |r| r.data['type'] == 'residential' and r.data['display_name'].include? "Jersey City" }.first
+      result = result.select { |r| r.data['type'] == 'residential' and r.data['display_name'].include? 'Jersey City' }.first
     end
-    property.update!(display_name: result.data['display_name'], latitude: result.lat, longitude: result.lon)
+    property.update!(display_name: result.data['display_name'], latitude: result.latitude, longitude: result.longitude)
   end
   byebug
   # geocode property_full_address
