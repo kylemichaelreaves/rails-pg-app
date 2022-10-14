@@ -2,14 +2,14 @@ class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
   validates :mailing_address, :city_state_zip, presence: true
 
-  has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "landlords_properties", dependent: :destroy
-  has_and_belongs_to_many :addresses, foreign_key: "address_id", null: false, join_table: "addresses_properties", dependent: :destroy
+  has_and_belongs_to_many :properties, foreign_key: 'property_id', null: false, join_table: 'landlords_properties', dependent: :destroy
+  has_and_belongs_to_many :addresses, foreign_key: 'address_id', null: false, join_table: 'addresses_properties', dependent: :destroy
 
   after_find :ensure_properties_id
 
-  scope :search_by_name, ->(name) {
+  scope :search_by_name, lambda { |name|
     name = name.upcase
-    where("name LIKE ?", "%#{name}%")
+    where('name LIKE ?', "%#{name}%")
   }
 
   def get_properties
@@ -21,12 +21,12 @@ class Landlord < ApplicationRecord
   end
 
   def full_mailing_address
-    [mailing_address, city_state_zip].compact.join(", ")
+    [mailing_address, city_state_zip].compact.join(', ')
   end
 
   # should and LLC count as a single owner?
   def single_owner?
-    !name.include? "&" or name.chars.count(",") <= 1 and !name.llc?
+    !name.include? '&' or name.chars.count(',') <= 1 and !name.llc?
   end
 
   def multiple_owners?
@@ -34,7 +34,7 @@ class Landlord < ApplicationRecord
   end
 
   def llc?
-    name.include? "LLC"
+    name.include? 'LLC'
   end
 
   def get_property_ids

@@ -1,7 +1,7 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Property, type: :model do
-  describe "validations" do
+  describe 'validations' do
     subject { build(:property) }
 
     it { should initialize }
@@ -16,22 +16,22 @@ RSpec.describe Property, type: :model do
 
   end
 
-  describe "get_municipality" do
-    it "should return the municipality from a municipal code" do
-      property = build(:property, municipal_code: "0906")
-      expect(property.get_municipality).to eq("Jersey City")
+  describe 'get_municipality' do
+    it 'should return the municipality from a municipal code' do
+      property = build(:property, municipal_code: '0906')
+      expect(property.get_municipality).to eq('Jersey City')
     end
 
-    it "should return the municipality from a different municipal code" do
-      property = build(:property, municipal_code: "0223")
-      expect(property.get_municipality).to eq("Hackensack")
+    it 'should return the municipality from a different municipal code' do
+      property = build(:property, municipal_code: '0223')
+      expect(property.get_municipality).to eq('Hackensack')
     end
 
     #  when the municipal_code is Paterson, it should return Paterson
-    it "should return the municipality from a different municipal code" do
+    it 'should return the municipality from a different municipal code' do
       #163 Rosa Parks Blvd | Paterson, NJ, 07501
-      property = build(:property, municipal_code: "1608")
-      expect(property.get_municipality).to eq("Paterson")
+      property = build(:property, municipal_code: '1608')
+      expect(property.get_municipality).to eq('Paterson')
     end
 
   end
