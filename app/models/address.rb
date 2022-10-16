@@ -4,15 +4,14 @@ class Address < ApplicationRecord
   # so we only need to validate the uniqueness of the concatenated coordinates string
   validates :latitude_and_longitude, uniqueness: true
 
-  has_and_belongs_to_many :properties, foreign_key: "property_id", null: false, join_table: "addresses_properties", dependent: :destroy
-  has_and_belongs_to_many :landlords, foreign_key: "landlord_id", null: false, join_table: "landlords_properties", dependent: :destroy
+  has_and_belongs_to_many :properties, foreign_key: 'property_id', null: false, join_table: 'addresses_properties', dependent: :nullify
+  has_and_belongs_to_many :landlords, foreign_key: 'landlord_id', null: false, join_table: 'landlords_properties', dependent: :nullify
 
-  before_create :verify_municipality,
-                :ensure_full_address,
+  before_create :ensure_full_address,
                 :ensure_latitude,
                 :ensure_longitude,
-                :ensure_latitude_and_longitude
-  #  :ensure_properties_id
+                :ensure_latitude_and_longitude,
+                :ensure_properties_id
 
   # after_find :ensure_properties_id #, :ensure_landlords_id
 
@@ -23,12 +22,12 @@ class Address < ApplicationRecord
   # check if the municipality and matches the result of geocoded zipcode
   # geocode the zipcode and compare it to the municipality
   def verified_municipality?
-    result = Geocoder.search(self.zipcode, params: { country_code: "us", state: "New Jersey" }).first
-    result.data['address'].split(", ").first == self.municipality if result.present?
+    result = Geocoder.search(zipcode, params: { country_code: 'us', state: 'New Jersey' }).first
+    result.data['address'].split(', ').first == municipality if result.present?
   end
 
   def concat_full_address
-    [street_address, municipality, state, zipcode].compact.join(", ")
+    [street_address, municipality, state, zipcode].compact.join(', ')
   end
 
   private
@@ -52,7 +51,7 @@ class Address < ApplicationRecord
   end
 
   def ensure_latitude_and_longitude
-    self.latitude_and_longitude = [latitude, longitude].compact.join(", ") if latitude_and_longitude.nil?
+    self.latitude_and_longitude = [latitude, longitude].compact.join(', ') if latitude_and_longitude.nil?
   end
 
   def ensure_properties_id

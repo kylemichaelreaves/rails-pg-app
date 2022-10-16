@@ -8,10 +8,10 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # eventual url or IP of production server
-    origins "http://127.0.0.1:3001"
+    origins 'http://127.0.0.1:3001'
 
-    resource "*",
-      headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+    resource '*',
+             headers: :any,
+             methods: %i[get post put patch delete options head]
   end
 end
