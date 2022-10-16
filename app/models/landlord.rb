@@ -2,8 +2,8 @@ class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
   validates :mailing_address, :city_state_zip, presence: true
 
-  has_and_belongs_to_many :properties, foreign_key: 'property_id', null: false, join_table: 'landlords_properties', dependent: :destroy
-  has_and_belongs_to_many :addresses, foreign_key: 'address_id', null: false, join_table: 'addresses_properties', dependent: :destroy
+  has_and_belongs_to_many :properties, foreign_key: 'property_id', null: false, dependent: :nullify
+  has_and_belongs_to_many :addresses, foreign_key: 'address_id', null: false, dependent: :nullify
 
   after_find :ensure_properties_id
 
