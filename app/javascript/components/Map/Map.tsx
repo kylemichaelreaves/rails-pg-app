@@ -5,7 +5,7 @@ import {useRef, useEffect, useState} from "react";
 
 const mapBoxAccessToken: string = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
-export default function Map() {
+function Map() {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(-70.9);
@@ -29,7 +29,7 @@ export default function Map() {
             setLng(map.current.getCenter().lng.toFixed(4));
             setLat(map.current.getCenter().lat.toFixed(4));
             setZoom(map.current.getZoom().toFixed(2));
-        });
+        })
     });
     return (
         <div>
@@ -38,5 +38,7 @@ export default function Map() {
             </div>
             <div ref={mapContainer} className="map-container"/>
         </div>
-    );
+    )
 }
+
+export default Map
