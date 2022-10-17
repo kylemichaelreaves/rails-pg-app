@@ -2,13 +2,13 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      
+
       resources :properties do
         resources :landlords
         resources :addresses
 
         collection do
-          get "search"
+          get 'search' => 'properties#search'
         end
       end
 
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         resources :addresses
 
         collection do
-          get "search"
+          get 'search' => 'landlords#search'
         end
       end
 
@@ -29,8 +29,8 @@ Rails.application.routes.draw do
   end
 
   # catch all route
-  get "/*path" => "homepage#index"
-  get "homepage/index", to: "homepage#index"
+  get '/*path' => 'homepage#index'
+  get 'homepage/index', to: 'homepage#index'
 
-  root "homepage#index"
+  root 'homepage#index'
 end
