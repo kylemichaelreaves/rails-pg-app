@@ -1,15 +1,6 @@
 import * as React from "react";
 import * as mapboxgl from "mapbox-gl";
-<<<<<<< HEAD
-import { useRef, useEffect, useState } from "react";
-
-const mapBoxAccessToken: string = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-=======
 import {useRef, useEffect, useState} from "react";
-
-
-const mapBoxAccessToken: string = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
->>>>>>> 326f6b6 (Linting, controller updates)
 
 export default function Map() {
     const mapContainer = useRef(null);
@@ -21,7 +12,7 @@ export default function Map() {
     useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
-            accessToken: mapBoxAccessToken,
+            accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
             center: [lng, lat],
