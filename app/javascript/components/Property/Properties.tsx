@@ -76,15 +76,15 @@ export default function Properties() {
                                     <React.Fragment key={pageIndex}>
                                         <ListGroup variant="flush">
                                             {page?.map((property: PropertyInterface) => (
-                                                <ListGroup key={property.propertyId}>
+                                                <ListGroup key={property.id}>
                                                     <ListGroup.Item>
                                                         id:
                                                         <Link
                                                             style={{display: "inline"}}
-                                                            to={`${property.propertyId}`}
-                                                            key={property.propertyId}
+                                                            to={`${property.id}`}
+                                                            key={property.id}
                                                         >
-                                                            {property.propertyId}
+                                                            {property.id}
                                                         </Link>
                                                     </ListGroup.Item>
                                                     <ListGroup.Item>
