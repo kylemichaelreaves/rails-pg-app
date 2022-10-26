@@ -2,7 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {getPropertyById} from "./getPropertyById";
 
 export interface PropertyInterface {
-    propertyId: number;
+    id: number;
     street_address: string;
     owner_name: string;
     owner_mailing_address: string;
@@ -20,7 +20,7 @@ export interface PropertyInterface {
 }
 
 export const blankProperty: PropertyInterface = {
-    propertyId: 0,
+    id: 0,
     street_address: "",
     owner_name: "",
     owner_mailing_address: "",
@@ -37,8 +37,8 @@ export const blankProperty: PropertyInterface = {
     address_id: 0,
 };
 
-export default function useProperty(propertyId: number) {
-    return useQuery(["property", propertyId], () => getPropertyById(propertyId), {
-        enabled: !!propertyId,
+export default function useProperty(id: number) {
+    return useQuery(["property", id], () => getPropertyById(id), {
+        enabled: !!id,
     }).data;
 }
