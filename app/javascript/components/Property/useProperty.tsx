@@ -1,6 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {getPropertyById} from "./getPropertyById";
 
+// TODO: remove foreign_key ids from these interfaces, they're needless
 export interface PropertyInterface {
     id: number;
     street_address: string;
@@ -9,15 +10,13 @@ export interface PropertyInterface {
     city_state_zip: string;
     property_full_address: string;
     units_at_property: number;
-    g_code: string;
+    display_name: string;
     latitude: number;
     longitude: number;
     created_at: string;
     updated_at: string;
     owner_full_mailing_address: string;
-    landlord_id: number;
-    address_id: number;
-}
+};
 
 export const blankProperty: PropertyInterface = {
     id: 0,
@@ -27,14 +26,12 @@ export const blankProperty: PropertyInterface = {
     city_state_zip: "",
     property_full_address: "",
     units_at_property: 0,
-    g_code: "",
+    display_name: "",
     latitude: 0,
     longitude: 0,
     created_at: "",
     updated_at: "",
     owner_full_mailing_address: "",
-    landlord_id: 0,
-    address_id: 0,
 };
 
 export default function useProperty(id: number) {

@@ -34,8 +34,8 @@ const router = createBrowserRouter([
                 {
                     path: `${ROUTER_PREFIX}properties/:propertyId`,
                     element: <Property/>,
-                    loader: ({params}) => {
-                        return useProperty(parseInt(params.propertyId))
+                    loader: async ({params}) => {
+                        return fetch(`/api/v1/properties/${params.propertyId}`);
                     },
                 },
                 {

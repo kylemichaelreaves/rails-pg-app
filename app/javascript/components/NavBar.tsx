@@ -2,7 +2,6 @@ import * as React from "react";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import {Link} from "react-router-dom";
-import {LinkContainer} from "react-router-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 
 export default function NavBar() {
@@ -13,9 +12,9 @@ export default function NavBar() {
                     Find My Landlord
                 </Navbar.Brand>
                 <Nav.Item>
-                    <LinkContainer to="api/v1/properties">
-                        <Nav.Link>Properties</Nav.Link>
-                    </LinkContainer>
+                    <Nav.Link as={Link} to="api/v1/properties">
+                        Properties
+                    </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Nav.Link as={Link} to="api/v1/landlords">
