@@ -2,7 +2,7 @@ import * as React from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import PropertyInterface from "./Property/useProperty";
+import PropertyInterface from "../Property/useProperty";
 
 interface SearchBarProps {
     onSearch: (searchTerm: string) => string;

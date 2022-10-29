@@ -7,10 +7,7 @@ class Api::V1::PropertiesController < ApplicationController
   end
 
   def search
-    if params[:search]
-      @properties = Property.search_by_street_address(params[:search])
-    end
-
+    @properties = Property.search_by_street_address(params[:search]) if params[:search]
     render json: @properties.then(&paginate)
   end
 
