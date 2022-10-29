@@ -2,22 +2,20 @@ class Landlord < ApplicationRecord
   validates :name, uniqueness: true, presence: true
   validates :mailing_address, :city_state_zip, presence: true
 
-  has_and_belongs_to_many :properties, foreign_key: 'property_id', null: false, dependent: :nullify
-  has_and_belongs_to_many :addresses, foreign_key: 'address_id', null: false, dependent: :nullify
-
-  after_find :ensure_properties_id
+  has_and_belongs_to_many :properties
+  has_and_belongs_to_many :addresses
 
   scope :search_by_name, lambda { |name|
     name = name.upcase
     where('name LIKE ?', "%#{name}%")
   }
 
-  def get_properties
+  def find_properties
     Property.where(owner_name: name)
   end
 
   def owns_multiple_properties?
-    get_properties.count > 1
+    find_properties.count > 1
   end
 
   def full_mailing_address
@@ -37,21 +35,18 @@ class Landlord < ApplicationRecord
     name.include? 'LLC'
   end
 
-  def get_property_ids
-    get_properties.pluck(:id)
+  def find_property_ids
+    find_properties.pluck(:id)
   end
 
-  def ensure_properties_id
-    if property_id.nil?
-      update!(property_id: get_property_ids.first)
-    end
-  end
+  def ensure_properties
+    return unless properties.empty?
 
-  def ensure_property_ids
-    if property_ids.length == 0
-      get_property_ids.each do |id|
-        update!(property_ids: id)
-      end
+    found_properties = find_properties
+    return unless found_properties.present?
+
+    found_properties.each do |property|
+      properties << property unless properties.include? property
     end
   end
 end

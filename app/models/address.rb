@@ -4,23 +4,21 @@ class Address < ApplicationRecord
   # so we only need to validate the uniqueness of the concatenated coordinates string
   validates :latitude_and_longitude, uniqueness: true
 
-  has_and_belongs_to_many :properties, foreign_key: 'property_id', null: false, join_table: 'addresses_properties', dependent: :nullify
-  has_and_belongs_to_many :landlords, foreign_key: 'landlord_id', null: false, join_table: 'landlords_properties', dependent: :nullify
+  has_and_belongs_to_many :properties
+  has_and_belongs_to_many :landlords
 
   before_create :ensure_full_address,
                 :ensure_latitude,
                 :ensure_longitude,
-                :ensure_latitude_and_longitude,
-                :ensure_properties_id
-
-  # after_find :ensure_properties_id #, :ensure_landlords_id
+                :ensure_latitude_and_longitude
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude
   after_validation :geocode, :reverse_geocode
 
-  # check if the municipality and matches the result of geocoded zipcode
+  # check if the municipality matches the result of geocoded zipcode
   # geocode the zipcode and compare it to the municipality
+  # TODO: check if that zipcode is in the hash in the properties_helper
   def verified_municipality?
     result = Geocoder.search(zipcode, params: { country_code: 'us', state: 'New Jersey' }).first
     result.data['address'].split(', ').first == municipality if result.present?
@@ -30,6 +28,10 @@ class Address < ApplicationRecord
     [street_address, municipality, state, zipcode].compact.join(', ')
   end
 
+  def find_properties
+    Property.where(latitude: latitude, longitude: longitude)
+  end
+
   private
 
   def ensure_full_address
@@ -37,41 +39,48 @@ class Address < ApplicationRecord
   end
 
   def ensure_latitude
-    if latitude.nil?
-      result = Geocoder.search(full_address).first
-      self.latitude = result.latitude if result.present?
-    end
+    return unless latitude.nil?
+
+    result = Geocoder.search(full_address).first
+    self.latitude = result.latitude if result.present?
   end
 
   def ensure_longitude
-    if longitude.nil?
-      result = Geocoder.search(full_address).first
-      self.longitude = result.longitude if result.present?
-    end
+    return unless longitude.nil?
+
+    result = Geocoder.search(full_address).first
+    self.longitude = result.longitude if result.present?
   end
 
   def ensure_latitude_and_longitude
     self.latitude_and_longitude = [latitude, longitude].compact.join(', ') if latitude_and_longitude.nil?
   end
 
-  def ensure_properties_id
-    if property_id.nil?
-      # is there an property whose property_full_address matches an address's full_address?
-      # property = Property.where(property_full_address: full_address)
-      #   update(properties_id: property.pluck(:id))
-      # create new Property record
-      property = Property.find_or_create_by!(street_address: street_address)
+  def ensure_properties
+    return unless properties.empty?
 
-      # update self to include the properties_id
-      # self.properties_id = property.id
-      update(properties_id: property.id) if property.present?
+    found_properties = find_properties
+    if found_properties.present?
+      found_properties.each do |property|
+        properties << property unless properties.include?(property)
+      end
+    else
+      new_property = Property.create!(street_address:, municipality:, state: 'New Jersey', zipcode:)
+      properties << new_property
     end
   end
 
-  def ensure_landlords_id
-    if landlord_id.nil?
-      id = landlords.first.id
-      update(landlords_id: id)
+  def ensure_landlords
+    return unless landlords.empty?
+
+    found_landlords = find_landlords
+    if found_landlords.present?
+      found_landlords.each do |landlord|
+        landlords << landlord unless landlords.include?(landlord)
+      end
+    else
+      new_landlord = Landlord.create!(full_name:)
+      landlords << new_landlord
     end
   end
 end

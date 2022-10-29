@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {PropertyInterface} from "./useProperty";
 import {useInView} from "react-intersection-observer";
-// import { matchSorter } from "match-sorter";
+
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -90,32 +90,32 @@ export default function Properties() {
                                                     <ListGroup.Item>
                                                         {property.street_address}
                                                     </ListGroup.Item>
-                                                    <ListGroup.Item>
-                                                        {/* Link to Landlord component */}
-                                                        landlords_id:
-                                                        <Link
-                                                            style={{display: "inline"}}
-                                                            to={`${property.landlord_id}`}
-                                                            key={property.landlord_id}
-                                                        >
-                                                            {property.landlord_id}
-                                                        </Link>
-                                                    </ListGroup.Item>
+                                                    {/*<ListGroup.Item>*/}
+                                                    {/*    /!* Link to Landlord component *!/*/}
+                                                    {/*    landlords_id:*/}
+                                                    {/*    <Link*/}
+                                                    {/*        style={{display: "inline"}}*/}
+                                                    {/*        to={`${property.landlord_id}`}*/}
+                                                    {/*        key={property.landlord_id}*/}
+                                                    {/*    >*/}
+                                                    {/*        {property.landlord_id}*/}
+                                                    {/*    </Link>*/}
+                                                    {/*</ListGroup.Item>*/}
                                                     <ListGroup.Item>{property.owner_name}</ListGroup.Item>
                                                     <ListGroup.Item>
                                                         {property.city_state_zip}
                                                     </ListGroup.Item>
-                                                    <ListGroup.Item>
-                                                        {/* Link to Address component */}
-                                                        addresses_id:
-                                                        <Link
-                                                            style={{display: "inline"}}
-                                                            to={`addresses/${property.address_id}`}
-                                                            key={property.address_id}
-                                                        >
-                                                            {property.address_id}
-                                                        </Link>
-                                                    </ListGroup.Item>
+                                                    {/*<ListGroup.Item>*/}
+                                                    {/*    /!* Link to Address component *!/*/}
+                                                    {/*    addresses_id:*/}
+                                                    {/*    <Link*/}
+                                                    {/*        style={{display: "inline"}}*/}
+                                                    {/*        to={`addresses/${property.address_id}`}*/}
+                                                    {/*        key={property.address_id}*/}
+                                                    {/*    >*/}
+                                                    {/*        {property.address_id}*/}
+                                                    {/*    </Link>*/}
+                                                    {/*</ListGroup.Item>*/}
                                                 </ListGroup>
                                             ))}
                                         </ListGroup>

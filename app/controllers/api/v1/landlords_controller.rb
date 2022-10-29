@@ -4,7 +4,6 @@ class Api::V1::LandlordsController < ApplicationController
   def index
     @landlords = Landlord.order(params[:sort])
     render json: @landlords.then(&paginate)
-
   end
 
   def show
@@ -52,7 +51,7 @@ class Api::V1::LandlordsController < ApplicationController
     @landlord.destroy
 
     respond_to do |format|
-      format.html { redirect_to landlords_url, notice: 'Landlord was successfully destroyed.' }
+      format.html { redirect_to landlord_url, notice: 'Landlord was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -68,9 +67,7 @@ class Api::V1::LandlordsController < ApplicationController
   end
 
   def search
-    if params[:search]
-      @landlords = Landlord.search_by_name(params[:search])
-    end
+    @landlords = Landlord.search_by_name(params[:search]) if params[:search]
   end
 
   def landlord_params
