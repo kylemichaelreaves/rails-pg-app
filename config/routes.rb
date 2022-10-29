@@ -16,9 +16,7 @@ Rails.application.routes.draw do
         resource :properties
         resources :addresses
 
-        collection do
-          get 'search' => 'landlords#search'
-        end
+        get 'search' => 'landlords#search'
       end
 
       resources :addresses do

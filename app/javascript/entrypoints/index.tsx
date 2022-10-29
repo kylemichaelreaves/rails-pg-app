@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import Properties from '../components/Property/Properties';
 import Property, {loader as propertyLoader} from '../components/Property/Property';
-import useProperty from "../components/Property/useProperty";
 import Landlords from '../components/Landlord/Landlords';
 import Landlord from '../components/Landlord/Landlord';
 import Address from '../components/Address/Address';
@@ -16,7 +15,7 @@ import NotFound from '../components/NotFound';
 import App from '../components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {getPropertyById} from "../components/Property/getPropertyById";
+
 
 const container = document.getElementById('root')
 const ROUTER_PREFIX = 'api/v1/';

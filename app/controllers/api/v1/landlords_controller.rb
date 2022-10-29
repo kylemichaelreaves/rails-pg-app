@@ -21,6 +21,11 @@ class Api::V1::LandlordsController < ApplicationController
   def edit
   end
 
+  def search
+    @landlords = Landlord.search_by_name(params[:search]) if params[:search]
+    render json: @landlords.then(&paginate)
+  end
+
   def create
     @landlord = Landlord.new(landlord_params)
 
@@ -64,10 +69,6 @@ class Api::V1::LandlordsController < ApplicationController
 
   def landlord
     @landlord ||= Landlord.find(params[:id])
-  end
-
-  def search
-    @landlords = Landlord.search_by_name(params[:search]) if params[:search]
   end
 
   def landlord_params
