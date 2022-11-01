@@ -13,11 +13,7 @@ const ENV_PREFIX = "REACT_APP_";
 export default defineConfig({
     plugins: [
         RubyPlugin(),
-        react({
-
-                include: '**/*.tsx'
-            }
-        ),
+        react(),
         viteTsconfigPaths(),
         svgrPlugin(),
         envCompatible({prefix: ENV_PREFIX}),
@@ -40,5 +36,6 @@ export default defineConfig({
     },
     build: {
         outDir: 'build',
-    }
+        sourcemap: true,
+    },
 })
