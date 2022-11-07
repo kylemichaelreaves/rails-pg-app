@@ -2,29 +2,23 @@
 
 This app uses data from my [landlord_project](https://github.com/kylemichaelreaves/landlord_data).
 
-It's a Rails API with a React frontend.
-~~I've switched to compiling with `eslint` and `webpack` from `webpacker` since it has been retired.
-I followed [this](https://github.com/rails/jsbundling-rails/blob/main/docs/switch_from_webpacker.md) tutorial for making
-that switch.~~
-Since, bundling (webpack) is no longer necessary now that native ES modules are supported in current browsers, I've
-migrated to compiling with Vite and its integration with Rails, Vite-Ruby.
+It's a Rails API with a React + TypeScript frontend. Since webpack is no longer necessary now that native ES modules are
+supported in current browsers, I've migrated to compiling with Vite and its integration with Rails, Vite-Ruby.
 
 For general inspiration and guidance, I referenced to
 this [tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-project-with-a-react-frontend)
-. However, in order to work with the latest libraries, there were some necessary modifications:
+.
+However, in order to work with the latest libraries, there were some necessary modifications:
 
-- ~~react-router uses new syntax in v6. Moreover, in `Step 5 — Configuring React as Your Rails Frontend`, sending props
-  in App.jsx to the routes/Index didn't work. I
-  referenced [this tutorial](https://reactrouter.com/docs/en/v6/getting-started/tutorial) specifically for version
-  6.~~
 - React-Router 6.4 introduces new Route objects. I've remade the Route object according to react-router's latest
   documentation.
-- ~~Inside of `application.html.erb` I placed a div referencing the root on the DOM, and beneath that a
-  javascript_include_tag pointing toward the Index. In order to get the Bootstrap style to load I placed
-  a `stylesheet_tag` beneath the generic Rails one.~~  Vite's tags replaces these.
 - I'm using [react-query](https://react-query.tanstack.com/) and axios to call the API data. With
   TypeScript, [prop and return types needed to be specified for useQuery](https://tkdodo.eu/blog/react-query-and-type-script)
   in order for the component to work.
+
+### In order for modules to refresh and JS debugger to work, start the Vite dev server before starting the Rails server
+
+```bundle exec vite dev && rails s```
 
 This is roughly the order I followed when creating the app:
 
@@ -38,9 +32,9 @@ rails new [application name] -d postgresql --webpack=react
 
 2. Running this app locally requires some boilerplate:
 
-- cd into the directory.
-- `touch config/boot.rb`
-- Inside of config/boot.rb, include the following:
+- cd into the `config` directory.
+- `touch boot.rb`
+- Inside of boot.rb, include the following:
 
 ```ruby
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
@@ -49,14 +43,14 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 ```
 
-3. Create .node-versions and .ruby-versions:
+1. Create .node-versions and .ruby-versions:
 
-4. In the project folder create two files:
+2. In the project folder create two files:
    `touch .node-version` with `16.14.1`
    `touch .ruby-version` with `3.1.0`
    This is necessary in order to get the app to run locally.
 
-5. Adding TypeScript/Webpack support
+3. Adding TypeScript/Webpack support
 
 ```
 yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-preact @types/webpack-env eslint-plugin-react -D

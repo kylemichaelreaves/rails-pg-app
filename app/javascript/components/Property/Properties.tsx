@@ -7,8 +7,8 @@ import {Link} from "react-router-dom";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {PropertyInterface} from "./useProperty";
 import {useInView} from "react-intersection-observer";
-
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import {URL_PATH} from "~//constants";
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -18,7 +18,7 @@ export default function Properties() {
 
     const getInfiniteProperties = async ({pageParam = 0}) => {
         return await axios
-            .get(`http://127.0.0.1:3000/api/v1/properties`, {
+            .get(`${URL_PATH}/properties`, {
                 params: {page: pageParam},
             })
             .then((response) => response.data);
@@ -138,7 +138,7 @@ export default function Properties() {
                         ? "Load Newer"
                         : "Nothing more to load"}
             </Button>
-            <ReactQueryDevtools initialIsOpen/>
+
         </Container>
     );
 }

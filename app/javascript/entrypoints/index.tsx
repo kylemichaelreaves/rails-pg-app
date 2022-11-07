@@ -16,7 +16,6 @@ import App from '../components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-
 const container = document.getElementById('root')
 const ROUTER_PREFIX = 'api/v1/';
 

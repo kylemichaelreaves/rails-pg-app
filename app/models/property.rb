@@ -16,7 +16,7 @@ class Property < ApplicationRecord
   before_save :ensure_latitude,
               :ensure_longitude
 
-  after_find :ensure_municipal_code
+  # after_find :ensure_municipal_code
   # :ensure_landlords,
   # :ensure_addresses
 

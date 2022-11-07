@@ -59,7 +59,7 @@ export function PropertyForm({onSave}: PropertyFormProps) {
                 size="lg"
                 onClick={() => [
                     onSave(property),
-                    blankProperty.propertyId++,
+                    blankProperty.id++,
                     setProperty(blankProperty)
                 ]}
             >
