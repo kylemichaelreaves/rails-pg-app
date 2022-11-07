@@ -46,7 +46,6 @@
     "react-redux": "^8.0.1",
     "react-router-bootstrap": "^0.26.0",
     "react-router-dom": "^6.4.1",
-    "react_ujs": "^2.6.1",
     "sort-by": "^1.2.0",
     "sorter": "^2.0.0",
     "styled-components": "^5.3.3",
@@ -83,7 +82,7 @@
     "vite-tsconfig-paths": "^3.5.1"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build": "tsc && vite build",
     "test": "jest"
   },
   "jest": {
@@ -98,9 +97,7 @@
       "tsx"
     ],
     "moduleDirectories": [
-      "node_modules",
-      "app/javascript/components",
-      "lambdas/http-crud/nodejs/node_modules"
+      "app/javascript/components"
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",

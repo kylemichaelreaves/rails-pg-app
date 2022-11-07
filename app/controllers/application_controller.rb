@@ -1,14 +1,12 @@
 class ApplicationController < ActionController::Base
-    include ActionController::MimeResponds
-    include Pagination
+  include ActionController::MimeResponds
+  include Pagination
 
-    protect_from_forgery with: :null_session
-    # respond_to :json
+  protect_from_forgery with: :null_session
 
-    before_action :underscore_params!
+  before_action :underscore_params!
 
-    def underscore_params!
-        params.deep_transform_keys!(&:underscore)
-    end
-
+  def underscore_params!
+    params.deep_transform_keys!(&:underscore)
+  end
 end
