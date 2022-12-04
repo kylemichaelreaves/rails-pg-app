@@ -16,8 +16,7 @@ import App from '../components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-const container = document.getElementById('root')
-const ROUTER_PREFIX = 'api/v1/';
+const ROUTER_PREFIX = 'api/v1';
 
 const router = createBrowserRouter([
         {
@@ -26,22 +25,22 @@ const router = createBrowserRouter([
             errorElement: <NotFound/>,
             children: [
                 {
-                    path: `${ROUTER_PREFIX}properties`,
+                    path: `${ROUTER_PREFIX}/properties`,
                     element: <Properties/>,
                 },
                 {
-                    path: `${ROUTER_PREFIX}properties/:propertyId`,
+                    path: `${ROUTER_PREFIX}/properties/:propertyId`,
                     element: <Property/>,
                     loader: async ({params}) => {
-                        return fetch(`/api/v1/properties/${params.propertyId}`);
+                        return fetch(`/${ROUTER_PREFIX}/properties/${params.propertyId}`);
                     },
                 },
                 {
-                    path: `${ROUTER_PREFIX}landlords`,
+                    path: `${ROUTER_PREFIX}/landlords`,
                     element: <Landlords/>,
                 },
                 {
-                    path: `${ROUTER_PREFIX}landlords/:landlordId`,
+                    path: `${ROUTER_PREFIX}/landlords/:landlordId`,
                     element: <Landlord/>,
                 },
                 {
@@ -53,7 +52,7 @@ const router = createBrowserRouter([
                     element: <Address/>,
                 },
                 {
-                    path: `${ROUTER_PREFIX}map`,
+                    path: `${ROUTER_PREFIX}/map`,
                     element: <Map/>,
                 },
                 {
@@ -65,7 +64,7 @@ const router = createBrowserRouter([
     ],
 );
 
-createRoot(container).render(
+createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <RouterProvider router={router}/>
     </React.StrictMode>,

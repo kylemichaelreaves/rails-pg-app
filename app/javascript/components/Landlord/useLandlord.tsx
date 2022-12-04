@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import axios, {AxiosError} from "axios";
-import {URL_PATH} from "~//constants";
+import {URL_PATH, API_GATEWAY} from "~//constants";
 
 export interface LandlordInterface {
     id: number;
@@ -11,7 +11,7 @@ export interface LandlordInterface {
 }
 
 export interface LandlordsInterface {
-    landlords: Array<LandlordInterface>
+    rows: Array<LandlordInterface>
 }
 
 export const getLandlordById = async (
@@ -23,16 +23,16 @@ export const getLandlordById = async (
 };
 
 export const getLandlordsByName = async (
-    search: string | undefined
-): Promise<LandlordInterface[]> => {
-    return typeof search === "undefined"
+    name: string | undefined
+): Promise<LandlordsInterface> => {
+    return typeof name === "undefined"
         ? Promise.reject(new Error("Invalid search"))
         : await axios
-            .get(`${URL_PATH}/landlords?search=${search}`)
+            .get(`${API_GATEWAY}/landlords?search=${name}`)
             .then((response) => response.data);
 }
 
-export async function fetchLandlords(pageParam: number): Promise<LandlordInterface[]> {
+export async function fetchLandlords(pageParam: number): Promise<LandlordsInterface> {
     return typeof pageParam === "undefined"
         ? Promise.reject(new Error("Invalid pageParam"))
         : await axios
@@ -46,10 +46,10 @@ export default function useLandlord(id: number) {
     }).data;
 }
 
-export function useLandlords<TData = LandlordInterface[]>(
+export function useLandlords<TData = LandlordsInterface>(
     search: string | undefined
 ) {
-    return useQuery<LandlordInterface[], AxiosError, TData>(
+    return useQuery<LandlordsInterface, AxiosError, TData>(
         ["landlords", search],
         () => getLandlordsByName(search), {
             enabled: false,

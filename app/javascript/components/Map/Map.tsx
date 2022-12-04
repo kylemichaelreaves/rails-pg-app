@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as mapboxgl from "mapbox-gl";
+import Container from 'react-bootstrap/Container';
 import {useRef, useEffect, useState} from "react";
 
 export default function Map() {

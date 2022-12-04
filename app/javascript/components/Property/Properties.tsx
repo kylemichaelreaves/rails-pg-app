@@ -2,13 +2,14 @@ import * as React from "react";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
+import Spinner from 'react-bootstrap/Spinner';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {PropertyInterface} from "./useProperty";
 import {useInView} from "react-intersection-observer";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import {URL_PATH} from "~//constants";
+import {URL_PATH, API_GATEWAY} from "~//constants";
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -55,7 +56,7 @@ export default function Properties() {
             <h2>Properties Component</h2>
             <div>
                 {status === "loading" ? (
-                    "Loading…"
+                    <Spinner/>
                 ) : status === "error" ? (
                     <span>${`Error: {error}`}</span>
                 ) : (
@@ -123,7 +124,6 @@ export default function Properties() {
                                 ))}
                             </div>
                         </Container>
-                        <div>{isFetching ? "Background Updating…" : " "}</div>
                     </>
                 )}
             </div>
@@ -132,8 +132,8 @@ export default function Properties() {
                 onClick={() => fetchNextPage()}
                 disabled={!hasNextPage || isFetchingNextPage}
             >
-                {isFetchingNextPage
-                    ? "Loading more..."
+                {isFetchingNextPage ?
+                    <Spinner/>
                     : hasNextPage
                         ? "Load Newer"
                         : "Nothing more to load"}

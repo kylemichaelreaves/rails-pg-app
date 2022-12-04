@@ -27,7 +27,7 @@ export default function NavBar() {
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link as={Link} to="api/v1/map" eventKey="disabled" disabled>
+                    <Nav.Link as={Link} to="api/v1/map">
                         Map
                     </Nav.Link>
                 </Nav.Item>

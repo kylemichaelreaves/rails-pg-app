@@ -1,18 +1,18 @@
 import * as React from "react";
 import {LandlordInterface, LandlordsInterface} from "./useLandlord";
+import ListGroup from "react-bootstrap/ListGroup";
+import Badge from 'react-bootstrap/Badge';
 
-export default function LandlordsList({landlords}: { landlords: LandlordInterface[] }) {
+export default function LandlordsList({landlords}: { landlords: LandlordsInterface }) {
     return (
-        <div>
-            <h1>Landlords List Component</h1>
-            <ul>
-                {landlords.map((landlord: LandlordInterface) => (
-                    <li key={landlord.id}>
-                        {landlord.id} - {landlord.name}
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <ListGroup>
+            {landlords.rows.map((landlord: LandlordInterface) => (
+                // TODO: Add a link to the landlord's show page
+                <ListGroup.Item key={landlord.id}>
+                    <Badge bg="primary">{landlord.id}</Badge> - {landlord.name}
+                </ListGroup.Item>
+            ))}
+        </ListGroup>
     );
 };
 

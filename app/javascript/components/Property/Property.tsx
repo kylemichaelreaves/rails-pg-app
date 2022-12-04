@@ -3,6 +3,7 @@ import {useLoaderData} from "react-router-dom";
 import useProperty, {PropertyInterface} from "./useProperty";
 import ListGroup from "react-bootstrap/ListGroup";
 import Container from "react-bootstrap/Container";
+import Alert from 'react-bootstrap/Alert';
 
 export async function loader({params}: { params: { id: number } }) {
     await useProperty(params.id);
@@ -13,6 +14,11 @@ export default function Property() {
 
     return property ? (
         <Container>
+            {/*{property.property_full_address !== property.owner_full_mailing_address ? (*/}
+            {/*    <Alert variant="danger">*/}
+            {/*        <Alert.Heading>The landlord has a different mailing address from this property.</Alert.Heading>*/}
+            {/*    </Alert>*/}
+            {/*) : ""}*/}
             <ListGroup>
                 <ListGroup.Item>id: {property.id}</ListGroup.Item>
                 <ListGroup.Item>street_address: {property.street_address}</ListGroup.Item>

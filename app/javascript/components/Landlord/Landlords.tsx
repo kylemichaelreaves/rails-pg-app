@@ -5,13 +5,16 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import {useQueryClient, useQuery} from "@tanstack/react-query";
 import {useSearchParams} from "react-router-dom";
-import {LandlordInterface, useLandlords} from "./useLandlord";
+import {getLandlordsByName, LandlordInterface, LandlordsInterface, useLandlords} from "./useLandlord";
 import LandlordsList from "./LandlordsList";
 import {AxiosError} from "axios";
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function Landlords() {
     const queryClient = useQueryClient();
     const [search, setSearch] = React.useState("");
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const {
         isInitialLoading,
@@ -21,13 +24,26 @@ export default function Landlords() {
         error,
         refetch,
         isFetching
-    } = useQuery<LandlordInterface[], AxiosError>(
+    } = useQuery<LandlordsInterface, AxiosError>(
         ['landlords', search],
-        () => useLandlords(search))
+        () => getLandlordsByName(search), {
+            enabled: false,
+            // keepPreviousData: true,
+            staleTime: 5000
+        });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setSearch(e.currentTarget.value);
+        setSearchParams({search: e.currentTarget.value});
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        // if the current query isn't the same as the previous query or an empty string, refetch
+        if (e.key === "Enter") {
+            refetch();
+        }
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -38,12 +54,13 @@ export default function Landlords() {
     return (
         <Container>
             <h1>Landlords Component</h1>
+            {/*TODO: Paginate queries and return the number of records found*/}
             <>
                 <Form>
                     <Form.Label>Search for Landlord by Name</Form.Label>
                     <br/>
                     <Form.Text className="text-muted">
-                        A girl has many names on her lips. The Many-Faced-God demands a name.
+                        Search for a landlord by name.
                     </Form.Text>
                     <InputGroup>
                         <Form.Control
@@ -52,6 +69,7 @@ export default function Landlords() {
                             type="text"
                             value={search}
                             onChange={handleChange}
+                            // onKeyDown={handleKeyDown}
                         />
                         <Button
                             variant="primary"
@@ -59,26 +77,31 @@ export default function Landlords() {
                             type="submit"
                             onClick={handleSubmit}
                         >
-                            Search
+                            {isFetching ?
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />
+                                : "Search"
+                            }
                         </Button>
                     </InputGroup>
                 </Form>
                 <br/>
                 {status === "loading" && isFetching ? (
-                    "Loading..."
+                    "loading..."
                 ) : status === "error" ? (
                     "Error:" + `${error}`
                 ) : (
                     <>
-                        name: {search ? search : "currently, has no value"}
-                        <br/>
-                        status: {status}
-                        <br/>
-                        data: {
-                        data && data.length
-                            ? <LandlordsList landlords={data}/>
-                            : "no data yet"
-                    }
+                        {
+                            data && data.rows?.length
+                                ? <LandlordsList landlords={data.rows}/>
+                                : ""
+                        }
                     </>
                 )}
             </>

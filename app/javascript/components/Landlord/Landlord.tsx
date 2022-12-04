@@ -14,7 +14,7 @@ export default function Landlord() {
 
     return landlord ? (
         <>
-            <p>id: {landlord.landlordId}</p>
+            <p>id: {landlord.id}</p>
             <p>name: {landlord.name}</p>
             <p>Mailing Address: {landlord.mailing_address}</p>
             <p>City, State, Zip: {landlord.city_state_zip}</p>
