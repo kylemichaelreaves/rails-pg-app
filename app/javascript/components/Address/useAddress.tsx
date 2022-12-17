@@ -10,7 +10,15 @@ export const getAddressById = async (
         .then((response) => response.data);
 };
 
-export default function useAddress(id: number) {
+export const createAddress = async (
+    address: AddressInterface
+): Promise<AddressInterface> => {
+    return await axios
+        .post(`api/v1/addresses`, address)
+        .then((response) => response.data);
+}
+
+export const useAddress = async (id: number) => {
     return useQuery(["address", id], () => getAddressById(id), {
         enabled: !!id,
     }).data;
