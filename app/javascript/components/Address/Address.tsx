@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 export interface AddressInterface {
     id: number;
     street_address: string;
+    apt_or_unit_number?: string;
     municipality: string;
     state: string;
     zipcode: string;

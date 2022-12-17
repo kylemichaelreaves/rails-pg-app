@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import {useQueryClient, useQuery} from "@tanstack/react-query";
 import {useSearchParams} from "react-router-dom";
-import {getLandlordsByName, LandlordInterface, LandlordsInterface, useLandlords} from "./useLandlord";
+import {getLandlordsByName, LandlordsInterface, useLandlords} from "./useLandlord";
 import LandlordsList from "./LandlordsList";
 import {AxiosError} from "axios";
 import Spinner from 'react-bootstrap/Spinner';
@@ -99,7 +99,7 @@ export default function Landlords() {
                     <>
                         {
                             data && data.rows?.length
-                                ? <LandlordsList landlords={data.rows}/>
+                                ? <LandlordsList landlords={data}/>
                                 : ""
                         }
                     </>
