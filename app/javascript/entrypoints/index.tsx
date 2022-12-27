@@ -15,6 +15,7 @@ import NotFound from '../components/NotFound';
 import App from '../components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import Keywords from "~//components/Keywords/Keywords";
 
 const ROUTER_PREFIX = 'api/v1';
 
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
                 {
                     path: `${ROUTER_PREFIX}/map`,
                     element: <Map/>,
+                },
+                {
+                    path: `${ROUTER_PREFIX}/keywords`,
+                    element: <Keywords/>,
                 },
                 {
                     path: '*',

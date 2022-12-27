@@ -1,19 +1,29 @@
 import * as React from "react";
 import Container from "react-bootstrap/Container";
-// function KeywordsList takes relatedKeywords as a parameter
+import ListGroup from "react-bootstrap/ListGroup";
+import {KeywordsInterface} from "./KeywordsForm";
 
-export default function KeywordsList({relatedKeywords}: { relatedKeywords: string[] }) {
+
+export default function KeywordsList({relatedKeywords}: { relatedKeywords: KeywordsInterface }) {
     // return a list of relatedKeywords
     // if there are no relatedKeywords, return a message that says "No related keywords"
+
+    function removeUnderscores(strings: KeywordsInterface) {
+        return strings.keywords.map(string => string.replace(/_/g, ''));
+    }
+
+    const relatedKeywordsList = removeUnderscores(relatedKeywords);
+
+
     return (
         <Container>
-            {relatedKeywords.length > 0 ?
-                relatedKeywords.map((keyword) => {
+            {relatedKeywordsList.length > 0 ?
+                relatedKeywordsList.map((keyword) => {
                     return (
-                        <li>{keyword}</li>
+                        <ListGroup.Item>{keyword}</ListGroup.Item>
                     )
                 }) :
-                <li>No related keywords</li>
+                <div>No related keywords</div>
             }
         </Container>
     )
