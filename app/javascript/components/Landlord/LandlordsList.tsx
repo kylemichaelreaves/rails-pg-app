@@ -1,18 +1,20 @@
 import * as React from "react";
-import {LandlordInterface, LandlordsInterface} from "./useLandlord";
-import ListGroup from "react-bootstrap/ListGroup";
-import Badge from 'react-bootstrap/Badge';
+import {LandlordInterface, LandlordsInterface} from "../../hooks/useLandlord";
+import {List, ListItem, ListItemText, Chip, Box} from "@mui/material";
 
-export default function LandlordsList({landlords}: { landlords: LandlordsInterface }) {
+export default function LandlordsList({landlords}: Readonly<{ landlords: LandlordsInterface }>) {
     return (
-        <ListGroup>
-            {landlords.rows.map((landlord: LandlordInterface) => (
+        <List>
+            {landlords.rows && landlords.rows.length > 0 && landlords.rows.map((landlord: LandlordInterface) => (
                 // TODO: Add a link to the landlord's show page
-                <ListGroup.Item key={landlord.id}>
-                    <Badge bg="primary">{landlord.id}</Badge> - {landlord.name}
-                </ListGroup.Item>
+                <ListItem key={landlord.id}>
+                    <Box sx={{display: 'flex', alignItems: 'center', gap: 1}}>
+                        <Chip label={landlord.id} color="primary" size="small"/>
+                        <ListItemText primary={landlord.name}/>
+                    </Box>
+                </ListItem>
             ))}
-        </ListGroup>
+        </List>
     );
 };
 

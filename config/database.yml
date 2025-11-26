@@ -84,3 +84,15 @@ production:
   database: rails_pg_app_production
   username: rails_pg_app
   password: <%= ENV['RAILS_PG_APP_DATABASE_PASSWORD'] %>
+
+
+
+### RDS connection for seeding the database
+rds:
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV['VITE_RDS_HOST'] %>
+  port: <%= ENV['VITE_RDS_PORT'] %>
+  database: <%= ENV['VITE_RDS_DATABASE'] %>
+  username: <%= ENV['VITE_RDS_USERNAME'] %>
+  password: <%= ENV['VITE_RDS_PASSWORD'] %>

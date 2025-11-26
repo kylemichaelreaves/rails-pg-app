@@ -3,28 +3,36 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "target": "ESNext",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noEmit": true,
     "allowJs": true,
     "outDir": "./dist/",
     "noImplicitAny": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "paths": {
       "~/*": [
-        "./app/javascript*"
+        "./app/javascript/*"
+      ],
+      "@/*": [
+        "./app/javascript/*"
       ]
     }
   },
   "include": [
-    "app/javascript"
+    "app/javascript/**/*"
   ],
   "exclude": [
     "app/assets",
@@ -40,6 +48,7 @@
     "**/*.spec.ts",
     "node_modules",
     "test",
+    "spec",
     "tmp",
     "db",
     "bin",

@@ -1,7 +1,6 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
-require 'active_job'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -12,15 +11,10 @@ module RailsPgApp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    # load environment variables
-    config.before_configuration do
-      env_file = File.join(Rails.root, 'config', 'local_env.yml')
-      if File.exists?(env_file)
-        YAML.load(File.open(env_file)).each do |key, value|
-          ENV[key.to_s] = value
-        end
-      end
-    end
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -29,7 +23,25 @@ module RailsPgApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    # config.active_job.queue_adapter = :delayed_job_active_record
+
+    # Only loads a smaller set of middleware suitable for API only apps.
+    # Middleware like session, flash, cookies can be added back manually.
+    # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Enable sessions and cookies for authentication
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_rails_pg_app_session'
+
+    # Enable CORS for frontend
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000', 'http://127.0.0.1:3000'
+        resource '*',
+                 headers: :any,
+                 methods: %i[get post put patch delete options head],
+                 credentials: true
+      end
+    end
   end
 end

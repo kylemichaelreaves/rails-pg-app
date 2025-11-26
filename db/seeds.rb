@@ -1,52 +1,80 @@
 require 'csv'
-require 'open-uri'
-require 'geocoder'
 require 'aws-sdk-s3'
 
-s3_client = Aws::S3::Client.new
+s3 = Aws::S3::Client.new(
+  region: 'us-east-1',
+  http_wire_trace: true,
+  ssl_verify_peer: false
+)
+resp = s3.list_objects_v2(bucket: 'transactions-bucket')
 
-hackensack = '/Users/kylereaves/src/landlord_data/Hackensack/0223demo203923.csv'
-newark = '/Users/kylereaves/src/landlord_data/Newark/0714monm150910.csv'
-paterson = '/Users/kylereaves/src/landlord_data/Paterson/1608monm002917.csv'
-jersey_city = '/Users/kylereaves/src/landlord_data/JerseyCity/0906monm220028.csv'
+ConsoleLogger.info("Found #{resp.contents.size} objects")
+ConsoleLogger.info("\n")
 
-municipalities = [hackensack, newark, paterson, jersey_city]
+TransactionsHelper::TransactionImporter.call(s3, 'transactions-bucket', resp.contents)
 
-all_headers = municipalities.reduce([]) do |all_headers, file|
-  header_line = File.open(file).first
-  all_headers | CSV.parse_line(header_line)
-end
+ConsoleLogger.section('Backfilling Memo Names') do
+  # Backfill any transactions that might have NULL memo column
+  null_memo_count = Transaction.where(memo: nil).count
 
-CSV.open('/Users/kylereaves/src/landlord_data/out.csv', 'w') do |csv|
-  csv << all_headers
-  municipalities.each do |file|
-    CSV.foreach(file, headers: true, liberal_parsing: true) do |row|
-      csv << all_headers.map { |header| row[header] }
-    end
+  if null_memo_count.positive?
+    ConsoleLogger.info("Found #{null_memo_count} transactions with NULL memo column")
+    ConsoleLogger.info('Backfilling memo names from memo associations...')
+
+    # Ruby-like approach using update_all with a subquery
+    Transaction.where(memo: nil)
+               .joins(:memo)
+               .update_all('memo = memos.name')
+
+    updated_count = null_memo_count - Transaction.where(memo: nil).count
+    ConsoleLogger.success("Backfilled #{updated_count} transactions")
+  else
+    ConsoleLogger.info('✓ All transactions already have memo names populated')
   end
 end
 
-headers = ['Municipality',
-           'Property Location',
-           "Owner's Name",
-           "Owner's Mailing Address",
-           'City/State/Zip',
-           'Zone']
-
-path = '/Users/kylereaves/src/landlord_data/combined.csv'
-
-puts 'Creating CSV file...'
-
-CSV.open(path, 'wb', write_headers: true, headers:) do |csv|
-  municipalities.each do |m|
-    CSV.foreach(m, headers: true, return_headers: false) do |row|
-      csv << row
-      puts row
-    end
-  end
-end
-
-puts 'CSV file created.'
+# hackensack = '/Users/kylereaves/src/rails-pg-app/Hackensack/0223demo203923.csv'
+# newark = '/Users/kylereaves/src/landlord_data/Newark/0714monm150910.csv'
+# paterson = '/Users/kylereaves/src/landlord_data/Paterson/1608monm002917.csv'
+# jersey_city = '/Users/kylereaves/src/landlord_data/JerseyCity/0906monm220028.csv'
+#
+# municipalities = [hackensack, newark, paterson, jersey_city]
+#
+# all_headers = municipalities.reduce([]) do |all_headers, file|
+#   header_line = File.open(file).first
+#   all_headers | CSV.parse_line(header_line)
+# end
+#
+# CSV.open('/Users/kylereaves/src/landlord_data/out.csv', 'w') do |csv|
+#   csv << all_headers
+#   municipalities.each do |file|
+#     CSV.foreach(file, headers: true, liberal_parsing: true) do |row|
+#       csv << all_headers.map { |header| row[header] }
+#     end
+#   end
+# end
+#
+# headers = ['Municipality',
+#            'Property Location',
+#            "Owner's Name",
+#            "Owner's Mailing Address",
+#            'City/State/Zip',
+#            'Zone']
+#
+# path = '/Users/kylereaves/src/landlord_data/combined.csv'
+#
+# puts 'Creating CSV file...'
+#
+# CSV.open(path, 'wb', write_headers: true, headers:) do |csv|
+#   municipalities.each do |m|
+#     CSV.foreach(m, headers: true, return_headers: false) do |row|
+#       csv << row
+#       puts row
+#     end
+#   end
+# end
+#
+# puts 'CSV file created.'
 
 # load all of the csv files
 # csvs = File.read([''])

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {useLoaderData} from "react-router-dom";
-import useLandlord, {LandlordInterface} from "./useLandlord";
+import {Box, Typography, Card, CardContent} from "@mui/material";
+import useLandlord, {LandlordInterface} from "../../hooks/useLandlord";
 
 export async function loader({params}: { params: { landlordId: number } }) {
     return {
@@ -13,14 +14,32 @@ export default function Landlord() {
     const landlord = useLoaderData() as LandlordInterface;
 
     return landlord ? (
-        <>
-            <p>id: {landlord.id}</p>
-            <p>name: {landlord.name}</p>
-            <p>Mailing Address: {landlord.mailing_address}</p>
-            <p>City, State, Zip: {landlord.city_state_zip}</p>
-            <p>Full Mailing Address: {landlord.full_mailing_address}</p>
-        </>
+        <Card>
+            <CardContent>
+                <Typography variant="h5" gutterBottom>
+                    Landlord Details
+                </Typography>
+                <Box sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
+                    <Typography variant="body1">
+                        <strong>ID:</strong> {landlord.id}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Name:</strong> {landlord.name}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Mailing Address:</strong> {landlord.mailing_address}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>City, State, Zip:</strong> {landlord.city_state_zip}
+                    </Typography>
+                    <Typography variant="body1">
+                        <strong>Full Mailing Address:</strong> {landlord.full_mailing_address}
+                    </Typography>
+                </Box>
+            </CardContent>
+        </Card>
     ) : (
-        <p>Loading…</p>
+        <Typography>Loading…</Typography>
     );
 }
+

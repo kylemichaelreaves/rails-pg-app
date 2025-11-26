@@ -1,49 +1,29 @@
 import * as React from "react";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import {useQueryClient, useQuery} from "@tanstack/react-query";
-import {useSearchParams} from "react-router-dom";
-import {getLandlordsByName, LandlordsInterface, useLandlords} from "./useLandlord";
+import {Container, TextField, Button, CircularProgress, Typography, Box} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import {useQuery} from "@tanstack/react-query";
+import {getLandlordsByName, LandlordsInterface} from "../../hooks/useLandlord";
 import LandlordsList from "./LandlordsList";
 import {AxiosError} from "axios";
-import Spinner from 'react-bootstrap/Spinner';
 
 export default function Landlords() {
-    const queryClient = useQueryClient();
     const [search, setSearch] = React.useState("");
 
-    const [searchParams, setSearchParams] = useSearchParams();
-
     const {
-        isInitialLoading,
-        isError,
         data,
         status,
         error,
         refetch,
         isFetching
-    } = useQuery<LandlordsInterface, AxiosError>(
-        ['landlords', search],
-        () => getLandlordsByName(search), {
-            enabled: false,
-            // keepPreviousData: true,
-            staleTime: 5000
-        });
+    } = useQuery<LandlordsInterface, AxiosError>({
+        queryKey: ['landlords', search],
+        queryFn: () => getLandlordsByName(search),
+        enabled: false,
+        staleTime: 5000
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setSearch(e.currentTarget.value);
-        setSearchParams({search: e.currentTarget.value});
-    }
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        // if the current query isn't the same as the previous query or an empty string, refetch
-        if (e.key === "Enter") {
-            refetch();
-        }
+        setSearch(e.target.value);
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -53,58 +33,49 @@ export default function Landlords() {
 
     return (
         <Container>
-            <h1>Landlords Component</h1>
-            {/*TODO: Paginate queries and return the number of records found*/}
-            <>
-                <Form>
-                    <Form.Label>Search for Landlord by Name</Form.Label>
-                    <br/>
-                    <Form.Text className="text-muted">
-                        Search for a landlord by name.
-                    </Form.Text>
-                    <InputGroup>
-                        <Form.Control
-                            id="search"
-                            name="search"
-                            type="text"
-                            value={search}
-                            onChange={handleChange}
-                            // onKeyDown={handleKeyDown}
-                        />
-                        <Button
-                            variant="primary"
-                            disabled={search.length === 0 || isFetching}
-                            type="submit"
-                            onClick={handleSubmit}
-                        >
-                            {isFetching ?
-                                <Spinner
-                                    as="span"
-                                    animation="border"
-                                    size="sm"
-                                    role="status"
-                                    aria-hidden="true"
-                                />
-                                : "Search"
-                            }
-                        </Button>
-                    </InputGroup>
-                </Form>
-                <br/>
-                {status === "loading" && isFetching ? (
-                    "loading..."
-                ) : status === "error" ? (
-                    "Error:" + `${error}`
-                ) : (
-                    <>
-                        {
-                            data && data.rows?.length
-                                ? <LandlordsList landlords={data}/>
-                                : ""
-                        }
-                    </>
-                )}
-            </>
+            <Typography variant="h4" gutterBottom>Landlords Component</Typography>
+            {status === "pending" && isFetching ? (
+                <Box sx={{display: 'flex', justifyContent: 'center', my: 4}}>
+                    <CircularProgress/>
+                </Box>
+            ) : status === "error" ? (
+                <Typography color="error">Error: {error?.message}</Typography>
+            ) : (
+                <>
+                    {
+                        data && data.rows?.length
+                            ? <LandlordsList landlords={data}/>
+                            : ""
+                    }
+                </>
+            )}
+
+            <Box component="form" onSubmit={handleSubmit} sx={{mt: 3}}>
+                <Typography variant="body1" gutterBottom>Search for Landlord by Name</Typography>
+                <Typography variant="caption" color="text.secondary" display="block" sx={{mb: 2}}>
+                    Search for a landlord by name.
+                </Typography>
+                <Box sx={{display: 'flex', gap: 1}}>
+                    <TextField
+                        fullWidth
+                        id="search"
+                        name="search"
+                        type="text"
+                        placeholder="Enter landlord name"
+                        value={search}
+                        onChange={handleChange}
+                        size="small"
+                    />
+                    <Button
+                        variant="contained"
+                        disabled={search.length === 0 || isFetching}
+                        type="submit"
+                        startIcon={isFetching ? <CircularProgress size={20}/> : <SearchIcon/>}
+                    >
+                        {isFetching ? "Searching..." : "Search"}
+                    </Button>
+                </Box>
+            </Box>
         </Container>
     );
 }

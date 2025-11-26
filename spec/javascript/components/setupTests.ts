@@ -1,11 +1,10 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
-import { setupServer } from 'msw/node'
-import { handlers } from './utils'
-import { setLogger } from 'react-query'
+import '@testing-library/jest-dom/vitest';
+import {setupServer} from 'msw/node'
+import {handlers} from './testUtils'
+import {afterAll, afterEach, beforeAll} from 'vitest'
 
 export const server = setupServer(...handlers)
 
@@ -17,9 +16,18 @@ afterEach(() => server.resetHandlers())
 // Clean up after the tests are finished.
 afterAll(() => server.close())
 
-// silence react-query errors
-setLogger({
-    log: console.log,
-    warn: console.warn,
-    error: () => {},
-})
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+    constructor() {
+    }
+
+    disconnect() {
+    }
+
+    observe() {
+    }
+
+    unobserve() {
+    }
+} as any;
+

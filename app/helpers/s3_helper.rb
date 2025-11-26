@@ -98,7 +98,7 @@ module S3Helper
 
     if objects.count.zero?
       puts "No objects in bucket '#{bucket_name}'."
-      return
+      nil
     else
       if objects.count == max_objects
         puts "First #{objects.count} objects in bucket '#{bucket_name}':"
@@ -111,7 +111,7 @@ module S3Helper
     end
   rescue StandardError => e
     puts "Error accessing bucket '#{bucket_name}' " \
-    "or listing its objects: #{e.message}"
+           "or listing its objects: #{e.message}"
   end
 
   # Lists available objects in an Amazon S3 bucket.

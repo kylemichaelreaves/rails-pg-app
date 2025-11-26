@@ -1,20 +1,23 @@
 import * as React from "react";
-import Container from "react-bootstrap/Container";
-import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
-import Spinner from 'react-bootstrap/Spinner';
+import {
+    Container,
+    List,
+    ListItem,
+    ListItemText,
+    Button,
+    CircularProgress,
+    Box,
+    Typography,
+    Divider
+} from "@mui/material";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {PropertyInterface} from "./useProperty";
+import {PropertyInterface} from "../../hooks/useProperty";
 import {useInView} from "react-intersection-observer";
-import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import {URL_PATH, API_GATEWAY} from "~//constants";
-
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+import {URL_PATH} from "~//constants";
 
 export default function Properties() {
-    const [pageParam, setPageParam] = React.useState<number>(0);
     const {ref, inView} = useInView();
 
     const getInfiniteProperties = async ({pageParam = 0}) => {
@@ -29,41 +32,44 @@ export default function Properties() {
         status,
         data,
         error,
-        isFetching,
         isFetchingNextPage,
         isFetchingPreviousPage,
         fetchNextPage,
         fetchPreviousPage,
         hasNextPage,
         hasPreviousPage,
-    } = useInfiniteQuery(["properties"], getInfiniteProperties, {
-        getNextPageParam: (lastPage, pages) => {
+    } = useInfiniteQuery({
+        queryKey: ["properties"],
+        queryFn: getInfiniteProperties,
+        getNextPageParam: (lastPage) => {
             return lastPage.id;
         },
+        initialPageParam: 0
     });
 
     React.useEffect(() => {
-        if (inView) {
-            console.log("button is in view");
-            setPageParam(pageParam + 1);
-            console.log(`pageParam: ${pageParam}`);
-            fetchNextPage({pageParam});
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
         }
-    }, [inView]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <Container>
-            <h2>Properties Component</h2>
-            <div>
-                {status === "loading" ? (
-                    <Spinner/>
+            <Typography variant="h4" gutterBottom>Properties Component</Typography>
+            <Box>
+                {status === "pending" ? (
+                    <Box sx={{display: 'flex', justifyContent: 'center', my: 4}}>
+                        <CircularProgress/>
+                    </Box>
                 ) : status === "error" ? (
-                    <span>${`Error: {error}`}</span>
+                    <Typography color="error">Error: {error?.message}</Typography>
                 ) : (
                     <>
                         <Button
+                            variant="outlined"
                             onClick={() => fetchPreviousPage()}
                             disabled={!hasPreviousPage || isFetchingPreviousPage}
+                            sx={{mb: 2}}
                         >
                             {isFetchingPreviousPage
                                 ? "Loading more..."
@@ -71,74 +77,60 @@ export default function Properties() {
                                     ? "Load Older"
                                     : "Nothing more to load"}
                         </Button>
-                        <Container>
-                            <div>
-                                {data?.pages?.map((page, pageIndex) => (
-                                    <React.Fragment key={pageIndex}>
-                                        <ListGroup variant="flush">
-                                            {page?.map((property: PropertyInterface) => (
-                                                <ListGroup key={property.id}>
-                                                    <ListGroup.Item>
-                                                        id:
-                                                        <Link
-                                                            style={{display: "inline"}}
-                                                            to={`${property.id}`}
-                                                            key={property.id}
-                                                        >
-                                                            {property.id}
-                                                        </Link>
-                                                    </ListGroup.Item>
-                                                    <ListGroup.Item>
-                                                        {property.street_address}
-                                                    </ListGroup.Item>
-                                                    {/*<ListGroup.Item>*/}
-                                                    {/*    /!* Link to Landlord component *!/*/}
-                                                    {/*    landlords_id:*/}
-                                                    {/*    <Link*/}
-                                                    {/*        style={{display: "inline"}}*/}
-                                                    {/*        to={`${property.landlord_id}`}*/}
-                                                    {/*        key={property.landlord_id}*/}
-                                                    {/*    >*/}
-                                                    {/*        {property.landlord_id}*/}
-                                                    {/*    </Link>*/}
-                                                    {/*</ListGroup.Item>*/}
-                                                    <ListGroup.Item>{property.owner_name}</ListGroup.Item>
-                                                    <ListGroup.Item>
-                                                        {property.city_state_zip}
-                                                    </ListGroup.Item>
-                                                    {/*<ListGroup.Item>*/}
-                                                    {/*    /!* Link to Address component *!/*/}
-                                                    {/*    addresses_id:*/}
-                                                    {/*    <Link*/}
-                                                    {/*        style={{display: "inline"}}*/}
-                                                    {/*        to={`addresses/${property.address_id}`}*/}
-                                                    {/*        key={property.address_id}*/}
-                                                    {/*    >*/}
-                                                    {/*        {property.address_id}*/}
-                                                    {/*    </Link>*/}
-                                                    {/*</ListGroup.Item>*/}
-                                                </ListGroup>
-                                            ))}
-                                        </ListGroup>
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        </Container>
+                        <Box>
+                            {data?.pages?.map((page, pageIndex) => (
+                                <React.Fragment key={pageIndex}>
+                                    <List>
+                                        {page?.map((property: PropertyInterface) => (
+                                            <Box key={property.id} sx={{mb: 2}}>
+                                                <ListItem>
+                                                    <ListItemText
+                                                        primary={
+                                                            <Box component="span">
+                                                                id:{" "}
+                                                                <Link
+                                                                    style={{display: "inline"}}
+                                                                    to={`${property.id}`}
+                                                                >
+                                                                    {property.id}
+                                                                </Link>
+                                                            </Box>
+                                                        }
+                                                    />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText primary={property.street_address}/>
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText primary={property.owner_name}/>
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText primary={property.city_state_zip}/>
+                                                </ListItem>
+                                                <Divider/>
+                                            </Box>
+                                        ))}
+                                    </List>
+                                </React.Fragment>
+                            ))}
+                        </Box>
                     </>
                 )}
-            </div>
+            </Box>
             <Button
                 ref={ref}
+                variant="outlined"
                 onClick={() => fetchNextPage()}
                 disabled={!hasNextPage || isFetchingNextPage}
+                startIcon={isFetchingNextPage && <CircularProgress size={20}/>}
             >
                 {isFetchingNextPage ?
-                    <Spinner/>
+                    "Loading..."
                     : hasNextPage
                         ? "Load Newer"
                         : "Nothing more to load"}
             </Button>
-
         </Container>
     );
 }
+
