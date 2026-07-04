@@ -1,4 +1,4 @@
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, keepPreviousData} from "@tanstack/react-query";
 import axios, {AxiosError} from "axios";
 import {URL_PATH, API_GATEWAY} from "~//constants";
 
@@ -41,7 +41,9 @@ export async function fetchLandlords(pageParam: number): Promise<LandlordsInterf
 }
 
 export default function useLandlord(id: number) {
-    return useQuery(["landlord", id], () => getLandlordById(id), {
+    return useQuery({
+        queryKey: ["landlord", id],
+        queryFn: () => getLandlordById(id),
         enabled: !!id,
     }).data;
 }
@@ -49,11 +51,11 @@ export default function useLandlord(id: number) {
 export function useLandlords<TData = LandlordsInterface>(
     search: string | undefined
 ) {
-    return useQuery<LandlordsInterface, AxiosError, TData>(
-        ["landlords", search],
-        () => getLandlordsByName(search), {
-            enabled: false,
-            keepPreviousData: true,
-            staleTime: 5000
-        }).data;
+    return useQuery<LandlordsInterface, AxiosError, TData>({
+        queryKey: ["landlords", search],
+        queryFn: () => getLandlordsByName(search),
+        enabled: false,
+        placeholderData: keepPreviousData,
+        staleTime: 5000,
+    }).data;
 }

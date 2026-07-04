@@ -3,8 +3,6 @@ import {
     useQuery,
     useMutation,
     useQueryClient,
-    QueryClient,
-    QueryClientProvider,
     UseQueryOptions,
 } from "@tanstack/react-query";
 import Form from "react-bootstrap/Form";
@@ -12,8 +10,6 @@ import Button from "react-bootstrap/Button";
 import axios, {AxiosError} from "axios";
 import {AddressInterface, blankAddress} from "./Address";
 
-
-const queryClient = useQueryClient();
 
 async function fetchAddresses(): Promise<AddressInterface[]> {
     return await axios.get("api/v1/address").then((response) => response.data);
@@ -24,13 +20,17 @@ export async function createAddress() {
 }
 
 function useAddresses<TData = AddressInterface[]>(
-    options?: UseQueryOptions<AddressInterface[], AxiosError, TData>
+    options?: Omit<UseQueryOptions<AddressInterface[], AxiosError, TData>, "queryKey" | "queryFn">
 ) {
-    return useQuery(["address"], fetchAddresses, options);
+    return useQuery<AddressInterface[], AxiosError, TData>({
+        queryKey: ["address"],
+        queryFn: fetchAddresses,
+        ...options,
+    });
 }
 
 export function AddressCounter() {
-    const counterQuery = useAddresses({
+    const counterQuery = useAddresses<number>({
         select: (data) => data.length,
         notifyOnChangeProps: ["data"],
     });
@@ -47,42 +47,40 @@ interface AddressCreatorProps {
 }
 
 export default function AddressCreator({onSave}: AddressCreatorProps) {
-    const counterQuery = useQueryClient();
+    const queryClient = useQueryClient();
     const [address, setAddress] = React.useState(blankAddress);
     const {isFetching, ...queryInfo} = useAddresses();
 
-    const addAddressMutation = useMutation(
-        (newAddress: AddressInterface) =>
+    const addAddressMutation = useMutation({
+        mutationFn: (newAddress: AddressInterface) =>
             axios.post("api/v1/addresses/new", {address: newAddress}),
-        {
-            onMutate: async (newAddress: AddressInterface) => {
-                blankAddress.id++;
-                setAddress(blankAddress);
-                await queryClient.cancelQueries(["addresses"]);
-                const previousAddresses =
-                    queryClient.getQueryData<AddressInterface[]>(["addresses"]);
+        onMutate: async (newAddress: AddressInterface) => {
+            blankAddress.id++;
+            setAddress(blankAddress);
+            await queryClient.cancelQueries({queryKey: ["addresses"]});
+            const previousAddresses =
+                queryClient.getQueryData<AddressInterface[]>(["addresses"]);
 
-                if (previousAddresses) {
-                    queryClient.setQueryData<AddressInterface[]>(["addresses"], {
-                        ...previousAddresses,
-                    });
-                }
-                return {previousAddresses};
-            },
+            if (previousAddresses) {
+                queryClient.setQueryData<AddressInterface[]>(["addresses"], [
+                    ...previousAddresses,
+                ]);
+            }
+            return {previousAddresses};
+        },
 
-            onError: (err, variables, context) => {
-                if (context?.previousAddresses) {
-                    queryClient.setQueryData<AddressInterface[]>(
-                        ["addresses"],
-                        context.previousAddresses
-                    );
-                }
-            },
-            onSettled: () => {
-                queryClient.invalidateQueries(["addresses"]);
-            },
-        }
-    );
+        onError: (err, variables, context) => {
+            if (context?.previousAddresses) {
+                queryClient.setQueryData<AddressInterface[]>(
+                    ["addresses"],
+                    context.previousAddresses
+                );
+            }
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({queryKey: ["addresses"]});
+        },
+    });
     return (
         <>
             <Form

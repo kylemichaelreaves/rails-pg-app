@@ -17,7 +17,7 @@ export default function Properties() {
     const [pageParam, setPageParam] = React.useState<number>(0);
     const {ref, inView} = useInView();
 
-    const getInfiniteProperties = async ({pageParam = 0}) => {
+    const getInfiniteProperties = async ({pageParam}: {pageParam: number}): Promise<PropertyInterface[]> => {
         return await axios
             .get(`${URL_PATH}/properties`, {
                 params: {page: pageParam},
@@ -36,10 +36,11 @@ export default function Properties() {
         fetchPreviousPage,
         hasNextPage,
         hasPreviousPage,
-    } = useInfiniteQuery(["properties"], getInfiniteProperties, {
-        getNextPageParam: (lastPage, pages) => {
-            return lastPage.id;
-        },
+    } = useInfiniteQuery({
+        queryKey: ["properties"],
+        queryFn: getInfiniteProperties,
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, allPages) => (lastPage.length ? allPages.length : undefined),
     });
 
     React.useEffect(() => {
@@ -47,7 +48,7 @@ export default function Properties() {
             console.log("button is in view");
             setPageParam(pageParam + 1);
             console.log(`pageParam: ${pageParam}`);
-            fetchNextPage({pageParam});
+            fetchNextPage();
         }
     }, [inView]);
 
@@ -55,7 +56,7 @@ export default function Properties() {
         <Container>
             <h2>Properties Component</h2>
             <div>
-                {status === "loading" ? (
+                {status === "pending" ? (
                     <Spinner/>
                 ) : status === "error" ? (
                     <span>${`Error: {error}`}</span>

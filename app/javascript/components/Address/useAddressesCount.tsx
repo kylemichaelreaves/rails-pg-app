@@ -11,12 +11,10 @@ async function fetchAddresses(): Promise<Address[]> {
 }
 
 export default function AddressesCount() {
-    const result = useQuery<Address[], Error, number>(
-        ["addresses"],
-        fetchAddresses,
-        {
-            select: (addresses: Address[]) => addresses.length,
-        }
-    );
+    const result = useQuery<Address[], Error, number>({
+        queryKey: ["addresses"],
+        queryFn: fetchAddresses,
+        select: (addresses: Address[]) => addresses.length,
+    });
     return <>{result.data}</>;
 }

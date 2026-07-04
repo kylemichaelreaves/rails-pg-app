@@ -35,7 +35,9 @@ export const blankProperty: PropertyInterface = {
 };
 
 export default function useProperty(id: number) {
-    return useQuery(["property", id], () => getPropertyById(id), {
+    return useQuery({
+        queryKey: ["property", id],
+        queryFn: () => getPropertyById(id),
         enabled: !!id,
     }).data;
 }

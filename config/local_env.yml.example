@@ -1,0 +1,10 @@
+# Copy this file to config/local_env.yml and fill in real values.
+# config/local_env.yml is gitignored and auto-loaded into ENV at boot
+# (see config/application.rb). Keep secrets/bucket names OUT of the public repo.
+
+# Name of the personal S3 bucket holding the transaction CSV exports (YYYY_MM.csv).
+TRANSACTIONS_BUCKET: "your-transactions-bucket-name"
+
+# users.id to stamp on every ingested transaction row. Optional — if omitted,
+# db/seeds.rb creates/uses a placeholder "seed_ingest" user.
+# INGEST_USER_ID: "1"

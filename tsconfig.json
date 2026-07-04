@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "declaration": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
@@ -9,13 +12,13 @@
       "esnext"
     ],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "target": "ESNext",
     "jsx": "react",
     "noEmit": true,
     "allowJs": true,
-    "outDir": "./dist/",
+    "rootDir": ".",
     "noImplicitAny": true,
     "paths": {
       "~/*": [

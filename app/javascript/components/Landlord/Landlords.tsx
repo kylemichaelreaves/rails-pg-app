@@ -17,20 +17,19 @@ export default function Landlords() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const {
-        isInitialLoading,
         isError,
         data,
         status,
         error,
         refetch,
         isFetching
-    } = useQuery<LandlordsInterface, AxiosError>(
-        ['landlords', search],
-        () => getLandlordsByName(search), {
-            enabled: false,
-            // keepPreviousData: true,
-            staleTime: 5000
-        });
+    } = useQuery<LandlordsInterface, AxiosError>({
+        queryKey: ['landlords', search],
+        queryFn: () => getLandlordsByName(search),
+        enabled: false,
+        // placeholderData: keepPreviousData,
+        staleTime: 5000,
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -91,7 +90,7 @@ export default function Landlords() {
                     </InputGroup>
                 </Form>
                 <br/>
-                {status === "loading" && isFetching ? (
+                {status === "pending" && isFetching ? (
                     "loading..."
                 ) : status === "error" ? (
                     "Error:" + `${error}`

@@ -19,7 +19,9 @@ export const createAddress = async (
 }
 
 export const useAddress = async (id: number) => {
-    return useQuery(["address", id], () => getAddressById(id), {
+    return useQuery({
+        queryKey: ["address", id],
+        queryFn: () => getAddressById(id),
         enabled: !!id,
     }).data;
 }

@@ -10,12 +10,10 @@ export async function fetchProperties(): Promise<PropertyInterface[]> {
 }
 
 export function UsePropertiesCount() {
-  const result = useQuery<PropertyInterface[], Error, number>(
-    ["properties"],
-    fetchProperties,
-    {
-      select: (properties: PropertyInterface[]) => properties.length,
-    }
-  );
+  const result = useQuery<PropertyInterface[], Error, number>({
+    queryKey: ["properties"],
+    queryFn: fetchProperties,
+    select: (properties: PropertyInterface[]) => properties.length,
+  });
   return <>{result.data}</>;
 }

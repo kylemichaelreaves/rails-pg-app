@@ -10,7 +10,7 @@ export default function Keywords() {
     return (
         <Container>
             <KeywordsForm/>
-            <KeywordsList relatedKeywords={relatedKeywords}/>
+            <KeywordsList relatedKeywords={{keywords: relatedKeywords}}/>
         </Container>
 
     )
