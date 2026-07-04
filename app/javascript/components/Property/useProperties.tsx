@@ -1,8 +1,8 @@
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, keepPreviousData} from "@tanstack/react-query";
 import axios, {AxiosError} from "axios";
 import {PropertyInterface} from "./useProperty";
 
-export async function fetchProperties(pageParam: number): Promise<PropertyInterface[]> {
+export async function fetchProperties(pageParam: number | undefined): Promise<PropertyInterface[]> {
     return typeof pageParam === "undefined"
         ? Promise.reject(new Error("Invalid pageParam"))
         : await axios
@@ -13,9 +13,10 @@ export async function fetchProperties(pageParam: number): Promise<PropertyInterf
 export default function useProperties<TData = PropertyInterface[]>(
     pageParam: number | undefined
 ) {
-    return useQuery<PropertyInterface[], AxiosError, TData>(
-        ["properties", pageParam],
-        () => fetchProperties(pageParam),
-        {keepPreviousData: true, staleTime: 5000}
-    );
+    return useQuery<PropertyInterface[], AxiosError, TData>({
+        queryKey: ["properties", pageParam],
+        queryFn: () => fetchProperties(pageParam),
+        placeholderData: keepPreviousData,
+        staleTime: 5000,
+    });
 }

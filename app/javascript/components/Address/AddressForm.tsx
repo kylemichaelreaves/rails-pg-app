@@ -29,11 +29,12 @@ export const AddressForm = () => {
         data,
         status,
         error,
-        isLoading,
+        isPending,
         isSuccess
-    } = useMutation<AddressInterface, AxiosError>(
-        ['address', address],
-        () => createAddress(address));
+    } = useMutation<AddressInterface, AxiosError>({
+        mutationKey: ['address', address],
+        mutationFn: () => createAddress(address),
+    });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
@@ -49,7 +50,7 @@ export const AddressForm = () => {
     React.useEffect(() => {
         if (isSuccess || isError) {
             setShow(true);
-        } else if (isIdle || isLoading) {
+        } else if (isIdle || isPending) {
             setShow(false);
         }
     }, [isSuccess, isError]);
@@ -124,9 +125,9 @@ export const AddressForm = () => {
                     <Button
                         variant="primary"
                         type="submit"
-                        disabled={isLoading || address === blankAddress}
+                        disabled={isPending || address === blankAddress}
                     >
-                        {isLoading ? (
+                        {isPending ? (
                             <Spinner
                                 as="span"
                                 animation="border"

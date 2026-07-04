@@ -10,12 +10,10 @@ async function fetchLandlords(): Promise<LandlordInterface[]> {
 }
 
 export function useLandlordsCount() {
-    const result = useQuery<LandlordInterface[], Error, number>(
-        ["landlords"],
-        fetchLandlords,
-        {
-            select: (landlords: LandlordInterface[]) => landlords.length,
-        }
-    );
+    const result = useQuery<LandlordInterface[], Error, number>({
+        queryKey: ["landlords"],
+        queryFn: fetchLandlords,
+        select: (landlords: LandlordInterface[]) => landlords.length,
+    });
     return <>{result.data}</>;
 }

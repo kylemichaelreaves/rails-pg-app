@@ -22,17 +22,17 @@ export interface KeywordsInterface {
 
 export default function KeywordsForm() {
 
-    const [keywords, setKeywords] = React.useState(null);
-    const [debouncedKeywords, setDebouncedKeywords] = React.useState(keywords);
+    const [keywords, setKeywords] = React.useState<string>("");
+    const [debouncedKeywords, setDebouncedKeywords] = React.useState<string>(keywords);
     const {
             mutate,
-            isLoading,
+            isPending,
             error,
             data
-        } = useMutation<KeywordsInterface, AxiosError>(
-            ['keywords', keywords],
-            () => postKeywords(keywords)
-        )
+        } = useMutation<KeywordsInterface, AxiosError>({
+            mutationKey: ['keywords', keywords],
+            mutationFn: () => postKeywords({keywords: [debouncedKeywords]}),
+        })
     ;
 
     // Debounce the keywords so that we don't send a request on every keystroke
@@ -48,7 +48,7 @@ export default function KeywordsForm() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        mutate(debouncedKeywords);
+        mutate();
     };
 
 
@@ -75,9 +75,9 @@ export default function KeywordsForm() {
                     <Button
                         variant="primary"
                         type="submit"
-                        disabled={isLoading || keywords === ''}
+                        disabled={isPending || keywords === ''}
                     >{
-                        isLoading ?
+                        isPending ?
                             <Spinner
                                 as="span"
                                 animation="border"
