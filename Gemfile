@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.4.9'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 7.0', '>= 7.0.1'
+gem 'rails', '~> 8.0'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.5'
 # Use Puma as the app server
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -25,8 +25,6 @@ gem 'rails-erd', group: :development
 gem 'geocoder'
 # react-rails allows for easy passing of Rails objects as props
 gem 'react-rails'
-# for opening a url in my seeds
-gem 'open-uri'
 # security for interacting with an API
 gem 'rack-cors'
 # asset pipeline
@@ -60,8 +58,8 @@ group :development, :test do
   gem 'rspec-expectations'
   gem 'rspec-mocks'
   # factory_bot gem
-  gem 'factory_bot_rails', '~> 6.2'
-  gem 'shoulda-matchers', '~> 5.1'
+  gem 'factory_bot_rails', '~> 6.4'
+  gem 'shoulda-matchers', '~> 6.0'
   gem 'faker'
 end
 
@@ -79,9 +77,9 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
+  # Selenium 4.11+ manages browser drivers itself via Selenium Manager,
+  # so the abandoned `webdrivers` gem is no longer needed.
   gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -93,8 +91,8 @@ gem 'aws-sdk-lambda'
 gem 'aws-sdk-apigatewayv2'
 gem 'aws-sdk-rds'
 
-gem 'sidekiq', '~> 6.5'
+gem 'sidekiq', '~> 7.3'
 
-gem 'rubocop', '~> 1.36'
+gem 'rubocop', require: false
 
-gem "rgeo-geojson", "~> 2.1"
+gem 'rgeo-geojson', '~> 2.1'
